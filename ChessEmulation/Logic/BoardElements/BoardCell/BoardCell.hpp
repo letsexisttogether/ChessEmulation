@@ -20,7 +20,8 @@ public:
 	
 	const inline std::shared_ptr<Piece>& GetPiece() const noexcept { return m_Piece; }
 	void SetPiece(const std::shared_ptr<Piece> piece) noexcept;
-	void CleanPiece() noexcept;
+	
+	void FreeCell() noexcept;
 
 	inline bool IsFree() const noexcept { return static_cast<bool>(m_Piece); }
 
