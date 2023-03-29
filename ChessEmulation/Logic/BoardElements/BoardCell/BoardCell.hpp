@@ -4,7 +4,7 @@
 #include <memory>
 #include <utility>
 
-#include "Logic/Pieces/Piece/Piece.hpp"
+#include "Logic/PieceElements/Piece/Piece.hpp"
 
 class BoardCell
 {
