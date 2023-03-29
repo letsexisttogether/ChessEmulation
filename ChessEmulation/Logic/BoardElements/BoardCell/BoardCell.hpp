@@ -17,9 +17,13 @@ public:
 		const std::shared_ptr<Piece> piece);
 
 	const inline std::pair<uint8_t, char>& GetIndex() const noexcept { return m_Index; }
+	
 	const inline std::shared_ptr<Piece>& GetPiece() const noexcept { return m_Piece; }
+	void SetPiece(const std::shared_ptr<Piece> piece) noexcept;
+	void CleanPiece() noexcept;
 
 	inline bool IsFree() const noexcept { return static_cast<bool>(m_Piece); }
+
 
  	BoardCell& operator = (const BoardCell&) = delete;
 	BoardCell& operator = (BoardCell&&) = delete;
