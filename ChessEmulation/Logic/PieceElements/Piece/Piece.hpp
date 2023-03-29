@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Logic/Enums/Side.hpp"
+#include "Side.hpp"
 
 class Piece : public sf::Drawable
 {
@@ -17,11 +17,11 @@ public:
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-	const sf::Vector2f& GetScreenPosition() const noexcept;
+	inline const sf::Vector2f& GetScreenPosition() const noexcept { return m_Sprite.getPosition(); }
 	void SetScreenPosition(const sf::Vector2f& position) noexcept;
 
-	Side GetSide() const noexcept;
-	const sf::Vector2u& GetSize() const noexcept;
+	inline const Side& GetSide() const noexcept { return m_Side; }
+	inline const sf::Vector2u& GetSize() const noexcept { return m_Sprite.getTexture()->getSize(); }
 	
 	Piece& operator = (const Piece&) = delete;
 	Piece& operator = (Piece&&) = delete;
@@ -33,7 +33,6 @@ private:
 
 
 // TODO:
-
 // Проверить, может ли фигура так двигаться, если нет - аборт 
 // bool DoesHaveMove(const Move& possilbeMove)
 // {
