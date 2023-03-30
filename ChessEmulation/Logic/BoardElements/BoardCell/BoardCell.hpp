@@ -18,6 +18,8 @@ public:
 
 	~BoardCell() = default;
 
+	void FitPiece() noexcept(false);
+
 	const inline std::pair<uint8_t, char>& GetIndex() const noexcept { return m_Index; }
 
 	const inline std::shared_ptr<Piece>& GetPiece() const noexcept { return m_Piece; }
@@ -28,9 +30,6 @@ public:
 
  	BoardCell& operator = (const BoardCell&) = delete;
 	BoardCell& operator = (BoardCell&&) = delete;
-
-private:
-	void FitPiece() noexcept(false);
 
 private:
 	std::pair<uint8_t, char> m_Index;

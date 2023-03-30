@@ -18,7 +18,6 @@ void BoardCell::FreeCell() noexcept
 
 void BoardCell::FitPiece() noexcept(false)
 {
-
 	if (!m_Piece)
 	{
 		throw std::exception{ "Missing piece on the cell" };
