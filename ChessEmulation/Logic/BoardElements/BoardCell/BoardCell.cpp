@@ -9,7 +9,7 @@ void BoardCell::SetPiece(const std::shared_ptr<Piece> piece) noexcept
 	m_Piece = piece; 
 }
 
-void BoardCell::CleanPiece() noexcept
+void BoardCell::FreeCell() noexcept
 {
 	m_Piece = nullptr;
 }
