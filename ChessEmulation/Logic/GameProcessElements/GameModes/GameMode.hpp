@@ -12,13 +12,13 @@ public:
 	GameMode(GameMode&&) = default;
 
 	GameMode(std::vector<PieceMove>&& allMoves);
-
+	
 	virtual ~GameMode() = default;
 
 	inline const std::vector<PieceMove>& GetAllMoves() const noexcept { return m_AllPossibleMoves; }
 
-	GameMode& operator = (const GameMode&) = default;
-	GameMode& operator = (GameMode&&) = default;
+	GameMode& operator = (const GameMode&) = delete;
+	GameMode& operator = (GameMode&&) = delete;
 
 private:
 	std::vector<PieceMove> m_AllPossibleMoves{};
