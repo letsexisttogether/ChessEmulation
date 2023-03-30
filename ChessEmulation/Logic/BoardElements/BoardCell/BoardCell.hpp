@@ -29,9 +29,24 @@ public:
  	BoardCell& operator = (const BoardCell&) = delete;
 	BoardCell& operator = (BoardCell&&) = delete;
 
+
+private:
+	void FitPiece()
+	{
+		if (!m_Piece)
+		{
+			return;
+		}
+
+		const sf::Vector2f& piecePos = m_Piece->GetScreenPosition();
+		const sf::Vector2u& pieceSize = m_Piece->GetSize();
+
+		
+	}
+
 private:
 	std::pair<uint8_t, char> m_Index;
-	std::shared_ptr<sf::Texture> m_Texture;
-
 	std::shared_ptr<Piece> m_Piece;
+	
+	sf::Sprite m_Sprite;
 };
