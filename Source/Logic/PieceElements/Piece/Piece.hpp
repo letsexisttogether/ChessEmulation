@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "Side.hpp"
-#include "Logic/PieceElements/Move/PieceMove/PieceMove.hpp"
+#include "Logic/PieceElements/Move/DefaultMove/DefaultMove.hpp"
 
 class Piece : public sf::Drawable
 {
@@ -33,10 +33,10 @@ protected:
 	sf::Sprite m_Sprite{};
 
 	// Includes default moves and attacks
-	std::vector<PieceMove> m_AllPossibleMoves{};
-
-	std::vector<PieceMove> m_AllowedAttacks{};
-	std::vector<PieceMove> m_AllowedMoves{};
+	// std::vector<PieceMove> m_AllPossibleMoves{};
+	// 
+	// std::vector<PieceMove> m_AllowedAttacks{};
+	// std::vector<PieceMove> m_AllowedMoves{};
 };
 
 
