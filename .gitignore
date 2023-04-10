@@ -24,12 +24,6 @@ Development/
 *.mod
 *.smod
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
 # Executables
 *.exe
 *.out
@@ -135,6 +129,7 @@ Development/
 mono_crash.*
 
 # Build results
+build/
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/

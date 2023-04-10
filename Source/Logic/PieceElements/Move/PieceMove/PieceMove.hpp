@@ -2,7 +2,9 @@
 
 #include <utility>
 
-#include "MovePossibility.hpp"
+#include "Logic/PieceElements/Move/Enums/MovePossibility.hpp"
+#include "Logic/PieceElements/Move/MoveCheckers/MoveChecker.hpp"
+
 
 class PieceMove
 {
@@ -11,7 +13,7 @@ public:
 	PieceMove(const PieceMove&) = delete;
 	PieceMove(PieceMove&&) = delete;
 
-	PieceMove(const MovePossibility movePosibility, const std::pair<uint8_t, uint8_t> distance);
+	PieceMove(const MovePossibility movePossibility, const std::pair<uint8_t, uint8_t> distance);
 
 	~PieceMove() = default;
 
@@ -20,5 +22,5 @@ public:
 
 private:
 	MovePossibility m_MovePossibility;
-	std::pair<uint8_t, uint8_t> m_Distance;
+	std::pair<uint8_t, uint8_t> m_Distance; 
 };
