@@ -1,0 +1,26 @@
+# ninja log v5
+450	739	7026403627562347	ChessEmulation.exe	cd8ce90c57f5bad4
+870	1049	7026432762449950	Source/ChessEmulation.exe	5ade94069413d66b
+52	982	7026427794046858	Source/CMakeFiles/ChessEmulation.dir/Logic/Controllers/Controller.cpp.obj	cfc82bdeec363a24
+3	869	7026432761019625	Source/CMakeFiles/ChessEmulation.dir/Main.cpp.obj	85909784a577d814
+73	239	7026427786675200	Source/CMakeFiles/ChessEmulation.dir/Logic/PieceElements/Move/PieceMove.cpp.obj	a4d85b86a5e3703b
+57	1010	7026427794286914	Source/CMakeFiles/ChessEmulation.dir/Logic/Controllers/MouseController/MouseController.cpp.obj	25d734f7493e7f9f
+39	1008	7026427794316919	Source/CMakeFiles/ChessEmulation.dir/Logic/BoardElements/Board/Board.cpp.obj	8a36e1904c0692d3
+62	1012	7026427794336925	Source/CMakeFiles/ChessEmulation.dir/Logic/GameProcessElements/GameMode/GameMode.cpp.obj	868535c6eb51cca2
+78	1017	7026427794396940	Source/CMakeFiles/ChessEmulation.dir/Logic/PieceElements/Piece/Piece.cpp.obj	11f53e016901d6c4
+83	1022	7026427794486960	Source/CMakeFiles/ChessEmulation.dir/Logic/Player/Player.cpp.obj	b55d7e08a93cd56d
+47	1027	7026427794546971	Source/CMakeFiles/ChessEmulation.dir/Logic/BoardElements/BoardCell/BoardCell.cpp.obj	4eba447b7b20cddf
+68	1028	7026427794566969	Source/CMakeFiles/ChessEmulation.dir/Logic/GameProcessElements/Match/Match.cpp.obj	a6ee2c302b500f95
+50	230	7027211618210047	Source/CMakeFiles/ChessEmulation.dir/Logic/PieceElements/Move/PieceMove.cpp.obj	2817926ac8bc12f5
+15	1034	7027211626201848	Source/CMakeFiles/ChessEmulation.dir/Logic/BoardElements/Board/Board.cpp.obj	2d1aee0fdf2a7a3c
+55	1037	7027211626251856	Source/CMakeFiles/ChessEmulation.dir/Logic/PieceElements/Piece/Piece.cpp.obj	65e9882fa910870a
+24	1044	7027211626331876	Source/CMakeFiles/ChessEmulation.dir/Logic/BoardElements/BoardCell/BoardCell.cpp.obj	27113579fbc94991
+33	1046	7027211626341877	Source/CMakeFiles/ChessEmulation.dir/Logic/Controllers/MouseController/MouseController.cpp.obj	97db87b6b59e67c
+38	1097	7027211626381891	Source/CMakeFiles/ChessEmulation.dir/Logic/GameProcessElements/GameMode/GameMode.cpp.obj	416d7b8490a6cd0c
+44	1098	7027211626371886	Source/CMakeFiles/ChessEmulation.dir/Logic/GameProcessElements/Match/Match.cpp.obj	893decbbc5fba8ee
+29	1099	7027211626391894	Source/CMakeFiles/ChessEmulation.dir/Logic/Controllers/Controller.cpp.obj	f2918c0a25fa24b8
+60	1221	7027211626491915	Source/CMakeFiles/ChessEmulation.dir/Logic/Player/Player.cpp.obj	ad3cf0cefe21e032
+67	1221	7027211627262083	Source/CMakeFiles/ChessEmulation.dir/Main.cpp.obj	ee1798639503221a
+1222	1857	7027211634035251	Source/ChessEmulation.exe	2a5efae378a34108
+4	945	7027637008054178	Source/CMakeFiles/ChessEmulation.dir/Main.cpp.obj	ee1798639503221a
+945	1295	7027637010844814	Source/ChessEmulation.exe	2a5efae378a34108
