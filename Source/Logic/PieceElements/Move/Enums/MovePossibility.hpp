@@ -1,6 +1,6 @@
 #pragma once
 
-enum class MovePossibility : char
+enum class MoveDirection : char
 {
 	UP,
 	DOWN,
