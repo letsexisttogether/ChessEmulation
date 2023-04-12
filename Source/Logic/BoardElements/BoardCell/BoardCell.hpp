@@ -13,7 +13,7 @@ public:
 	BoardCell(const BoardCell&) = delete;
 	BoardCell(BoardCell&&) = delete;
 
-	BoardCell(const std::pair<uint8_t, char> index, std::shared_ptr<sf::Texture> texture,
+	BoardCell(const std::pair<uint8_t, char>& index, const std::shared_ptr<sf::Texture> texture,
 		const std::shared_ptr<Piece> piece);
 
 	~BoardCell() = default;
@@ -36,6 +36,8 @@ public:
 	
 	bool operator == (const BoardCell& cell) const noexcept;
 	bool operator != (const BoardCell& cell) const noexcept;
+
+	DefaultMove operator - (const BoardCell& cell) const noexcept(false);
 
 private:
 	std::pair<uint8_t, char> m_Index;
