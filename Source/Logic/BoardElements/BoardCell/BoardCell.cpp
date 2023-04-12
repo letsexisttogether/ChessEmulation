@@ -1,6 +1,6 @@
 #include "BoardCell.hpp"
 
-BoardCell::BoardCell(const std::pair<uint8_t, char> index, std::shared_ptr<sf::Texture> texture, const std::shared_ptr<Piece> piece)
+BoardCell::BoardCell(const std::pair<uint8_t, char>& index, const std::shared_ptr<sf::Texture> texture, const std::shared_ptr<Piece> piece)
 	: m_Index{ index }, m_Sprite{ *texture }, m_Piece{ piece }
 {}
 
@@ -32,4 +32,26 @@ void BoardCell::FitPiece() noexcept(false)
 
 	m_Piece->SetScreenPosition(pieceNewPosition);
 
+}
+
+bool BoardCell::operator < (const BoardCell &cell) const noexcept
+{
+    return (m_Index.first < cell.m_Index.first && m_Index.second == cell.m_Index.second
+		|| m_Index.first == cell.m_Index.first && m_Index.second < cell.m_Index.second);
+}
+
+bool BoardCell::operator > (const BoardCell &cell) const noexcept
+{
+    return (m_Index.first > cell.m_Index.first && m_Index.second == cell.m_Index.second
+		|| m_Index.first == cell.m_Index.first && m_Index.second > cell.m_Index.second);
+}
+
+bool BoardCell::operator == (const BoardCell &cell) const noexcept
+{
+    return m_Index == cell.m_Index;
+}
+
+bool BoardCell::operator != (const BoardCell &cell) const noexcept
+{
+    return !(*this == cell);
 }

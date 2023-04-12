@@ -22,7 +22,6 @@ public:
 
 	const inline std::pair<uint8_t, char>& GetIndex() const noexcept { return m_Index; }
 
-	// Поменять: вместо возвращения и передачи указателей, сделать ссылдки
 	const inline std::shared_ptr<Piece>& GetPiece() const noexcept { return m_Piece; }
 	void SetPiece(const std::shared_ptr<Piece> piece) noexcept;
 
@@ -31,6 +30,12 @@ public:
 
  	BoardCell& operator = (const BoardCell&) = delete;
 	BoardCell& operator = (BoardCell&&) = delete;
+
+	bool operator < (const BoardCell& cell) const noexcept;
+	bool operator > (const BoardCell& cell) const noexcept;
+	
+	bool operator == (const BoardCell& cell) const noexcept;
+	bool operator != (const BoardCell& cell) const noexcept;
 
 private:
 	std::pair<uint8_t, char> m_Index;
