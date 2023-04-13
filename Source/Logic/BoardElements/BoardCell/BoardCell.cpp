@@ -73,11 +73,11 @@ DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept(false)
 	}
 	if (!horizontalDiff)
 	{
-		return DefaultMove{ ((vericalDiff > 0) ? (MoveDirection::UP) : (MoveDirection::DOWN)), 
+		return DefaultMove{ ((vericalDiff > 0) ? (MoveDirection::DOWN) : (MoveDirection::UP)), 
 			std::pair<uint8_t, uint8_t>{ std::abs(vericalDiff), horizontalDiff } };
 	}
 
-	if (vericalDiff > 0)
+	if (vericalDiff < 0)
 	{
 		return DefaultMove{ ((horizontalDiff > 0) ? (MoveDirection::UP_RIGHT) : (MoveDirection::UP_LEFT)), 
 			std::pair<uint8_t, uint8_t>{ vericalDiff, std::abs(horizontalDiff) } };
