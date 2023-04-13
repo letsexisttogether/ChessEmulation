@@ -86,3 +86,15 @@ DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept(false)
 	return DefaultMove{ ((horizontalDiff < 0) ? (MoveDirection::DOWN_RIGHT) : (MoveDirection::DOWN_LEFT)), 
 		std::pair<uint8_t, uint8_t>{ vericalDiff, std::abs(horizontalDiff) } };
 }
+
+std::size_t BoardCell::IndexHash::operator()(const BoardCell& cell) const noexcept
+{
+    const std::size_t h1 = std::hash<uint8_t>{}(cell.GetIndex().first);
+    const std::size_t h2 = std::hash<char>{}(cell.GetIndex().second);
+	return h1 ^ (h2 << 1);
+}
+
+bool BoardCell::IndexEqual::operator()(const BoardCell& fCell, const BoardCell& sCell) const noexcept
+{
+    return fCell.GetIndex() == sCell.GetIndex();
+}

@@ -39,6 +39,17 @@ public:
 
 	DefaultMove operator - (const BoardCell& cell) const noexcept(false);
 
+public:
+	struct IndexHash
+	{
+  		std::size_t operator()(const BoardCell& cell) const noexcept;
+	};
+
+	struct IndexEqual 
+	{
+  		bool operator()(const BoardCell& fCell, const BoardCell& sCell) const noexcept;
+	};
+
 private:
 	std::pair<uint8_t, char> m_Index;
 	std::shared_ptr<Piece> m_Piece;
