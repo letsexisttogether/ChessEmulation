@@ -1,7 +1,9 @@
 #pragma once
 
-enum class MovePossibility
+enum class MoveDirection : std::uint8_t
 {
+	NONE,
+	
 	UP,
 	DOWN,
 	RIGHT,

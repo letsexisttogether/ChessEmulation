@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "Side.hpp"
-#include "Logic/PieceElements/Move/PieceMove.hpp"
+#include "Logic/PieceElements/Move/DefaultMove/DefaultMove.hpp"
 
 class Piece : public sf::Drawable
 {
@@ -23,7 +23,7 @@ public:
 	void SetScreenPosition(const sf::Vector2f& position) noexcept;
 
 	inline const Side& GetSide() const noexcept { return m_Side; }
-	inline const sf::Vector2u& GetSize() const noexcept { return m_Sprite.getTexture()->getSize(); }
+	inline sf::Vector2u GetSize() const noexcept { return m_Sprite.getTexture()->getSize(); }
 	
 	Piece& operator = (const Piece&) = delete;
 	Piece& operator = (Piece&&) = delete;
@@ -33,10 +33,10 @@ protected:
 	sf::Sprite m_Sprite{};
 
 	// Includes default moves and attacks
-	std::vector<PieceMove> m_AllPossibleMoves{};
-
-	std::vector<PieceMove> m_AllowedAttacks{};
-	std::vector<PieceMove> m_AllowedMoves{};
+	// std::vector<PieceMove> m_AllPossibleMoves{};
+	// 
+	// std::vector<PieceMove> m_AllowedAttacks{};
+	// std::vector<PieceMove> m_AllowedMoves{};
 };
 
 

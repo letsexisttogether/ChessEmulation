@@ -1,8 +1,10 @@
 #pragma once
 
-#include <utility>
+#include "DefaultMove/DefaultMove.hpp"
 
-#include "MovePossibility.hpp"
+// I've changed my mind: forward-declaration is really a good thing
+class Board;
+class BoardCell;
 
 class PieceMove
 {
@@ -11,14 +13,16 @@ public:
 	PieceMove(const PieceMove&) = delete;
 	PieceMove(PieceMove&&) = delete;
 
-	PieceMove(const MovePossibility movePosibility, const std::pair<uint8_t, uint8_t> distance);
+	PieceMove(const DefaultMove& defaultMove);
 
-	~PieceMove() = default;
+	virtual ~PieceMove() = default;
+
+	virtual bool CheckRequirements(const Board& board, 
+		const BoardCell& initial, const BoardCell& final) const noexcept;
 
 	PieceMove& operator = (const PieceMove&) = delete;
 	PieceMove& operator = (PieceMove&&) = delete;
 
-private:
-	MovePossibility m_MovePossibility;
-	std::pair<uint8_t, uint8_t> m_Distance;
+protected:
+	DefaultMove m_DefaultMove;
 };

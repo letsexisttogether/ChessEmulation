@@ -13,7 +13,7 @@ public:
 	BoardCell(const BoardCell&) = delete;
 	BoardCell(BoardCell&&) = delete;
 
-	BoardCell(const std::pair<uint8_t, char> index, std::shared_ptr<sf::Texture> texture,
+	BoardCell(const std::pair<uint8_t, char>& index, const sf::Texture& texture,
 		const std::shared_ptr<Piece> piece);
 
 	~BoardCell() = default;
@@ -22,7 +22,6 @@ public:
 
 	const inline std::pair<uint8_t, char>& GetIndex() const noexcept { return m_Index; }
 
-	// Поменять: вместо возвращения и передачи указателей, сделать ссылдки
 	const inline std::shared_ptr<Piece>& GetPiece() const noexcept { return m_Piece; }
 	void SetPiece(const std::shared_ptr<Piece> piece) noexcept;
 
@@ -31,6 +30,14 @@ public:
 
  	BoardCell& operator = (const BoardCell&) = delete;
 	BoardCell& operator = (BoardCell&&) = delete;
+
+	bool operator < (const BoardCell& cell) const noexcept;
+	bool operator > (const BoardCell& cell) const noexcept;
+	
+	bool operator == (const BoardCell& cell) const noexcept;
+	bool operator != (const BoardCell& cell) const noexcept;
+
+	DefaultMove operator - (const BoardCell& cell) const noexcept(false);
 
 private:
 	std::pair<uint8_t, char> m_Index;

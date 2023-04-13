@@ -6,6 +6,3 @@ project(ChessEmulation LANGUAGES CXX)
 
 add_subdirectory(Source)
 add_subdirectory(Dependencies)
-
-
-
