@@ -1,7 +1,7 @@
 #include "BoardCell.hpp"
 
-BoardCell::BoardCell(const std::pair<uint8_t, char>& index, const std::shared_ptr<sf::Texture> texture, const std::shared_ptr<Piece> piece)
-	: m_Index{ index }, m_Sprite{ *texture }, m_Piece{ piece }
+BoardCell::BoardCell(const std::pair<uint8_t, char>& index, const sf::Texture& texture, const std::shared_ptr<Piece> piece)
+	: m_Index{ index }, m_Sprite{ texture }, m_Piece{ piece }
 {}
 
 void BoardCell::SetPiece(const std::shared_ptr<Piece> piece) noexcept
@@ -68,21 +68,21 @@ DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept(false)
 
 	if(!vericalDiff)
 	{
-		return DefaultMove{ ((horizontalDiff > 0) ? (MoveDirection::RIGHT) : (MoveDirection::LEFT)), 
+		return DefaultMove{ ((horizontalDiff < 0) ? (MoveDirection::RIGHT) : (MoveDirection::LEFT)), 
 			std::pair<uint8_t, uint8_t>{ vericalDiff, std::abs(horizontalDiff) } };
 	}
 	if (!horizontalDiff)
 	{
-		return DefaultMove{ ((vericalDiff > 0) ? (MoveDirection::DOWN) : (MoveDirection::UP)), 
+		return DefaultMove{ ((vericalDiff < 0) ? (MoveDirection::UP) : (MoveDirection::DOWN)), 
 			std::pair<uint8_t, uint8_t>{ std::abs(vericalDiff), horizontalDiff } };
 	}
 
 	if (vericalDiff < 0)
 	{
-		return DefaultMove{ ((horizontalDiff > 0) ? (MoveDirection::UP_RIGHT) : (MoveDirection::UP_LEFT)), 
-			std::pair<uint8_t, uint8_t>{ vericalDiff, std::abs(horizontalDiff) } };
+		return DefaultMove{ ((horizontalDiff < 0) ? (MoveDirection::UP_RIGHT) : (MoveDirection::UP_LEFT)), 
+			std::pair<uint8_t, uint8_t>{ std::abs(vericalDiff), std::abs(horizontalDiff) } };
 	}
 
-	return DefaultMove{ ((horizontalDiff > 0) ? (MoveDirection::DOWN_RIGHT) : (MoveDirection::DOWN_LEFT)), 
+	return DefaultMove{ ((horizontalDiff < 0) ? (MoveDirection::DOWN_RIGHT) : (MoveDirection::DOWN_LEFT)), 
 		std::pair<uint8_t, uint8_t>{ vericalDiff, std::abs(horizontalDiff) } };
 }

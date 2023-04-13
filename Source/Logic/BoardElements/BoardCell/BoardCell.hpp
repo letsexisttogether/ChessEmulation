@@ -13,7 +13,7 @@ public:
 	BoardCell(const BoardCell&) = delete;
 	BoardCell(BoardCell&&) = delete;
 
-	BoardCell(const std::pair<uint8_t, char>& index, const std::shared_ptr<sf::Texture> texture,
+	BoardCell(const std::pair<uint8_t, char>& index, const sf::Texture& texture,
 		const std::shared_ptr<Piece> piece);
 
 	~BoardCell() = default;
