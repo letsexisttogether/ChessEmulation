@@ -10,8 +10,8 @@ class BoardCell
 {
 public:
 	BoardCell() = delete;
-	BoardCell(const BoardCell&) = delete;
-	BoardCell(BoardCell&&) = delete;
+	BoardCell(const BoardCell&) = default;
+	BoardCell(BoardCell&& cell) = default;
 
 	BoardCell(const std::pair<uint8_t, char>& index, const sf::Texture& texture,
 		const std::shared_ptr<Piece> piece);
@@ -39,6 +39,7 @@ public:
 
 	DefaultMove operator - (const BoardCell& cell) const noexcept(false);
 
+// Remove in one of the next versions
 public:
 	struct IndexHash
 	{
@@ -51,7 +52,7 @@ public:
 	};
 
 private:
-	std::pair<uint8_t, char> m_Index;
+	std::pair<std::uint8_t, char> m_Index;
 	std::shared_ptr<Piece> m_Piece;
 	
 	sf::Sprite m_Sprite;

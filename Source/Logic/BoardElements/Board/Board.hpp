@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <unordered_set>
+#include <unordered_map>
 
 #include "Logic/BoardElements/BoardCell/BoardCell.hpp"
 
@@ -12,7 +12,7 @@ public:
     Board(const Board&) = delete;
     Board(Board&&) = delete;
 
-    Board(std::unordered_set<BoardCell, BoardCell::IndexHash, BoardCell::IndexEqual>&& cells);\
+    Board(std::unordered_map<std::pair<std::uint8_t, char>, BoardCell>&& cells);
 
     ~Board() = default;
 
@@ -20,10 +20,9 @@ public:
     Board& operator = (Board&&) = delete;
     
 
-private:
-    BoardCell& GetCell(const std::pair<uint8_t, char>& index);
+    BoardCell& operator [] (const std::pair<std::uint8_t, char>& index) noexcept(false);
 
 private:
-	std::unordered_set<BoardCell, BoardCell::IndexHash, BoardCell::IndexEqual> m_Cells;
+	std::unordered_map<std::pair<std::uint8_t, char>, BoardCell> m_Cells;
 };
  
