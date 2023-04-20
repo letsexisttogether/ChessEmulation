@@ -4,7 +4,7 @@ BoardCell::BoardCell(const Index &index, const sf::Texture &texture, const std::
     : m_Index{ index }, m_Sprite{ texture }, m_Piece{ piece }
 {}
 
-void BoardCell::SetPiece(const std::shared_ptr<Piece> piece) noexcept
+void BoardCell::SetPiece(const std::shared_ptr<Piece>& piece) noexcept
 {
 	m_Piece = piece; 
 
