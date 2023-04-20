@@ -38,7 +38,13 @@ public:
 	bool operator == (const BoardCell& cell) const noexcept;
 	bool operator != (const BoardCell& cell) const noexcept;
 
-	DefaultMove operator - (const BoardCell& cell) const noexcept(false);
+	bool operator == (const Index& index) const noexcept;
+	bool operator != (const Index& index) const noexcept;
+
+	DefaultMove operator - (const BoardCell& cell) const noexcept;
+
+	// Exceptions allowed to make tests 
+	Index operator + (const DefaultMove& move) const noexcept(false);
 
 public:
 	struct IndexHash

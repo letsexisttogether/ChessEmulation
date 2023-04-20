@@ -55,7 +55,17 @@ bool BoardCell::operator != (const BoardCell &cell) const noexcept
     return !(*this == cell);
 }
 
-DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept(false)
+bool BoardCell::operator == (const BoardCell::Index &index) const noexcept
+{
+    return m_Index == index;
+}
+
+bool BoardCell::operator != (const BoardCell::Index &index) const noexcept
+{
+    return !(*this == index);
+}
+
+DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept
 {
 	const int8_t vericalDiff = m_Index.first - cell.m_Index.first;
 	const int8_t horizontalDiff = m_Index.second - cell.m_Index.second;
@@ -85,6 +95,36 @@ DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept(false)
 
 	return DefaultMove{ ((horizontalDiff < 0) ? (MoveDirection::DOWN_RIGHT) : (MoveDirection::DOWN_LEFT)), 
 		std::pair<uint8_t, uint8_t>{ vericalDiff, std::abs(horizontalDiff) } };
+}
+
+BoardCell::Index BoardCell::operator + (const DefaultMove &move) const noexcept(false)
+{
+	switch (const auto& distance = move.GetDistance(); move.GetMoveDirection())
+	{
+	case MoveDirection::UP:
+		return Index{ m_Index.first + distance.first, m_Index.second };
+	case MoveDirection::DOWN:
+		return Index{ m_Index.first - distance.first, m_Index.second };
+	case MoveDirection::RIGHT:
+		return Index{ m_Index.first, m_Index.second + distance.second};
+	case MoveDirection::LEFT:
+		return Index{ m_Index.first, m_Index.second - distance.second };
+
+	case MoveDirection::UP_RIGHT:
+		return Index{ m_Index.first + distance.first, m_Index.second + distance.second };
+	case MoveDirection::UP_LEFT:
+		return Index{ m_Index.first + distance.first, m_Index.second - distance.second };
+	case MoveDirection::DOWN_RIGHT:
+		return Index{ m_Index.first - distance.first, m_Index.second + distance.second };
+	case MoveDirection::DOWN_LEFT:
+		return Index{ m_Index.first - distance.first, m_Index.second - distance.second };
+
+	default:
+		throw std::runtime_error("Unknown move direction passed");
+		break;
+	}
+
+    return {};
 }
 
 std::size_t BoardCell::IndexHash::operator()(const BoardCell& cell) const noexcept

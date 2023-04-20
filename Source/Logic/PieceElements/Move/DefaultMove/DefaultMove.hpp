@@ -14,7 +14,7 @@ public:
 
 	DefaultMove(const MoveDirection movePossibility, const std::pair<uint8_t, uint8_t>& distance);
 
-	inline const MoveDirection& GetMovePossibility() const noexcept { return m_MovePossibility; }
+	inline const MoveDirection& GetMoveDirection() const noexcept { return m_MovePossibility; }
 	
 	inline const std::pair<uint8_t, uint8_t>& GetDistance() const noexcept { return m_Distance; }
 	
