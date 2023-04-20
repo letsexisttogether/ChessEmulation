@@ -9,21 +9,22 @@
 class BoardCell
 {
 public:
-	BoardCell() = delete;
-	BoardCell(const BoardCell&) = delete;
-	BoardCell(BoardCell&&) = delete;
+	using Index = std::pair<std::uint8_t, char>;
 
-	BoardCell(const std::pair<uint8_t, char>& index, const sf::Texture& texture,
-		const std::shared_ptr<Piece> piece);
+public:
+	BoardCell() = delete;
+	BoardCell(const BoardCell&) = default;
+	BoardCell(BoardCell&& cell) = default;
+
+	BoardCell(const Index& index, const sf::Texture& texture,
+		const std::shared_ptr<Piece>& piece);
 
 	~BoardCell() = default;
 
-	void FitPiece() noexcept(false);
+	inline const Index& GetIndex() const noexcept { return m_Index; }
 
-	const inline std::pair<uint8_t, char>& GetIndex() const noexcept { return m_Index; }
-
-	const inline std::shared_ptr<Piece>& GetPiece() const noexcept { return m_Piece; }
-	void SetPiece(const std::shared_ptr<Piece> piece) noexcept;
+	inline const std::shared_ptr<Piece>& GetPiece() const noexcept { return m_Piece; }
+	void SetPiece(const std::shared_ptr<Piece>& piece) noexcept;
 
 	inline bool IsFree() const noexcept { return static_cast<bool>(m_Piece); }
 	void FreeCell() noexcept;
@@ -39,8 +40,23 @@ public:
 
 	DefaultMove operator - (const BoardCell& cell) const noexcept(false);
 
-private:
-	std::pair<uint8_t, char> m_Index;
+public:
+	struct IndexHash
+	{
+  		std::size_t operator()(const BoardCell& cell) const noexcept;
+	};
+
+	struct IndexEqual 
+	{
+  		bool operator()(const BoardCell& fCell, const BoardCell& sCell) const noexcept;
+	};
+
+
+protected: 
+	void FitPiece() noexcept(false);
+
+protected:
+	const Index m_Index;
 	std::shared_ptr<Piece> m_Piece;
 	
 	sf::Sprite m_Sprite;

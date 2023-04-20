@@ -16,8 +16,8 @@ void MouseController::Control() noexcept
 
 	const sf::Vector2i mousePosition{ sf::Mouse::getPosition(m_Window) };
 	const sf::Vector2i windowSize{ m_Window.getSize() };
-	const sf::Vector2i pieceSize{ m_UnderCountrol->GetSize() };
-	const sf::Vector2i pieceHalfSize{ m_UnderCountrol->GetSize() / 2u };
+	const sf::Vector2i pieceSize{ m_UnderCountrol->GetTextureSize() };
+	const sf::Vector2i pieceHalfSize{ m_UnderCountrol->GetTextureSize() / 2u };
 
 	const sf::Vector2i possiblePosition{ mousePosition.x - pieceHalfSize.x, mousePosition.y - pieceHalfSize.y };
 	const sf::Vector2i properPosition{ std::min(std::max(possiblePosition.x, 0), windowSize.x - pieceSize.x),
@@ -52,7 +52,7 @@ bool MouseController::TakeCondition(const sf::Event& event, std::shared_ptr<Piec
 
 	const sf::Vector2i mousePos{ sf::Mouse::getPosition(m_Window) };
 	const sf::Vector2f& piecePosition = controlable->GetScreenPosition();
-	const sf::Vector2u& pieceSize = controlable->GetSize();
+	const sf::Vector2u& pieceSize = controlable->GetTextureSize();
 
 	bool isMouseOnPiece = (mousePos.x >= piecePosition.x && mousePos.x <= piecePosition.x + pieceSize.x
 		&& mousePos.y >= piecePosition.y && mousePos.y <= piecePosition.y + pieceSize.y);

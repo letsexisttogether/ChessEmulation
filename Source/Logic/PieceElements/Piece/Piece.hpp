@@ -23,7 +23,7 @@ public:
 	void SetScreenPosition(const sf::Vector2f& position) noexcept;
 
 	inline const Side& GetSide() const noexcept { return m_Side; }
-	inline sf::Vector2u GetSize() const noexcept { return m_Sprite.getTexture()->getSize(); }
+	inline sf::Vector2u GetTextureSize() const noexcept { return m_Sprite.getTexture()->getSize(); }
 	
 	Piece& operator = (const Piece&) = delete;
 	Piece& operator = (Piece&&) = delete;

@@ -1,7 +1,7 @@
 #include "BoardCell.hpp"
 
-BoardCell::BoardCell(const std::pair<uint8_t, char>& index, const sf::Texture& texture, const std::shared_ptr<Piece> piece)
-	: m_Index{ index }, m_Sprite{ texture }, m_Piece{ piece }
+BoardCell::BoardCell(const Index &index, const sf::Texture &texture, const std::shared_ptr<Piece>& piece)
+    : m_Index{ index }, m_Sprite{ texture }, m_Piece{ piece }
 {}
 
 void BoardCell::SetPiece(const std::shared_ptr<Piece> piece) noexcept
@@ -23,8 +23,8 @@ void BoardCell::FitPiece() noexcept(false)
 		throw std::exception{ "Missing piece on the cell" };
 	}
 
-	const sf::Vector2u& pieceHalfSize = m_Piece->GetSize() / 2u;
-	const sf::Vector2u& cellHalfSize = m_Sprite.getTexture()->getSize() / 2u;
+	const sf::Vector2u pieceHalfSize { m_Piece->GetTextureSize() / 2u };
+	const sf::Vector2u cellHalfSize = { m_Sprite.getTexture()->getSize() / 2u };
 	const sf::Vector2f& currentCellPos = m_Sprite.getPosition();
 
 	const sf::Vector2f pieceNewPosition{ currentCellPos.x + cellHalfSize.x - pieceHalfSize.x,
@@ -85,4 +85,16 @@ DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept(false)
 
 	return DefaultMove{ ((horizontalDiff < 0) ? (MoveDirection::DOWN_RIGHT) : (MoveDirection::DOWN_LEFT)), 
 		std::pair<uint8_t, uint8_t>{ vericalDiff, std::abs(horizontalDiff) } };
+}
+
+std::size_t BoardCell::IndexHash::operator()(const BoardCell& cell) const noexcept
+{
+    const std::size_t h1 = std::hash<uint8_t>{}(cell.GetIndex().first);
+    const std::size_t h2 = std::hash<char>{}(cell.GetIndex().second);
+	return h1 ^ (h2 << 1);
+}
+
+bool BoardCell::IndexEqual::operator()(const BoardCell& fCell, const BoardCell& sCell) const noexcept
+{
+    return fCell.GetIndex() == sCell.GetIndex();
 }
