@@ -17,8 +17,11 @@ public:
 
 	virtual ~PieceMove() = default;
 
+	// Exceptions allowed to make tests 
 	virtual bool CheckRequirements(const Board& board, 
-		const BoardCell& initial, const BoardCell& final) const noexcept;
+		const BoardCell& initial, const BoardCell& final) const noexcept(false);
+
+	inline const DefaultMove& GetMoveSpecs() const noexcept { return m_DefaultMove; }
 
 	PieceMove& operator = (const PieceMove&) = delete;
 	PieceMove& operator = (PieceMove&&) = delete;
