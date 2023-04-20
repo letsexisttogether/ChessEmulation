@@ -9,20 +9,23 @@
 class BoardCell
 {
 public:
+	using Index = std::pair<std::uint8_t, char>;
+
+public:
 	BoardCell() = delete;
 	BoardCell(const BoardCell&) = default;
 	BoardCell(BoardCell&& cell) = default;
 
-	BoardCell(const std::pair<uint8_t, char>& index, const sf::Texture& texture,
+	BoardCell(const Index& index, const sf::Texture& texture,
 		const std::shared_ptr<Piece> piece);
 
 	~BoardCell() = default;
 
 	void FitPiece() noexcept(false);
 
-	const inline std::pair<uint8_t, char>& GetIndex() const noexcept { return m_Index; }
+	inline const Index& GetIndex() const noexcept { return m_Index; }
 
-	const inline std::shared_ptr<Piece>& GetPiece() const noexcept { return m_Piece; }
+	inline const std::shared_ptr<Piece>& GetPiece() const noexcept { return m_Piece; }
 	void SetPiece(const std::shared_ptr<Piece> piece) noexcept;
 
 	inline bool IsFree() const noexcept { return static_cast<bool>(m_Piece); }
@@ -52,7 +55,7 @@ public:
 	};
 
 private:
-	std::pair<std::uint8_t, char> m_Index;
+	const Index m_Index;
 	std::shared_ptr<Piece> m_Piece;
 	
 	sf::Sprite m_Sprite;

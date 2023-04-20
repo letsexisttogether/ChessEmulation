@@ -1,17 +1,24 @@
 #include "Board.hpp"
 
-Board::Board(std::unordered_map<std::pair<std::uint8_t, char>, BoardCell>&& cells)
+#include <algorithm>
+
+Board::Board(CellSet&& cells)
     : m_Cells{ std::move(cells) }
 {}
 
-BoardCell& Board::operator[](const std::pair<std::uint8_t, char>& index) noexcept(false)
+BoardCell& Board::operator[] (const BoardCell::Index& index) noexcept(false)
 {
-    auto it = m_Cells.find(index);
+    auto findByIndexFunc = [&](const BoardCell& cell)
+    {
+        return cell.GetIndex() == index;
+    };
+
+    auto it = std::find_if(m_Cells.begin(), m_Cells.end(), findByIndexFunc);
 
     if (it == m_Cells.end())
     {
         throw std::runtime_error{ "There is not a cell with index like that" };
     }
 
-    return it->second;
+    return const_cast<BoardCell&>(*it);
 }
