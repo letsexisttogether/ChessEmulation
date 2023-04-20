@@ -12,8 +12,8 @@ public:
 
 public:
     Board() = delete;
-    Board(const Board&) = delete;
-    Board(Board&&) = delete;
+    Board(const Board&) = default;
+    Board(Board&&) = default;
 
     Board(CellSet&& cells);
 
