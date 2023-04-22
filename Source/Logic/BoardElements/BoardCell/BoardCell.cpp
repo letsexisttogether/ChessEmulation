@@ -1,6 +1,6 @@
 #include "BoardCell.hpp"
 
-BoardCell::BoardCell(const Index &index, const sf::Texture &texture, const std::shared_ptr<Piece>& piece)
+BoardCell::BoardCell(const CellIndex &index, const sf::Texture &texture, const std::shared_ptr<Piece>& piece)
     : m_Index{ index }, m_Sprite{ texture }, m_Piece{ piece }
 {}
 
@@ -33,42 +33,10 @@ void BoardCell::FitPiece() noexcept(false)
 	m_Piece->SetScreenPosition(pieceNewPosition);
 }
 
-bool BoardCell::operator < (const BoardCell &cell) const noexcept
-{
-    return (m_Index.first < cell.m_Index.first && m_Index.second == cell.m_Index.second
-		|| m_Index.first == cell.m_Index.first && m_Index.second < cell.m_Index.second);
-}
-
-bool BoardCell::operator > (const BoardCell &cell) const noexcept
-{
-    return (m_Index.first > cell.m_Index.first && m_Index.second == cell.m_Index.second
-		|| m_Index.first == cell.m_Index.first && m_Index.second > cell.m_Index.second);
-}
-
-bool BoardCell::operator == (const BoardCell &cell) const noexcept
-{
-    return m_Index == cell.m_Index;
-}
-
-bool BoardCell::operator != (const BoardCell &cell) const noexcept
-{
-    return !(*this == cell);
-}
-
-bool BoardCell::operator == (const BoardCell::Index &index) const noexcept
-{
-    return m_Index == index;
-}
-
-bool BoardCell::operator != (const BoardCell::Index &index) const noexcept
-{
-    return !(*this == index);
-}
-
 DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept
 {
-	const int8_t vericalDiff = m_Index.first - cell.m_Index.first;
-	const int8_t horizontalDiff = m_Index.second - cell.m_Index.second;
+	const int8_t vericalDiff = m_Index.GetVertical() - cell.m_Index.GetVertical();
+	const int8_t horizontalDiff = m_Index.GetHorizontal() - cell.m_Index.GetHorizontal();
 
 	if (!vericalDiff && !horizontalDiff)
 	{
@@ -78,63 +46,33 @@ DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept
 
 	if(!vericalDiff)
 	{
-		return DefaultMove{ ((horizontalDiff < 0) ? (MoveDirection::RIGHT) : (MoveDirection::LEFT)), 
-			std::pair<uint8_t, uint8_t>{ vericalDiff, std::abs(horizontalDiff) } };
+		return { ((horizontalDiff < 0) ? (MoveDirection::RIGHT) : (MoveDirection::LEFT)), 
+			DefaultMove::Distance{ vericalDiff, std::abs(horizontalDiff) } };
 	}
 	if (!horizontalDiff)
 	{
-		return DefaultMove{ ((vericalDiff < 0) ? (MoveDirection::UP) : (MoveDirection::DOWN)), 
-			std::pair<uint8_t, uint8_t>{ std::abs(vericalDiff), horizontalDiff } };
+		return { ((vericalDiff < 0) ? (MoveDirection::UP) : (MoveDirection::DOWN)), 
+			DefaultMove::Distance{ std::abs(vericalDiff), horizontalDiff } };
 	}
 
 	if (vericalDiff < 0)
 	{
-		return DefaultMove{ ((horizontalDiff < 0) ? (MoveDirection::UP_RIGHT) : (MoveDirection::UP_LEFT)), 
-			std::pair<uint8_t, uint8_t>{ std::abs(vericalDiff), std::abs(horizontalDiff) } };
+		return { ((horizontalDiff < 0) ? (MoveDirection::UP_RIGHT) : (MoveDirection::UP_LEFT)), 
+			DefaultMove::Distance{ std::abs(vericalDiff), std::abs(horizontalDiff) } };
 	}
 
-	return DefaultMove{ ((horizontalDiff < 0) ? (MoveDirection::DOWN_RIGHT) : (MoveDirection::DOWN_LEFT)), 
-		std::pair<uint8_t, uint8_t>{ vericalDiff, std::abs(horizontalDiff) } };
+	return { ((horizontalDiff < 0) ? (MoveDirection::DOWN_RIGHT) : (MoveDirection::DOWN_LEFT)), 
+		DefaultMove::Distance{ vericalDiff, std::abs(horizontalDiff) } };
 }
 
-BoardCell::Index BoardCell::operator + (const DefaultMove &move) const noexcept(false)
+std::size_t BoardCell::Hash::operator() (const BoardCell& cell) const noexcept
 {
-	switch (const auto& distance = move.GetDistance(); move.GetMoveDirection())
-	{
-	case MoveDirection::UP:
-		return Index{ m_Index.first + distance.first, m_Index.second };
-	case MoveDirection::DOWN:
-		return Index{ m_Index.first - distance.first, m_Index.second };
-	case MoveDirection::RIGHT:
-		return Index{ m_Index.first, m_Index.second + distance.second};
-	case MoveDirection::LEFT:
-		return Index{ m_Index.first, m_Index.second - distance.second };
-
-	case MoveDirection::UP_RIGHT:
-		return Index{ m_Index.first + distance.first, m_Index.second + distance.second };
-	case MoveDirection::UP_LEFT:
-		return Index{ m_Index.first + distance.first, m_Index.second - distance.second };
-	case MoveDirection::DOWN_RIGHT:
-		return Index{ m_Index.first - distance.first, m_Index.second + distance.second };
-	case MoveDirection::DOWN_LEFT:
-		return Index{ m_Index.first - distance.first, m_Index.second - distance.second };
-
-	default:
-		throw std::runtime_error("Unknown move direction passed");
-		break;
-	}
-
-    return {};
-}
-
-std::size_t BoardCell::IndexHash::operator()(const BoardCell& cell) const noexcept
-{
-    const std::size_t h1 = std::hash<uint8_t>{}(cell.GetIndex().first);
-    const std::size_t h2 = std::hash<char>{}(cell.GetIndex().second);
+    const std::size_t h1 = std::hash<uint8_t>{}(cell.GetIndex().GetVertical());
+    const std::size_t h2 = std::hash<char>{}(cell.GetIndex().GetHorizontal());
 	return h1 ^ (h2 << 1);
 }
 
-bool BoardCell::IndexEqual::operator()(const BoardCell& fCell, const BoardCell& sCell) const noexcept
+bool BoardCell::Equal::operator() (const BoardCell& fCell, const BoardCell& sCell) const noexcept
 {
     return fCell.GetIndex() == sCell.GetIndex();
 }

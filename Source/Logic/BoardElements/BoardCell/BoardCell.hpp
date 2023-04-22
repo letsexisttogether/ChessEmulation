@@ -5,23 +5,21 @@
 #include <utility>
 
 #include "Logic/PieceElements/Piece/Piece.hpp"
+#include "CellIndex/CellIndex.hpp"
 
 class BoardCell
 {
 public:
-	using Index = std::pair<std::uint8_t, char>;
-
-public:
 	BoardCell() = delete;
 	BoardCell(const BoardCell&) = default;
-	BoardCell(BoardCell&& cell) = default;
+	BoardCell(BoardCell&&) = default;
 
-	BoardCell(const Index& index, const sf::Texture& texture,
+	BoardCell(const CellIndex& index, const sf::Texture& texture,
 		const std::shared_ptr<Piece>& piece);
 
 	~BoardCell() = default;
 
-	inline const Index& GetIndex() const noexcept { return m_Index; }
+	inline const CellIndex& GetIndex() const noexcept { return m_Index; }
 
 	inline const std::shared_ptr<Piece>& GetPiece() const noexcept { return m_Piece; }
 	void SetPiece(const std::shared_ptr<Piece>& piece) noexcept;
@@ -32,38 +30,25 @@ public:
  	BoardCell& operator = (const BoardCell&) = delete;
 	BoardCell& operator = (BoardCell&&) = delete;
 
-	bool operator < (const BoardCell& cell) const noexcept;
-	bool operator > (const BoardCell& cell) const noexcept;
-	
-	bool operator == (const BoardCell& cell) const noexcept;
-	bool operator != (const BoardCell& cell) const noexcept;
-
-	bool operator == (const Index& index) const noexcept;
-	bool operator != (const Index& index) const noexcept;
-
 	DefaultMove operator - (const BoardCell& cell) const noexcept;
 
-	// Exceptions allowed to make tests 
-	Index operator + (const DefaultMove& move) const noexcept(false);
-
 public:
-	struct IndexHash
+	struct Hash
 	{
   		std::size_t operator()(const BoardCell& cell) const noexcept;
 	};
 
-	struct IndexEqual 
+	struct Equal 
 	{
   		bool operator()(const BoardCell& fCell, const BoardCell& sCell) const noexcept;
 	};
-
 
 protected: 
 	void FitPiece() noexcept(false);
 
 protected:
-	const Index m_Index;
-	std::shared_ptr<Piece> m_Piece;
+	const CellIndex m_Index;
+	const sf::Sprite m_Sprite;
 	
-	sf::Sprite m_Sprite;
+	std::shared_ptr<Piece> m_Piece;
 };

@@ -27,23 +27,23 @@ int main()
 
     Board::CellSet set{};
 
-    set.insert(BoardCell{ BoardCell::Index { 1, 'a' }, whiteCellTexture, piece});
-    set.insert(BoardCell{ BoardCell::Index { 2, 'b' }, whiteCellTexture, nullptr });
-    set.insert(BoardCell{ BoardCell::Index { 3, 'c' }, whiteCellTexture, nullptr });
+    set.insert(BoardCell{ CellIndex{ 1, 'a' }, whiteCellTexture, piece});
+    set.insert(BoardCell{ CellIndex{ 2, 'b' }, whiteCellTexture, nullptr });
+    set.insert(BoardCell{ CellIndex{ 3, 'c' }, whiteCellTexture, nullptr });
 
     Board board{ std::move(set) };
 
     try
     {
-        auto& cell = board[BoardCell::Index{ 2, 'b' }];
+        auto& cell = board[CellIndex{ 2, 'b' }];
 
         const auto& currenPiece = cell.GetPiece();
 
         std::cout << static_cast<std::uint16_t>(currenPiece->GetSide()) << '\n';
 
         const auto& index = cell.GetIndex();
-        std::cout << "Column: " << static_cast<std::uint16_t>(index.first) 
-            << " Row: " << index.second << std::endl;
+        std::cout << "Column: " << static_cast<std::uint16_t>(index.GetHorizontal()) 
+            << " Row: " << index.GetVertical() << std::endl;
     }
     catch(const std::exception& exp)
     {

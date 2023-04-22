@@ -7,7 +7,20 @@ PieceMove::PieceMove(const DefaultMove& defaultMove)
 {}
 
 bool PieceMove::CheckRequirements(const Board& board,
-	const BoardCell& initial, const BoardCell & final) const noexcept
+	const BoardCell& initial, const BoardCell& final) const noexcept(false)
 {
+	const auto& iPiece = initial.GetPiece();
+	const auto& fPiece = final.GetPiece();
+
+	if (fPiece && iPiece->GetSide() == fPiece->GetSide())
+	{
+		return false;
+	}
+
+	const DefaultMove move{ final - initial };
+
+	for (CellIndex i{ initial.GetIndex() }; i != final.GetIndex(); i = i + move);
+
+
 	return true;
 }
