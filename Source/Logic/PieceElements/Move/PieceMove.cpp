@@ -12,7 +12,7 @@ bool PieceMove::CheckRequirements(const Board& board,
 	const auto& iPiece = initial.GetPiece();
 	const auto& fPiece = final.GetPiece();
 
-	if (fPiece && iPiece->GetSide() == fPiece->GetSide())
+	if (!final.IsFree() && iPiece.GetSide() == fPiece.GetSide())
 	{
 		return false;
 	}

@@ -1,6 +1,6 @@
 #include "Piece.hpp"
 
-Piece::Piece(const sf::Texture& texture, Side side)
+Piece::Piece(const sf::Texture& texture, const Side side)
 	: m_Sprite{ texture }, m_Side{ side }
 {}
 

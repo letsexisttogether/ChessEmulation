@@ -11,45 +11,23 @@
 
 int main()
 {
-    const auto loadTexture = [](sf::Texture& texture, const std::string& path) 
     {
-        if (texture.loadFromFile(path))
+        const auto loadTexture = [](sf::Texture& texture, const std::string& path) 
         {
-            std::cout << "The path is incorrect" << std::endl;
-        }
-    };
+            if (!texture.loadFromFile(path))
+            {
+                std::cout << "The path is incorrect" << std::endl;
+            }
+        };
 
-    sf::Texture whiteCellTexture{};
-    loadTexture(whiteCellTexture, "D:/Important/Programming/Solo/Projects/ChessEmulation/Resourses/queen.png");
+        sf::Texture whiteCellTexture{};
+        loadTexture(whiteCellTexture, "D:/Important/Programming/Solo/Projects/ChessEmulation/Resourses/queen.png");
 
+        BoardCell cell{ CellIndex{ 1, 'a' }, whiteCellTexture, std::unique_ptr<Piece>{ new Piece{ whiteCellTexture, Side::WHITE } } };
 
-    std::shared_ptr<Piece> piece{ std::make_shared<Piece>(whiteCellTexture, Side::WHITE) };
-
-    Board::CellSet set{};
-
-    set.insert(BoardCell{ CellIndex{ 1, 'a' }, whiteCellTexture, piece});
-    set.insert(BoardCell{ CellIndex{ 2, 'b' }, whiteCellTexture, nullptr });
-    set.insert(BoardCell{ CellIndex{ 3, 'c' }, whiteCellTexture, nullptr });
-
-    Board board{ std::move(set) };
-
-    try
-    {
-        auto& cell = board[CellIndex{ 2, 'b' }];
-
-        const auto& currenPiece = cell.GetPiece();
-
-        std::cout << static_cast<std::uint16_t>(currenPiece->GetSide()) << '\n';
-
-        const auto& index = cell.GetIndex();
-        std::cout << "Column: " << static_cast<std::uint16_t>(index.GetHorizontal()) 
-            << " Row: " << index.GetVertical() << std::endl;
+        std::cout << "Pre end\n";
     }
-    catch(const std::exception& exp)
-    {
-        std::cerr << exp.what() << '\n';
-    }
-    
 
+    std::cout << "End" << std::endl; 
     return 0;
 }

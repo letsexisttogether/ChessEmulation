@@ -10,10 +10,10 @@ class Piece : public sf::Drawable
 {
 public:
 	Piece() = delete;
-	Piece(const Piece&) = delete;
-	Piece(Piece&&) = delete;
+	Piece(const Piece&) = default;
+	Piece(Piece&& piece) = default;
 
-	Piece(const sf::Texture& texture, Side side);
+	Piece(const sf::Texture& texture, const Side side);
 
 	virtual ~Piece() = default;
 
@@ -29,8 +29,8 @@ public:
 	Piece& operator = (Piece&&) = delete;
 	
 protected:
-	Side m_Side{};
-	sf::Sprite m_Sprite{};
+	Side m_Side;
+	sf::Sprite m_Sprite;
 
 	// Includes default moves and attacks
 	// std::vector<PieceMove> m_AllPossibleMoves{};
