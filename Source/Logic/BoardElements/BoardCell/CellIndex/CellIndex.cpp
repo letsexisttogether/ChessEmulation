@@ -64,3 +64,8 @@ CellIndex CellIndex::operator + (const DefaultMove& move) const noexcept(false)
     
     return {};
 }
+
+CellIndex& CellIndex::operator += (const DefaultMove &move) noexcept(false)
+{
+    return (*this = *this + move);
+}

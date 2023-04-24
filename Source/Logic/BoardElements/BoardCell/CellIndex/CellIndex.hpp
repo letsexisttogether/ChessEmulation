@@ -32,6 +32,7 @@ public:
 
     // Exceptions allowed for tests
     CellIndex operator + (const DefaultMove& move) const noexcept(false);
+    CellIndex& operator += (const DefaultMove& move) noexcept(false); 
     
 private: 
     ValueType m_Value{};

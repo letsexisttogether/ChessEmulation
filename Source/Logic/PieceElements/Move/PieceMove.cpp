@@ -19,7 +19,10 @@ bool PieceMove::CheckRequirements(const Board& board,
 
 	const DefaultMove move{ final - initial };
 
-	for (CellIndex i{ initial.GetIndex() }; i != final.GetIndex(); i = i + move);
+	for (CellIndex i{ initial.GetIndex() }; i != final.GetIndex(); i += move)
+	{
+		const auto& currentCell = board[i];
+	}
 
 
 	return true;

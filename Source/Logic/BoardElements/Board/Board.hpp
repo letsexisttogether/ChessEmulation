@@ -22,8 +22,7 @@ public:
     Board& operator = (const Board&) = delete;
     Board& operator = (Board&&) = delete;
     
-
-    BoardCell& operator [] (const CellIndex& index) noexcept(false);
+    const BoardCell& operator [] (const CellIndex& index) const noexcept(false);
 
 private:
 	CellSet m_Cells;
