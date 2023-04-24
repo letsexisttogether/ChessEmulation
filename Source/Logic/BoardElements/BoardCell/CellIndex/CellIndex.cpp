@@ -23,8 +23,18 @@ bool CellIndex::operator != (const CellIndex &index) const noexcept
 
 CellIndex CellIndex::operator + (const DefaultMove& move) const noexcept(false)
 {
-    switch (const auto& distance = move.GetDistance(); move.GetMoveDirection())
+    const auto& distance = move.GetDistance(); 
+
+    if (m_Value.first < distance.first || m_Value.second < distance.second)
     {
+        throw std::invalid_argument{ "The MoveDirection was calculated incorrectly" };
+    }
+
+    switch (move.GetMoveDirection())
+    {
+    case MoveDirection::NONE:
+        return (*this);
+
     case MoveDirection::UP:
         return { static_cast<ColumnType>(m_Value.first + distance.first), m_Value.second };
     case MoveDirection::DOWN:
@@ -35,9 +45,21 @@ CellIndex CellIndex::operator + (const DefaultMove& move) const noexcept(false)
         return { m_Value.first, static_cast<RowType>(m_Value.second - distance.second) };
     
     // Add the other move types when CellIndex is inserted to every place it should be at
+    case MoveDirection::UP_RIGHT:
+        return { static_cast<ColumnType>(m_Value.first + distance.first), 
+            static_cast<RowType>(m_Value.second + distance.second ) };
+    case MoveDirection::UP_LEFT:
+        return { static_cast<ColumnType>(m_Value.first + distance.first), 
+                static_cast<RowType>(m_Value.second - distance.second ) };
+    case MoveDirection::DOWN_RIGHT:
+        return { static_cast<ColumnType>(m_Value.first - distance.first),
+            static_cast<RowType>(m_Value.second + distance.second) };
+    case MoveDirection::DOWN_LEFT: 
+        return { static_cast<ColumnType>(m_Value.first - distance.first),
+            static_cast<RowType>(m_Value.second - distance.second ) };
 
     default:
-        throw std::runtime_error{ "Unknown move type passed" };
+        throw std::invalid_argument{ "Unknown MoveDirection found" };
     }
     
     return {};
