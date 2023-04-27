@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "Logic/PieceElements/Move/DefaultMove/DefaultMove.hpp"
+#include "Logic/PieceElements/Move/MoveSpecs/MoveSpecs.hpp"
 
 class CellIndex
 {
@@ -31,8 +31,8 @@ public:
     bool operator != (const CellIndex& index) const noexcept;
 
     // Exceptions allowed for tests
-    CellIndex operator + (const DefaultMove& move) const noexcept(false);
-    CellIndex& operator += (const DefaultMove& move) noexcept(false); 
+    CellIndex operator + (const MoveSpecs& move) const noexcept(false);
+    CellIndex& operator += (const MoveSpecs& move) noexcept(false); 
     
 private: 
     ValueType m_Value{};

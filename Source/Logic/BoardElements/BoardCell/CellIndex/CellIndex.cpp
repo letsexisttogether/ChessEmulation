@@ -21,7 +21,7 @@ bool CellIndex::operator != (const CellIndex &index) const noexcept
     return !(*this == index);
 }
 
-CellIndex CellIndex::operator + (const DefaultMove& move) const noexcept(false)
+CellIndex CellIndex::operator + (const MoveSpecs& move) const noexcept(false)
 {
     const auto& distance = move.GetDistance(); 
 
@@ -65,7 +65,7 @@ CellIndex CellIndex::operator + (const DefaultMove& move) const noexcept(false)
     return {};
 }
 
-CellIndex& CellIndex::operator += (const DefaultMove &move) noexcept(false)
+CellIndex& CellIndex::operator += (const MoveSpecs &move) noexcept(false)
 {
     return (*this = *this + move);
 }

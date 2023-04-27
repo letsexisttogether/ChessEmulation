@@ -33,36 +33,36 @@ void BoardCell::FitPiece() noexcept(false)
 	m_Piece->SetScreenPosition(pieceNewPosition);
 }
 
-DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept
+MoveSpecs BoardCell::operator - (const BoardCell &cell) const noexcept
 {
 	const std::int8_t vericalDiff = m_Index.GetHorizontal() - cell.m_Index.GetHorizontal();
 	const std::int8_t horizontalDiff = m_Index.GetVertical() - cell.m_Index.GetVertical();
 
 	if (!vericalDiff && !horizontalDiff)
 	{
-		return DefaultMove{ MoveDirection::NONE, 
-			DefaultMove::Distance{ vericalDiff, vericalDiff } };
+		return MoveSpecs{ MoveDirection::NONE, 
+			MoveSpecs::Distance{ vericalDiff, vericalDiff } };
 	}
 
 	if(!vericalDiff)
 	{
 		return { ((horizontalDiff < 0) ? (MoveDirection::RIGHT) : (MoveDirection::LEFT)), 
-			DefaultMove::Distance{ vericalDiff, std::abs(horizontalDiff) } };
+			MoveSpecs::Distance{ vericalDiff, std::abs(horizontalDiff) } };
 	}
 	if (!horizontalDiff)
 	{
 		return { ((vericalDiff < 0) ? (MoveDirection::UP) : (MoveDirection::DOWN)), 
-			DefaultMove::Distance{ std::abs(vericalDiff), horizontalDiff } };
+			MoveSpecs::Distance{ std::abs(vericalDiff), horizontalDiff } };
 	}
 
 	if (vericalDiff < 0)
 	{
 		return { ((horizontalDiff < 0) ? (MoveDirection::UP_RIGHT) : (MoveDirection::UP_LEFT)), 
-			DefaultMove::Distance{ std::abs(vericalDiff), std::abs(horizontalDiff) } };
+			MoveSpecs::Distance{ std::abs(vericalDiff), std::abs(horizontalDiff) } };
 	}
 
 	return { ((horizontalDiff < 0) ? (MoveDirection::DOWN_RIGHT) : (MoveDirection::DOWN_LEFT)), 
-		DefaultMove::Distance{ vericalDiff, std::abs(horizontalDiff) } };
+		MoveSpecs::Distance{ vericalDiff, std::abs(horizontalDiff) } };
 }
 
 std::size_t BoardCell::Hash::operator() (const BoardCell& cell) const noexcept

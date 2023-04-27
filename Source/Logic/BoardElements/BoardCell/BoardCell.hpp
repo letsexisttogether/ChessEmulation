@@ -31,7 +31,7 @@ public:
  	BoardCell& operator = (const BoardCell&) = delete;
 	BoardCell& operator = (BoardCell&&) = delete;
 
-	DefaultMove operator - (const BoardCell& cell) const noexcept;
+	MoveSpecs operator - (const BoardCell& cell) const noexcept;
 
 public:
 	struct Hash
