@@ -9,21 +9,20 @@ PieceMove::PieceMove(const DefaultMove& defaultMove)
 bool PieceMove::CheckRequirements(const Board& board,
 	const BoardCell& initial, const BoardCell& final) const noexcept(false)
 {
-	const auto& iPiece = initial.GetPiece();
-	const auto& fPiece = final.GetPiece();
-
-	if (!final.IsFree() && iPiece.GetSide() == fPiece.GetSide())
+	if (!final.IsFree() && initial.GetPiece().GetSide() == final.GetPiece().GetSide())
 	{
 		return false;
 	}
 
 	const DefaultMove move{ final - initial };
 
-	for (CellIndex i{ initial.GetIndex() }; i != final.GetIndex(); i += move)
+	for (CellIndex i{ initial.GetIndex() + move }; i != final.GetIndex(); i += move)
 	{
-		const auto& currentCell = board[i];
+		if (!board[i].IsFree())
+		{
+			return false;
+		}
 	}
-
 
 	return true;
 }
