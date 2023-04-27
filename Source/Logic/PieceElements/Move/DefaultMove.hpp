@@ -11,9 +11,9 @@ class DefaultMove
 public:
 	DefaultMove() = delete;
 	DefaultMove(const DefaultMove&) = delete;
-	DefaultMove(DefaultMove&&) = delete;
+	DefaultMove(DefaultMove&&) = default;
 
-	DefaultMove(const MoveSpecs& defaultMove);
+	DefaultMove(const MoveSpecs& specs);
 
 	virtual ~DefaultMove() = default;
 
@@ -29,5 +29,5 @@ public:
 	DefaultMove& operator = (DefaultMove&&) = delete;
 
 protected:
-	MoveSpecs m_DefaultMove;
+	const MoveSpecs m_DefaultMove;
 };

@@ -2,8 +2,8 @@
 
 #include "Logic/BoardElements/Board/Board.hpp"
 
-DefaultMove::DefaultMove(const MoveSpecs& defaultMove)
-	: m_DefaultMove{ defaultMove }
+DefaultMove::DefaultMove(const MoveSpecs& specs)
+	: m_DefaultMove{ specs }
 {}
 
 bool DefaultMove::CheckRequirements(const Board& board,
