@@ -26,3 +26,13 @@ bool PieceMove::CheckRequirements(const Board& board,
 
 	return true;
 }
+
+void PieceMove::HandleMove(BoardCell& initial, BoardCell& final) const noexcept
+{
+	if (!final.IsFree())
+	{	
+		// DeadBoard logic
+	}
+
+	final.SetPiece(initial);
+}
