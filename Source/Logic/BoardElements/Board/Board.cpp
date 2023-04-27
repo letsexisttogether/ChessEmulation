@@ -6,7 +6,17 @@ Board::Board(CellSet&& cells)
     : m_Cells{ std::move(cells) }
 {}
 
-const BoardCell& Board::operator[] (const CellIndex& index) const noexcept(false)
+const BoardCell& Board::operator[](const CellIndex& index) const noexcept(false)
+{
+    return GetCell(index);
+}
+
+BoardCell& Board::operator[](const CellIndex &index) noexcept(false)
+{
+    return GetCell(index);
+}
+
+BoardCell& Board::GetCell(const CellIndex &index) const noexcept(false)
 {
     auto findByIndexFunc = [&](const BoardCell& cell)
     {
@@ -20,6 +30,6 @@ const BoardCell& Board::operator[] (const CellIndex& index) const noexcept(false
         throw std::runtime_error{ "There is not a cell with index like that" };
     }
 
-    // Const is experemental here
-    return *it;
+    return const_cast<BoardCell&>(*it);
 }
+
