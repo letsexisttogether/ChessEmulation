@@ -6,27 +6,27 @@
 class Board;
 class BoardCell;
 
-class PieceMove
+class DefaultMove
 {
 public:
-	PieceMove() = delete;
-	PieceMove(const PieceMove&) = delete;
-	PieceMove(PieceMove&&) = delete;
+	DefaultMove() = delete;
+	DefaultMove(const DefaultMove&) = delete;
+	DefaultMove(DefaultMove&&) = delete;
 
-	PieceMove(const MoveSpecs& defaultMove);
+	DefaultMove(const MoveSpecs& defaultMove);
 
-	virtual ~PieceMove() = default;
+	virtual ~DefaultMove() = default;
 
 	// Exceptions allowed to make tests 
 	virtual bool CheckRequirements(const Board& board, 
 		const BoardCell& initial, const BoardCell& final) const noexcept(false);
 
-	virtual void HandleMove(BoardCell& initial, BoardCell& final /* DeadBoard deadBoard*/) const noexcept; 
+	virtual void HandleMove(Board& board, BoardCell& initial, BoardCell& final /* DeadBoard& deadBoard*/) const noexcept; 
 
 	inline const MoveSpecs& GetMoveSpecs() const noexcept { return m_DefaultMove; }
 
-	PieceMove& operator = (const PieceMove&) = delete;
-	PieceMove& operator = (PieceMove&&) = delete;
+	DefaultMove& operator = (const DefaultMove&) = delete;
+	DefaultMove& operator = (DefaultMove&&) = delete;
 
 protected:
 	MoveSpecs m_DefaultMove;

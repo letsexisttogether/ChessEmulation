@@ -1,12 +1,12 @@
-#include "PieceMove.hpp"
+#include "DefaultMove.hpp"
 
 #include "Logic/BoardElements/Board/Board.hpp"
 
-PieceMove::PieceMove(const MoveSpecs& defaultMove)
+DefaultMove::DefaultMove(const MoveSpecs& defaultMove)
 	: m_DefaultMove{ defaultMove }
 {}
 
-bool PieceMove::CheckRequirements(const Board& board,
+bool DefaultMove::CheckRequirements(const Board& board,
 	const BoardCell& initial, const BoardCell& final) const noexcept(false)
 {
 	if (!final.IsFree() && initial.GetPiece().GetSide() == final.GetPiece().GetSide())
@@ -27,7 +27,7 @@ bool PieceMove::CheckRequirements(const Board& board,
 	return true;
 }
 
-void PieceMove::HandleMove(BoardCell& initial, BoardCell& final) const noexcept
+void DefaultMove::HandleMove(Board& board, BoardCell& initial, BoardCell& final) const noexcept
 {
 	if (!final.IsFree())
 	{	

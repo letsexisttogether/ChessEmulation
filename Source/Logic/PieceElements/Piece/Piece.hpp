@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "Side.hpp"
-#include "Logic/PieceElements/Move/PieceMove.hpp"
+#include "Logic/PieceElements/Move/DefaultMove.hpp"
 
 class Piece : public sf::Drawable
 {
