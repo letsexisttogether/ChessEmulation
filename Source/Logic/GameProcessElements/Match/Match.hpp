@@ -7,6 +7,8 @@
 class Match
 {
 public:
+    using TurnCounter = std::uint16_t;
+public:
 	Match() = delete;
 	Match(const Match&) = default;
 	Match(Match&&) = default;
@@ -24,13 +26,15 @@ public:
 	Match& operator = (Match&&) = delete;
 
 private:
+    Side m_CurrentTurn;
+    TurnCounter m_TurnCounter{};
+
 	Board m_MainBoard;
 	Board m_DeadBoard;
 	
 	Player m_WhitePlayer;
 	Player m_BlackPlayer;
 	
-	Side m_CurrentTurn;
 
 	friend class GameProcess;
 };

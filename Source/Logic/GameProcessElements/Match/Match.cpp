@@ -7,10 +7,14 @@ Match::Match(Board&& mainBoard, Board&& deadBoard, const Player& whitePlayer, co
 
 void Match::ChangeTurn() noexcept
 {
-	m_CurrentTurn = ((m_CurrentTurn == Side::BLACK) ? (Side::WHITE) : (Side::BLACK));
+	m_CurrentTurn = ((m_CurrentTurn == Side::BLACK) ? 
+            (Side::WHITE) : (Side::BLACK));
+
+    ++m_TurnCounter;
 }
 
 const Player& Match::GetCurrentPlayer() const noexcept
 {
-	return ((m_CurrentTurn == Side::BLACK) ? (m_BlackPlayer) : (m_WhitePlayer));
+	return ((m_CurrentTurn == Side::BLACK) ? 
+            (m_BlackPlayer) : (m_WhitePlayer));
 }

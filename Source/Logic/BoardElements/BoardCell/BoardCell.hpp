@@ -32,6 +32,7 @@ public:
  	BoardCell& operator = (const BoardCell&) = delete;
 	BoardCell& operator = (BoardCell&&) = delete;
 
+    // Depricate this piece of mastershit
 	bool operator < (const BoardCell& cell) const noexcept;
 	bool operator > (const BoardCell& cell) const noexcept;
 	

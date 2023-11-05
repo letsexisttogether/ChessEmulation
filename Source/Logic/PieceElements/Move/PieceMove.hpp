@@ -18,7 +18,8 @@ public:
 	virtual ~PieceMove() = default;
 
 	virtual bool CheckRequirements(const Board& board, 
-		const BoardCell& initial, const BoardCell& final) const noexcept;
+		const BoardCell& initial, const BoardCell& final, 
+        const std::uint16_t currentMove) const noexcept;
 
 	PieceMove& operator = (const PieceMove&) = delete;
 	PieceMove& operator = (PieceMove&&) = delete;
