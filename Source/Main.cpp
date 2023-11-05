@@ -2,31 +2,32 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-#include "SFML/Graphics/Texture.hpp"
-#include "SFML/Window/Mouse.hpp"
-
-
 #include "UI/Buttons/SimpleButton/SimpleButton.hpp"
+#include "Control/MouseController/MouseController.hpp"
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Example");
 
-    sf::CircleShape shape(50); 
-    shape.setFillColor(sf::Color::Green); 
-    shape.setPosition(50.f, 50.f);
+    std::unique_ptr<Controller> controller{ new MouseController{ window } };
 
     sf::Texture texture{};
     texture.loadFromFile("D:/Important/Programming/Solo/ChessEmulation/Resourses/button.png");
 
-    std::unique_ptr<Button<void>> button{ new SimpleButton<void, const std::int32_t>
-    { 
-        texture, 
-        sf::Vector2f{ 50.f, 100.f },
-        [](const std::int32_t value) -> void { std::cout << "The name is Alex " 
-            << "The age is " << value << std::endl; },
-        20
-    }};
+    using MenuButton = std::unique_ptr<Button<void>>;
+
+    std::vector<MenuButton> buttons{};
+
+    buttons.push_back(MenuButton{ new SimpleButton<void>
+            {
+                texture, { 50.f, 100.f },
+                [&]() -> void { window.clear(sf::Color::Green); }
+            }});
+    buttons.push_back(MenuButton{ new SimpleButton<void>
+            {
+                texture, { 50.f, 300.f },
+                [&]() -> void { window.clear(sf::Color::Blue); }
+            }});
 
     while (window.isOpen()) 
     {
@@ -38,18 +39,23 @@ int main()
             {
                 window.close();
             }
-            if (type == sf::Event::MouseButtonReleased 
-                    && event.mouseButton.button == sf::Mouse::Left 
-                    && button->IsIntersected(sf::Mouse::getPosition(window)))
+
+            for (const auto& button : buttons)
             {
-                button->Press();
+                if (controller->IsActive(event) 
+                        && button->IsIntersected(*controller))
+                {
+                    button->OnPress();
+                }
+
             }
+
         }
 
-        window.clear();
-
-        window.draw(shape);
-        window.draw(*button.get());
+        for (const auto& button : buttons)
+        {
+            window.draw(*button);
+        }
 
         window.display();
 

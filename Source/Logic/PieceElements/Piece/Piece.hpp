@@ -34,7 +34,6 @@ public:
 	
 protected:
 	Side m_Side{};
-    BoardCell& m_Cell;
 	sf::Sprite m_Sprite{};
     std::vector<PieceMove> m_Moves;
 
