@@ -1,14 +1,14 @@
 #pragma once
 
 #include <functional>
+#include <tuple>
 
 #include "SFML/System/Vector2.hpp"
 #include "UI/Buttons/Button.hpp"
 
-template<class _Result, class ... _Argc>
-class SimpleButton : public Button
-{
-public: 
+template <class _Result, class... _Argc>
+class SimpleButton : public Button<_Result> {
+public:
     using Delegate = std::function<_Result(_Argc...)>;
 
 public:
@@ -16,18 +16,26 @@ public:
     SimpleButton(const SimpleButton&) = delete;
     SimpleButton(SimpleButton&&) = delete;
 
-    SimpleButton(const sf::Texture& texture, const Delegate& delegate)
-        : Button{ texture }, m_Delegate{ delegate }
+    SimpleButton(const Delegate& delegate, _Argc... argc)
+        : m_Delegate{ delegate }, m_Argc{ std::make_tuple(argc...) }
     {}
-    SimpleButton(const sf::Texture& texture, Delegate&& delegate)
-        : Button{ texture }, m_Delegate{ std::move(delegate) }
+
+    SimpleButton(const sf::Texture& texture, const Delegate& delegate, _Argc... argc)
+        : Button<_Result>{ texture }, m_Delegate{ delegate }, 
+            m_Argc{ std::make_tuple(argc...) }
+    {}
+
+    SimpleButton(const sf::Texture& texture, const sf::Vector2f& position, 
+            const Delegate& delegate, _Argc... argc)
+        : Button<_Result>{ texture, position }, m_Delegate{ delegate }, 
+            m_Argc{ std::make_tuple(argc...) }
     {}
 
     ~SimpleButton() = default;
 
-    void Press() noexcept override
+    _Result Press() noexcept override 
     {
-        m_Delegate();
+        return std::apply(m_Delegate, m_Argc);
     }
 
     bool IsIntersected(const sf::Vector2i& mousePosition) const noexcept override
@@ -51,10 +59,11 @@ public:
                 && mousePosition.y >= leftUpBorder.y 
                 && mousePosition.y <= rightDownBorder.y);
     }
-    
-    SimpleButton& operator = (const SimpleButton&) = delete;
-    SimpleButton& operator = (SimpleButton&&) = delete;
+
+    SimpleButton& operator=(const SimpleButton&) = delete;
+    SimpleButton& operator=(SimpleButton&&) = delete;
 
 private:
     Delegate m_Delegate;
+    std::tuple<_Argc...> m_Argc;
 };

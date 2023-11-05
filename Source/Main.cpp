@@ -19,13 +19,14 @@ int main()
     sf::Texture texture{};
     texture.loadFromFile("D:/Important/Programming/Solo/ChessEmulation/Resourses/button.png");
 
-    std::unique_ptr<Button> button{ new SimpleButton<void>
+    std::unique_ptr<Button<void>> button{ new SimpleButton<void, const std::int32_t>
     { 
         texture, 
-        []() -> void { std::cout << "The name is Alex" << std::endl; } 
+        sf::Vector2f{ 50.f, 100.f },
+        [](const std::int32_t value) -> void { std::cout << "The name is Alex " 
+            << "The age is " << value << std::endl; },
+        20
     }};
-
-    button->setPosition(50.f, 100.f);
 
     while (window.isOpen()) 
     {
