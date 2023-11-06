@@ -13,6 +13,8 @@ public:
 
 public:
 	BoardCell() = delete;
+
+    // Change it latter mb
 	BoardCell(const BoardCell&) = default;
 	BoardCell(BoardCell&& cell) = default;
 
@@ -32,24 +34,17 @@ public:
  	BoardCell& operator = (const BoardCell&) = delete;
 	BoardCell& operator = (BoardCell&&) = delete;
 
-    // Depricate this piece of mastershit
-	bool operator < (const BoardCell& cell) const noexcept;
-	bool operator > (const BoardCell& cell) const noexcept;
-	
-	bool operator == (const BoardCell& cell) const noexcept;
-	bool operator != (const BoardCell& cell) const noexcept;
-
 	DefaultMove operator - (const BoardCell& cell) const noexcept(false);
 
 public:
 	struct IndexHash
 	{
-  		std::size_t operator()(const BoardCell& cell) const noexcept;
+  		std::size_t operator() (const BoardCell& cell) const noexcept;
 	};
 
 	struct IndexEqual 
 	{
-  		bool operator()(const BoardCell& fCell, const BoardCell& sCell) const noexcept;
+  		bool operator() (const BoardCell& fCell, const BoardCell& sCell) const noexcept;
 	};
 
 

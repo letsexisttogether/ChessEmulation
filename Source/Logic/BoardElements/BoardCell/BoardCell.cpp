@@ -33,32 +33,10 @@ void BoardCell::FitPiece() noexcept(false)
 	m_Piece->SetScreenPosition(pieceNewPosition);
 }
 
-bool BoardCell::operator < (const BoardCell &cell) const noexcept
-{
-    return (m_Index.first < cell.m_Index.first && m_Index.second == cell.m_Index.second
-		|| m_Index.first == cell.m_Index.first && m_Index.second < cell.m_Index.second);
-}
-
-bool BoardCell::operator > (const BoardCell &cell) const noexcept
-{
-    return (m_Index.first > cell.m_Index.first && m_Index.second == cell.m_Index.second
-		|| m_Index.first == cell.m_Index.first && m_Index.second > cell.m_Index.second);
-}
-
-bool BoardCell::operator == (const BoardCell &cell) const noexcept
-{
-    return m_Index == cell.m_Index;
-}
-
-bool BoardCell::operator != (const BoardCell &cell) const noexcept
-{
-    return !(*this == cell);
-}
-
 DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept(false)
 {
-	const int8_t vericalDiff = m_Index.first - cell.m_Index.first;
-	const int8_t horizontalDiff = m_Index.second - cell.m_Index.second;
+	const std::int8_t vericalDiff = m_Index.first - cell.m_Index.first;
+	const std::int8_t horizontalDiff = m_Index.second - cell.m_Index.second;
 
 	if (!vericalDiff && !horizontalDiff)
 	{

@@ -16,18 +16,26 @@ int main()
 
     using MenuButton = std::unique_ptr<Button<void>>;
 
-    std::vector<MenuButton> buttons{};
-
-    buttons.push_back(MenuButton{ new SimpleButton<void>
+    std::vector<MenuButton> buttons
+    {
+        MenuButton
+        { 
+            new SimpleButton<void>
             {
-                texture, { 50.f, 100.f },
+                texture, sf::Vector2f{ 50.f, 100.f },
                 [&]() -> void { window.clear(sf::Color::Green); }
-            }});
-    buttons.push_back(MenuButton{ new SimpleButton<void>
+            }
+        },
+        MenuButton
+        { 
+            new SimpleButton<void>
             {
-                texture, { 50.f, 300.f },
+                texture, sf::Vector2f{ 50.f, 300.f },
                 [&]() -> void { window.clear(sf::Color::Blue); }
-            }});
+            }
+        }
+    };
+
 
     while (window.isOpen()) 
     {
