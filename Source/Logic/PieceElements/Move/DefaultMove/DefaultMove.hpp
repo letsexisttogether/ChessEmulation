@@ -9,6 +9,7 @@ class DefaultMove
 {
 public:
     using Distance = std::pair<std::uint8_t, std::uint8_t>;
+
 public:
 	DefaultMove() = delete;
 	DefaultMove(const DefaultMove&) = default;
@@ -17,8 +18,8 @@ public:
 	DefaultMove(const MoveDirection movePossibility, 
             const Distance& distance);
 
-	inline const MoveDirection& GetMovePossibility() const noexcept 
-        { return m_MovePossibility; }
+	inline const MoveDirection& GetDirection() const noexcept 
+        { return m_Direction; }
 	
 	inline const Distance& GetDistance() const noexcept 
         { return m_Distance; }
@@ -29,6 +30,6 @@ public:
 	DefaultMove& operator = (DefaultMove&&) = default;
 
 private:
-	MoveDirection m_MovePossibility;
+	MoveDirection m_Direction;
 	Distance m_Distance; 
 };

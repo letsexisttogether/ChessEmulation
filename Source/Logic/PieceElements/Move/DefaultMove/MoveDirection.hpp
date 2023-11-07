@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 enum class MoveDirection : std::uint8_t
 {
 	NONE,
