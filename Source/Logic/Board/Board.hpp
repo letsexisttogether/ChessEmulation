@@ -3,7 +3,7 @@
 #include <vector>
 #include <unordered_set>
 
-#include "Logic/BoardElements/BoardCell/BoardCell.hpp"
+#include "Logic/Board/Cell/BoardCell.hpp"
 
 class Board
 {

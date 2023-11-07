@@ -41,28 +41,32 @@ DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept(false)
 	if (!vericalDiff && !horizontalDiff)
 	{
 		return DefaultMove{ MoveDirection::NONE, 
-			std::pair<uint8_t, uint8_t>{ vericalDiff, vericalDiff } };
+			DefaultMove::Distance{ vericalDiff, vericalDiff } };
 	}
 
 	if(!vericalDiff)
 	{
-		return DefaultMove{ ((horizontalDiff < 0) ? (MoveDirection::RIGHT) : (MoveDirection::LEFT)), 
-			std::pair<uint8_t, uint8_t>{ vericalDiff, std::abs(horizontalDiff) } };
+		return DefaultMove{ ((horizontalDiff < 0) ? 
+                (MoveDirection::RIGHT) : (MoveDirection::LEFT)), 
+			DefaultMove::Distance{ vericalDiff, std::abs(horizontalDiff) } };
 	}
 	if (!horizontalDiff)
 	{
-		return DefaultMove{ ((vericalDiff < 0) ? (MoveDirection::UP) : (MoveDirection::DOWN)), 
-			std::pair<uint8_t, uint8_t>{ std::abs(vericalDiff), horizontalDiff } };
+		return DefaultMove{ ((vericalDiff < 0) ? 
+                (MoveDirection::UP) : (MoveDirection::DOWN)), 
+			DefaultMove::Distance{ std::abs(vericalDiff), horizontalDiff } };
 	}
 
 	if (vericalDiff < 0)
 	{
-		return DefaultMove{ ((horizontalDiff < 0) ? (MoveDirection::UP_RIGHT) : (MoveDirection::UP_LEFT)), 
-			std::pair<uint8_t, uint8_t>{ std::abs(vericalDiff), std::abs(horizontalDiff) } };
+		return DefaultMove{ ((horizontalDiff < 0) ? 
+                (MoveDirection::UP_RIGHT) : (MoveDirection::UP_LEFT)), 
+			DefaultMove::Distance{ std::abs(vericalDiff), std::abs(horizontalDiff) } };
 	}
 
-	return DefaultMove{ ((horizontalDiff < 0) ? (MoveDirection::DOWN_RIGHT) : (MoveDirection::DOWN_LEFT)), 
-		std::pair<uint8_t, uint8_t>{ vericalDiff, std::abs(horizontalDiff) } };
+	return DefaultMove{ ((horizontalDiff < 0) ? 
+            (MoveDirection::DOWN_RIGHT) : (MoveDirection::DOWN_LEFT)), 
+		DefaultMove::Distance{ vericalDiff, std::abs(horizontalDiff) } };
 }
 
 std::size_t BoardCell::IndexHash::operator()(const BoardCell& cell) const noexcept
