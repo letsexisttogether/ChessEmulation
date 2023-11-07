@@ -1,6 +1,7 @@
 #include "BoardCell.hpp"
 
-BoardCell::BoardCell(const Index &index, const sf::Texture &texture, const std::shared_ptr<Piece>& piece)
+BoardCell::BoardCell(const BoardCellIndex &index, const sf::Texture &texture, 
+        const std::shared_ptr<Piece>& piece)
     : m_Index{ index }, m_Sprite{ texture }, m_Piece{ piece }
 {}
 
@@ -35,8 +36,8 @@ void BoardCell::FitPiece() noexcept(false)
 
 DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept(false)
 {
-	const std::int8_t vericalDiff = m_Index.first - cell.m_Index.first;
-	const std::int8_t horizontalDiff = m_Index.second - cell.m_Index.second;
+	const std::int8_t vericalDiff = m_Index.GetRank() - cell.m_Index.GetRank();
+	const std::int8_t horizontalDiff = m_Index.GetFile() - cell.m_Index.GetFile();
 
 	if (!vericalDiff && !horizontalDiff)
 	{
@@ -69,14 +70,14 @@ DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept(false)
 		DefaultMove::Distance{ vericalDiff, std::abs(horizontalDiff) } };
 }
 
-std::size_t BoardCell::IndexHash::operator()(const BoardCell& cell) const noexcept
+std::size_t BoardCell::IndexHash::operator() (const BoardCell& cell) const noexcept
 {
-    const std::size_t h1 = std::hash<uint8_t>{}(cell.GetIndex().first);
-    const std::size_t h2 = std::hash<char>{}(cell.GetIndex().second);
+    const std::size_t h1 = std::hash<uint8_t>{}(cell.GetIndex().GetRank());
+    const std::size_t h2 = std::hash<char>{}(cell.GetIndex().GetFile());
 	return h1 ^ (h2 << 1);
 }
 
-bool BoardCell::IndexEqual::operator()(const BoardCell& fCell, const BoardCell& sCell) const noexcept
+bool BoardCell::IndexEqual::operator() (const BoardCell& fCell, const BoardCell& sCell) const noexcept
 {
     return fCell.GetIndex() == sCell.GetIndex();
 }

@@ -5,12 +5,10 @@
 #include <utility>
 
 #include "Logic/PieceElements/Piece/Piece.hpp"
+#include "Index/BoardCellIndex.hpp"
 
 class BoardCell
 {
-public:
-	using Index = std::pair<std::uint8_t, char>;
-
 public:
 	BoardCell() = delete;
 
@@ -18,12 +16,12 @@ public:
 	BoardCell(const BoardCell&) = default;
 	BoardCell(BoardCell&& cell) = default;
 
-	BoardCell(const Index& index, const sf::Texture& texture,
+	BoardCell(const BoardCellIndex& index, const sf::Texture& texture,
 		const std::shared_ptr<Piece>& piece);
 
 	~BoardCell() = default;
 
-	inline const Index& GetIndex() const noexcept { return m_Index; }
+	inline const BoardCellIndex& GetIndex() const noexcept { return m_Index; }
 
 	inline const std::shared_ptr<Piece>& GetPiece() const noexcept { return m_Piece; }
 	void SetPiece(const std::shared_ptr<Piece>& piece) noexcept;
@@ -47,12 +45,11 @@ public:
   		bool operator() (const BoardCell& fCell, const BoardCell& sCell) const noexcept;
 	};
 
-
 protected: 
 	void FitPiece() noexcept(false);
 
 protected:
-	const Index m_Index;
+	const BoardCellIndex m_Index;
 	std::shared_ptr<Piece> m_Piece;
 	
 	sf::Sprite m_Sprite;
