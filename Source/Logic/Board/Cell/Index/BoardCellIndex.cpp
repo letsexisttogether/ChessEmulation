@@ -5,7 +5,14 @@ BoardCellIndex::BoardCellIndex(const Rank rank, const File file)
     : m_Rank{ rank }, m_File{ file }
 {}
 
-BoardCellIndex BoardCellIndex::operator + (const BoardCellIndex& index) noexcept
+bool BoardCellIndex::operator == (const BoardCellIndex& index)
+    const noexcept
+{
+    return m_Rank == index.m_Rank && m_File == index.m_File;
+}
+
+BoardCellIndex BoardCellIndex::operator + (const BoardCellIndex& index) 
+    const noexcept
 {
     return 
     { 
@@ -31,7 +38,8 @@ BoardCellIndex& BoardCellIndex::operator ++ () noexcept
 }
 
 
-BoardCellIndex BoardCellIndex::operator - (const BoardCellIndex& index) noexcept
+BoardCellIndex BoardCellIndex::operator - (const BoardCellIndex& index) 
+    const noexcept
 {
     return 
     {
