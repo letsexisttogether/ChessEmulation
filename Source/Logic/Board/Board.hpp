@@ -8,7 +8,8 @@
 class Board
 {
 public: 
-    using CellSet = std::unordered_set<BoardCell, BoardCell::IndexHash, BoardCell::IndexEqual>;
+    using CellSet = std::unordered_set<BoardCell, 
+          BoardCell::IndexHash, BoardCell::IndexEqual>;
 
 public:
     Board() = delete;
@@ -23,7 +24,7 @@ public:
     Board& operator = (Board&&) = delete;
     
 
-    BoardCell& operator [] (const BoardCell::Index& index) noexcept(false);
+    BoardCell& operator [] (const BoardCellIndex& index) noexcept(false);
 
 private:
 	CellSet m_Cells;

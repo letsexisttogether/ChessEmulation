@@ -6,7 +6,7 @@ Board::Board(CellSet&& cells)
     : m_Cells{ std::move(cells) }
 {}
 
-BoardCell& Board::operator[] (const BoardCell::Index& index) noexcept(false)
+BoardCell& Board::operator[] (const BoardCellIndex& index) noexcept(false)
 {
     auto findByIndexFunc = [&](const BoardCell& cell)
     {
