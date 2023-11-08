@@ -6,7 +6,6 @@
 // I've changed my mind: forward-declaration is really a good thing
 class Board;
 class BoardCell;
-enum class Side;
 
 class BasicMove
 {

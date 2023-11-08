@@ -1,6 +1,7 @@
 #include "BasicMove.hpp"
 
 #include "Logic/Board/Board.hpp"
+#include "Logic/PieceElements/Move/DefaultMove/MoveDirection.hpp"
 
 BasicMove::BasicMove(const Board& board, const DefaultMove& defaultMove)
 	: m_Board{ board }, m_DefaultMove{ defaultMove }
@@ -52,17 +53,42 @@ bool BasicMove::CheckObstacles(const BoardCell& initial,
         const BoardCell& final) const noexcept
 {
     const DefaultMove possibleMove = initial - final;
+    const MoveDirection direction = possibleMove.GetDirection();
 
-    // BoardCellIndex::o
-    //   
-    // const MoveDirection direction = possibleMove.GetDirecton();
-    // if (directon == MoveDirection::UP_RIGHT 
-    //     || direction == MoveDirection::UP_LEFT)
-    // {
-    //     
-    // }
-    
-    return false;
+    BoardCellIndex additionIndex{};
+
+    if (direction == MoveDirection::UP_RIGHT || direction == MoveDirection::UP_LEFT)
+    {
+        additionIndex.SetRank(1); 
+    }
+    else if (direction == MoveDirection::DOWN_RIGHT || direction == MoveDirection::DOWN_LEFT)
+    {
+        additionIndex.SetRank(-1);
+    }
+
+    if (direction == MoveDirection::UP_RIGHT || direction == MoveDirection::DOWN_RIGHT)
+    {
+        additionIndex.SetFile(1);
+    }
+    else if (direction == MoveDirection::UP_LEFT || direction == MoveDirection::DOWN_LEFT)
+    {
+        additionIndex.SetFile(-1);
+    }
+
+    for (BoardCellIndex startIndex = initial.GetIndex() + additionIndex, 
+            endIndex = final.GetIndex(); 
+            startIndex && startIndex != endIndex; 
+            startIndex + additionIndex)
+    {
+        const BoardCell& cell = m_Board[startIndex];
+
+        if (!cell.IsFree())
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 
