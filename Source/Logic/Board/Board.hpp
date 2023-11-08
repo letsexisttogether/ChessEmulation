@@ -24,6 +24,7 @@ public:
     Board& operator = (Board&&) = delete;
     
 
+    const BoardCell& operator [] (const BoardCellIndex& index) const noexcept(false);
     BoardCell& operator [] (const BoardCellIndex& index) noexcept(false);
 
 private:
