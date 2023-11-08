@@ -15,7 +15,7 @@ public:
 	DefaultMove(const DefaultMove&) = default;
 	DefaultMove(DefaultMove&&) = default;
 
-	DefaultMove(const MoveDirection movePossibility, 
+	DefaultMove(const MoveDirection direction, 
             const Distance& distance);
 
 	inline const MoveDirection& GetDirection() const noexcept 

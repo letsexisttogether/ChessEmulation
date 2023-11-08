@@ -1,5 +1,8 @@
 #include "BasicMove.hpp"
 
+#include <exception>
+#include <iostream>
+
 #include "Logic/Board/Board.hpp"
 #include "Logic/PieceElements/Move/DefaultMove/MoveDirection.hpp"
 
@@ -11,10 +14,12 @@ MoveEffect BasicMove::CheckRequirements(const BoardCell& initial,
             const BoardCell& final) const noexcept
 {
     const MoveEffect possibleEffect = DefinePossibleMoveEffect(initial, final); 
+    
+    const bool isEffectNone = possibleEffect == MoveEffect::NONE;
+    const bool isDistanceWrong = !CheckDistance(initial, final);
+    const bool isAnyObstacles = !CheckObstacles(initial, final);
 
-    if (possibleEffect == MoveEffect::NONE 
-        || !CheckDistance(initial, final)
-        || !CheckObstacles(initial, final))
+    if (isEffectNone || isDistanceWrong || isAnyObstacles)
     {
         return MoveEffect::NONE;
     }
@@ -36,7 +41,7 @@ bool BasicMove::CheckSameSide(const BoardCell& initial,
 bool BasicMove::CheckDistance(const BoardCell& initial, 
         const BoardCell& final) const noexcept
 {
-    const DefaultMove possibleMove = final - initial;
+    const DefaultMove possibleMove = initial - final;
 
     const DefaultMove::Distance& objDistance = m_DefaultMove.GetDistance();
     const DefaultMove::Distance& possibleMoveDistance = possibleMove.GetDistance();
@@ -57,35 +62,51 @@ bool BasicMove::CheckObstacles(const BoardCell& initial,
 
     BoardCellIndex additionIndex{};
 
-    if (direction == MoveDirection::UP_RIGHT || direction == MoveDirection::UP_LEFT)
+    if (direction == MoveDirection::UP_RIGHT 
+            || direction == MoveDirection::UP_LEFT
+            || direction == MoveDirection::UP)
     {
         additionIndex.SetRank(1); 
     }
-    else if (direction == MoveDirection::DOWN_RIGHT || direction == MoveDirection::DOWN_LEFT)
+    else if (direction == MoveDirection::DOWN_RIGHT 
+            || direction == MoveDirection::DOWN_LEFT
+            || direction == MoveDirection::DOWN)
     {
         additionIndex.SetRank(-1);
     }
 
-    if (direction == MoveDirection::UP_RIGHT || direction == MoveDirection::DOWN_RIGHT)
+    if (direction == MoveDirection::UP_RIGHT 
+            || direction == MoveDirection::DOWN_RIGHT
+            || direction == MoveDirection::RIGHT)
     {
         additionIndex.SetFile(1);
     }
-    else if (direction == MoveDirection::UP_LEFT || direction == MoveDirection::DOWN_LEFT)
+    else if (direction == MoveDirection::UP_LEFT 
+            || direction == MoveDirection::DOWN_LEFT 
+            || direction == MoveDirection::LEFT)
     {
         additionIndex.SetFile(-1);
     }
 
     for (BoardCellIndex startIndex = initial.GetIndex() + additionIndex, 
             endIndex = final.GetIndex(); 
-            startIndex && startIndex != endIndex; 
-            startIndex + additionIndex)
+            additionIndex && startIndex != endIndex; 
+            startIndex = startIndex + additionIndex)
     {
-        const BoardCell& cell = m_Board[startIndex];
+        try
+        {
+            const BoardCell& cell = m_Board[startIndex];
 
-        if (!cell.IsFree())
+            if (!cell.IsFree())
+            {
+                return false;
+            }
+        }
+        catch(std::exception& exp)
         {
             return false;
         }
+
     }
 
     return true;
