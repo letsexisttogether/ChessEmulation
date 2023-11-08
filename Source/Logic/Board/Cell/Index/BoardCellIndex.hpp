@@ -30,6 +30,8 @@ public:
     bool operator == (const BoardCellIndex& index) const noexcept;
     bool operator != (const BoardCellIndex& index) const noexcept;
 
+    operator bool () const noexcept;
+
     BoardCellIndex operator + (const BoardCellIndex& index) const noexcept;
     BoardCellIndex operator ++ (std::int32_t) noexcept;
     BoardCellIndex& operator ++ () noexcept;

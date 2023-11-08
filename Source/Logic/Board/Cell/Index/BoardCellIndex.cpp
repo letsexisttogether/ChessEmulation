@@ -17,6 +17,11 @@ bool BoardCellIndex::operator != (const BoardCellIndex& index)
     return !(*this == index);
 }
 
+BoardCellIndex::operator bool() const noexcept
+{
+    return m_Rank && m_File;
+}
+
 BoardCellIndex BoardCellIndex::operator + (const BoardCellIndex& index) 
     const noexcept
 {
