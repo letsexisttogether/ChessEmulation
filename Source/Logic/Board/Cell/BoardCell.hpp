@@ -10,6 +10,8 @@
 class BoardCell
 {
 public:
+    using PiecePointer = Piece*;
+public:
 	BoardCell() = delete;
 
     // Change it latter mb
@@ -17,16 +19,16 @@ public:
 	BoardCell(BoardCell&& cell) = default;
 
 	BoardCell(const BoardCellIndex& index, const sf::Texture& texture,
-		const std::shared_ptr<Piece>& piece);
+		const PiecePointer& piece);
 
 	~BoardCell() = default;
 
 	inline const BoardCellIndex& GetIndex() const noexcept { return m_Index; }
 
-	inline const std::shared_ptr<Piece>& GetPiece() const noexcept { return m_Piece; }
-	void SetPiece(const std::shared_ptr<Piece>& piece) noexcept;
+	inline const PiecePointer& GetPiece() const noexcept { return m_Piece; }
+	void SetPiece(const PiecePointer& piece) noexcept;
 
-	inline bool IsFree() const noexcept { return static_cast<bool>(m_Piece); }
+	bool IsFree() const noexcept { return !m_Piece; }
 	void FreeCell() noexcept;
 
  	BoardCell& operator = (const BoardCell&) = delete;
@@ -50,7 +52,7 @@ protected:
 
 protected:
 	const BoardCellIndex m_Index;
-	std::shared_ptr<Piece> m_Piece;
+	PiecePointer m_Piece;
 	
 	sf::Sprite m_Sprite;
 };

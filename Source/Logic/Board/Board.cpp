@@ -6,6 +6,11 @@ Board::Board(CellSet&& cells)
     : m_Cells{ std::move(cells) }
 {}
 
+void Board::AddCell(BoardCell&& cell) noexcept
+{
+    m_Cells.insert(cell);
+}
+
 const BoardCell& Board::operator[] (const BoardCellIndex& index) const noexcept(false)
 {
     auto findByIndexFunc = [&](const BoardCell& cell)
@@ -23,7 +28,7 @@ const BoardCell& Board::operator[] (const BoardCellIndex& index) const noexcept(
     return *it;
 }
 
-BoardCell& Board::operator [] (const BoardCellIndex& index) noexcept(false)
+BoardCell& Board::operator[](const BoardCellIndex& index)
 {
-    return const_cast<BoardCell&>((*this)[index]);
+    return const_cast<BoardCell&>(static_cast<const Board&>(*this)[index]);
 }

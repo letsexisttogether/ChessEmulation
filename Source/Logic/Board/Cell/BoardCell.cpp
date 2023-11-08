@@ -1,11 +1,11 @@
 #include "BoardCell.hpp"
 
 BoardCell::BoardCell(const BoardCellIndex &index, const sf::Texture &texture, 
-        const std::shared_ptr<Piece>& piece)
+        const PiecePointer& piece)
     : m_Index{ index }, m_Sprite{ texture }, m_Piece{ piece }
 {}
 
-void BoardCell::SetPiece(const std::shared_ptr<Piece>& piece) noexcept
+void BoardCell::SetPiece(const PiecePointer& piece) noexcept
 {
 	m_Piece = piece; 
 

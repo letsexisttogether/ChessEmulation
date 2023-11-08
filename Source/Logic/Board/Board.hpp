@@ -12,7 +12,7 @@ public:
           BoardCell::IndexHash, BoardCell::IndexEqual>;
 
 public:
-    Board() = delete;
+    Board() = default;
     Board(const Board&) = default;
     Board(Board&&) = default;
 
@@ -20,14 +20,15 @@ public:
 
     ~Board() = default;
 
+    void AddCell(BoardCell&& cell) noexcept;
+    
     Board& operator = (const Board&) = delete;
     Board& operator = (Board&&) = delete;
     
-
     const BoardCell& operator [] (const BoardCellIndex& index) const noexcept(false);
     BoardCell& operator [] (const BoardCellIndex& index) noexcept(false);
 
 private:
-	CellSet m_Cells;
+	CellSet m_Cells{};
 };
  
