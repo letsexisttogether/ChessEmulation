@@ -24,14 +24,14 @@ void BoardCell::FitPiece() noexcept(false)
 		throw std::exception{ "Missing piece on the cell" };
 	}
 
-	const sf::Vector2u pieceHalfSize{ m_Piece->GetTextureSize() / 2u };
+	const sf::Vector2u pieceHalfSize{ m_Piece->getTexture()->getSize() / 2u };
 	const sf::Vector2u cellHalfSize{ m_Sprite.getTexture()->getSize() / 2u };
 	const sf::Vector2f& currentCellPos = m_Sprite.getPosition();
 
 	const sf::Vector2f pieceNewPosition{ currentCellPos.x + cellHalfSize.x - 
         pieceHalfSize.x, currentCellPos.y + cellHalfSize.y - pieceHalfSize.y };
 
-	m_Piece->SetScreenPosition(pieceNewPosition);
+	m_Piece->setPosition(pieceNewPosition);
 }
 
 DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept(false)

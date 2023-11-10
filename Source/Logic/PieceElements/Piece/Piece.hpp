@@ -1,13 +1,14 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <memory>
 #include <vector>
 
-#include "Side.hpp"
+#include "Type/PieceType.hpp"
+#include "Side/Side.hpp"
 #include "Logic/PieceElements/Move/BasicMove.hpp"
 
-class Piece : public sf::Drawable
+class Piece : public sf::Sprite
 {
 public:
     using MovePointer = BasicMove*;
@@ -18,32 +19,23 @@ public:
 	Piece(const Piece&) = delete;
 	Piece(Piece&&) = delete;
 
-	Piece(const sf::Texture& texture, const Side side);
-    Piece(const Side side, const MovesContainer& moves);
+    Piece(const Side side, const PieceType type, 
+            const sf::Texture& texture, const MovesContainer& moves);
 
 	virtual ~Piece() = default;
 
-    // MoveResult
     MoveEffect TryMove(const BoardCell& initial, 
             const BoardCell& final) const noexcept;
 
-	inline const sf::Vector2f& GetScreenPosition() const noexcept { return m_Sprite.getPosition(); }
-	void SetScreenPosition(const sf::Vector2f& position) noexcept;
-
-	inline const Side& GetSide() const noexcept { return m_Side; }
-	inline sf::Vector2u GetTextureSize() const noexcept { return m_Sprite.getTexture()->getSize(); }
+	inline const Side GetSide() const noexcept { return m_Side; }
 	
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
 	Piece& operator = (const Piece&) = delete;
 	Piece& operator = (Piece&&) = delete;
 	
 protected:
 	Side m_Side{};
-	sf::Sprite m_Sprite{};
+    PieceType m_Type{};
     MovesContainer m_Moves{};
-
-
 
     // Old ideas, let's just leave them as that
 

@@ -1,12 +1,11 @@
 #include "Piece.hpp"
 
-Piece::Piece(const sf::Texture& texture, const Side side)
-	: m_Sprite{ texture }, m_Side{ side }
-{}
-
-Piece::Piece(const Side side, const MovesContainer& moves)
-    : m_Side{ side }, m_Moves{ moves }
-{}
+Piece::Piece(const Side side, const PieceType type, 
+            const sf::Texture& texture, const MovesContainer& moves)
+    : m_Side{ side }, m_Type{ type }, m_Moves{ moves }
+{
+    setTexture(texture);
+}
 
 MoveEffect Piece::TryMove(const BoardCell& initial, const BoardCell& final) 
     const noexcept
@@ -21,14 +20,4 @@ MoveEffect Piece::TryMove(const BoardCell& initial, const BoardCell& final)
     }
 
     return MoveEffect::NONE;
-}
-
-void Piece::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(m_Sprite);
-}
-
-void Piece::SetScreenPosition(const sf::Vector2f& position) noexcept
-{
-	m_Sprite.setPosition(position);
 }

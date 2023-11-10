@@ -104,9 +104,8 @@ bool BasicMove::CheckObstacles(const BoardCell& initial,
         }
         catch(std::exception& exp)
         {
-            return false;
+            std::cerr << '\n' << exp.what() << std::endl;
         }
-
     }
 
     return true;

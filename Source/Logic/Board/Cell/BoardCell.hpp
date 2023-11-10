@@ -18,6 +18,8 @@ public:
 	BoardCell(const BoardCell&) = default;
 	BoardCell(BoardCell&& cell) = default;
 
+    // TODO: add c_tor for index without specifying texture and piece;
+
 	BoardCell(const BoardCellIndex& index, const sf::Texture& texture,
 		const PiecePointer& piece);
 
