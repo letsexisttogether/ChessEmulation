@@ -1,4 +1,4 @@
-#include "Controllable.hpp"
+#include "Intersectable.hpp"
 
 Controllable::Controllable(const sf::Vector2f& position)
 {
@@ -38,4 +38,3 @@ bool Controllable::IsIntersected(const Controller& controller) const noexcept
         && controllerPosition.y >= leftUpBorder.y 
         && controllerPosition.y <= rightDownBorder.y;
 }
-

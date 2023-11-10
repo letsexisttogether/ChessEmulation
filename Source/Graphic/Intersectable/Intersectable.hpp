@@ -21,8 +21,7 @@ public:
 
     bool IsIntersected(const Controller& controller) const noexcept;
     
-    virtual void OnIntersect() noexcept = 0;
-    virtual void OnControl() noexcept = 0;
+    virtual void OnIntersect(const Controller& controller) noexcept = 0;
 
     Controllable& operator = (const Controllable&) = default;
     Controllable& operator = (Controllable&&) = default;
