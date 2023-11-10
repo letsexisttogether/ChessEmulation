@@ -38,7 +38,7 @@ void BoardCell::FitPiece() noexcept(false)
 	m_Piece->setPosition(pieceNewPosition);
 }
 
-DefaultMove BoardCell::operator - (const BoardCell &cell) const noexcept(false)
+DefaultMove BoardCell::operator - (const BoardCell& cell) const noexcept(false)
 {
 	const std::int8_t vericalDiff = m_Index.GetRank() - cell.m_Index.GetRank();
 	const std::int8_t horizontalDiff = m_Index.GetFile() - cell.m_Index.GetFile();

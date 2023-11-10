@@ -33,6 +33,8 @@ public:
 	bool IsFree() const noexcept { return !m_Piece; }
 	void FreeCell() noexcept;
 
+    // void OnIntersect(const Controller& controller) noexcept override;
+
  	BoardCell& operator = (const BoardCell&) = delete;
 	BoardCell& operator = (BoardCell&&) = delete;
 
