@@ -1,11 +1,15 @@
 #include "BoardCell.hpp"
 
-BoardCell::BoardCell(const BoardCellIndex &index, const sf::Texture &texture, 
-        const PiecePointer& piece)
-    : m_Index{ index }, m_Sprite{ texture }, m_Piece{ piece }
+BoardCell::BoardCell(const BoardCellIndex& index)
+    : m_Index{ index }
 {}
 
-void BoardCell::SetPiece(const PiecePointer& piece) noexcept
+BoardCell::BoardCell(const BoardCellIndex& index, const sf::Texture& texture, 
+        const PiecePointer& piece)
+    : Intersectable{ texture }, m_Index{ index }, m_Piece{ piece }
+{}
+
+void BoardCell::SetPiece(const PiecePointer piece) noexcept
 {
 	m_Piece = piece; 
 
@@ -25,8 +29,8 @@ void BoardCell::FitPiece() noexcept(false)
 	}
 
 	const sf::Vector2u pieceHalfSize{ m_Piece->getTexture()->getSize() / 2u };
-	const sf::Vector2u cellHalfSize{ m_Sprite.getTexture()->getSize() / 2u };
-	const sf::Vector2f& currentCellPos = m_Sprite.getPosition();
+	const sf::Vector2u cellHalfSize{ getTexture()->getSize() / 2u };
+	const sf::Vector2f& currentCellPos = getPosition();
 
 	const sf::Vector2f pieceNewPosition{ currentCellPos.x + cellHalfSize.x - 
         pieceHalfSize.x, currentCellPos.y + cellHalfSize.y - pieceHalfSize.y };

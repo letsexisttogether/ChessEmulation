@@ -1,13 +1,13 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include <memory>
 #include <utility>
 
+#include "Graphic/Intersectable/Intersectable.hpp"
 #include "Logic/PieceElements/Piece/Piece.hpp"
 #include "Index/BoardCellIndex.hpp"
 
-class BoardCell
+class BoardCell : public Intersectable
 {
 public:
     using PiecePointer = Piece*;
@@ -18,7 +18,7 @@ public:
 	BoardCell(const BoardCell&) = default;
 	BoardCell(BoardCell&& cell) = default;
 
-    // TODO: add c_tor for index without specifying texture and piece;
+    BoardCell(const BoardCellIndex& index);
 
 	BoardCell(const BoardCellIndex& index, const sf::Texture& texture,
 		const PiecePointer& piece);
@@ -27,8 +27,8 @@ public:
 
 	inline const BoardCellIndex& GetIndex() const noexcept { return m_Index; }
 
-	inline const PiecePointer& GetPiece() const noexcept { return m_Piece; }
-	void SetPiece(const PiecePointer& piece) noexcept;
+	inline const PiecePointer GetPiece() const noexcept { return m_Piece; }
+	void SetPiece(const PiecePointer piece) noexcept;
 
 	bool IsFree() const noexcept { return !m_Piece; }
 	void FreeCell() noexcept;
@@ -54,7 +54,5 @@ protected:
 
 protected:
 	const BoardCellIndex m_Index;
-	PiecePointer m_Piece;
-	
-	sf::Sprite m_Sprite;
+	PiecePointer m_Piece{};
 };
