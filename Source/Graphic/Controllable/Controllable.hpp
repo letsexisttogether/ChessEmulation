@@ -20,6 +20,9 @@ public:
     ~Controllable() = default;
 
     bool IsIntersected(const Controller& controller) const noexcept;
+    
+    virtual void OnIntersect() noexcept = 0;
+    virtual void OnControl() noexcept = 0;
 
     Controllable& operator = (const Controllable&) = default;
     Controllable& operator = (Controllable&&) = default;
