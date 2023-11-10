@@ -6,23 +6,23 @@
 
 #include "Control/Controller.hpp"
 
-class Controllable : public sf::Sprite
+class Intersectable : public sf::Sprite
 {
 public:
-    Controllable() = default;    
-    Controllable(const Controllable&) = default;
-    Controllable(Controllable&&) = default;
+    Intersectable() = default;    
+    Intersectable(const Intersectable&) = default;
+    Intersectable(Intersectable&&) = default;
 
-    Controllable(const sf::Vector2f& position);
-    Controllable(const sf::Texture& texture);
-    Controllable(const sf::Texture& texture, const sf::Vector2f& position);
+    Intersectable(const sf::Vector2f& position);
+    Intersectable(const sf::Texture& texture);
+    Intersectable(const sf::Texture& texture, const sf::Vector2f& position);
 
-    ~Controllable() = default;
+    ~Intersectable() = default;
 
     bool IsIntersected(const Controller& controller) const noexcept;
     
     virtual void OnIntersect(const Controller& controller) noexcept = 0;
 
-    Controllable& operator = (const Controllable&) = default;
-    Controllable& operator = (Controllable&&) = default;
+    Intersectable& operator = (const Intersectable&) = default;
+    Intersectable& operator = (Intersectable&&) = default;
 };

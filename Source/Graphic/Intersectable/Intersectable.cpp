@@ -1,21 +1,21 @@
 #include "Intersectable.hpp"
 
-Controllable::Controllable(const sf::Vector2f& position)
+Intersectable::Intersectable(const sf::Vector2f& position)
 {
     setPosition(position); 
 }
 
-Controllable::Controllable(const sf::Texture& texture)
+Intersectable::Intersectable(const sf::Texture& texture)
     : sf::Sprite{ texture }
 {}
 
-Controllable::Controllable(const sf::Texture& texture, const sf::Vector2f& position)
+Intersectable::Intersectable(const sf::Texture& texture, const sf::Vector2f& position)
     : sf::Sprite{ texture }
 {
     setPosition(position); 
 }
 
-bool Controllable::IsIntersected(const Controller& controller) const noexcept
+bool Intersectable::IsIntersected(const Controller& controller) const noexcept
 {
     const sf::Vector2i& controllerPosition = controller.GetPosition();
 
