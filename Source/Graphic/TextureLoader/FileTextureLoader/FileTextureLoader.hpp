@@ -23,7 +23,7 @@ public:
         if (preLoadIter == this->m_PreLoadedStorage.end())
         {
             // Change the message later
-            throw std::exception{ "There's not such a association" };
+            throw std::exception{ "There's not such a texture association" };
         }
 
         if (const auto& loadedIter = this->m_LoadedStorage.find(index);
@@ -40,7 +40,7 @@ public:
     }
 
 protected:
-    sf::Texture* LoadTextureBy(const std::string& loadBy) noexcept override
+    sf::Texture* LoadTextureBy(const std::string& loadBy) noexcept(false) override
     {
         sf::Texture* texture = new sf::Texture{};
 
