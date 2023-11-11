@@ -1,22 +1,26 @@
 #pragma once 
 
+#include "Graphic/TextureLoader/TextureLoader.hpp"
 #include "Logic/Board/Cell/BoardCell.hpp"
 
 class CellCreator
 {
 public:
     using TextureIndex = Side;
+    using TextureLoader = TextureLoader<TextureIndex, std::string>;
 
 public:
     CellCreator() = delete;
     CellCreator(const CellCreator&) = delete;
     CellCreator(CellCreator&&) = delete;
 
-    CellCreator(const BoardCellIndex& start, 
+    CellCreator(const BoardCellIndex& start,
+            const Side startSide,
             const BoardCellIndex::Rank limitRank, 
             const BoardCellIndex::File limitFile,
             const BoardCellIndex::File fileStep,
-            const BoardCellIndex::Rank rankStep);
+            const BoardCellIndex::Rank rankStep,
+            TextureLoader* loader);
 
     ~CellCreator() = default;
     
@@ -30,6 +34,8 @@ private:
 
 private:
     BoardCellIndex m_NextIndex{};
+    Side m_NextSide{};    
+
     const BoardCellIndex::File m_StartFile{};
     const BoardCellIndex::Rank m_LimitRank{};
     const BoardCellIndex::File m_LimitFile{};
@@ -37,5 +43,5 @@ private:
     const BoardCellIndex::File m_FileStep{};
     const BoardCellIndex::Rank m_RankStep{};
 
-    // std::unique_ptr<TexureLoader<TextureIndex>> m_TextureLoader;
+    std::unique_ptr<TextureLoader> m_TextureLoader;
 };

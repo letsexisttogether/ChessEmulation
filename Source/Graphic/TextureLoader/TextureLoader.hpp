@@ -23,10 +23,12 @@ public:
 
     virtual ~TextureLoader() = default;
 
-    virtual sf::Texture* LoadTexture(const _MapIndex& index) noexcept(false) = 0;
+    virtual sf::Texture* LoadTexture(const _MapIndex& index) 
+        noexcept(false) = 0;
 
 protected:
-    virtual sf::Texture* LoadTextureBy(const _LoadBy& loadBy) noexcept(false) = 0;
+    virtual sf::Texture* LoadTextureBy(const _LoadBy& loadBy) 
+        noexcept(false) = 0;
 
 protected:
     const PreLoadedStorage m_PreLoadedStorage;
