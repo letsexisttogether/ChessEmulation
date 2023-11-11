@@ -15,12 +15,10 @@ public:
     CellCreator(CellCreator&&) = delete;
 
     CellCreator(const BoardCellIndex& start,
-            const Side startSide,
-            const BoardCellIndex::Rank limitRank, 
-            const BoardCellIndex::File limitFile,
-            const BoardCellIndex::File fileStep,
-            const BoardCellIndex::Rank rankStep,
-            TextureLoader* loader);
+        const Side startSide,
+        const BoardCellIndex& limit,
+        const BoardCellIndex& step,
+        TextureLoader* loader);
 
     ~CellCreator() = default;
     
@@ -37,11 +35,8 @@ private:
     Side m_NextSide{};    
 
     const BoardCellIndex::File m_StartFile{};
-    const BoardCellIndex::Rank m_LimitRank{};
-    const BoardCellIndex::File m_LimitFile{};
-
-    const BoardCellIndex::File m_FileStep{};
-    const BoardCellIndex::Rank m_RankStep{};
+    const BoardCellIndex m_Limit{};
+    const BoardCellIndex m_Step{};
 
     std::unique_ptr<TextureLoader> m_TextureLoader;
 };

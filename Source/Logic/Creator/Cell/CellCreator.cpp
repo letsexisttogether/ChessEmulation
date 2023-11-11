@@ -2,17 +2,14 @@
 
 #include <exception>
 
-CellCreator::CellCreator(const BoardCellIndex& start, 
-            const Side startSide,
-            const BoardCellIndex::Rank limitRank, 
-            const BoardCellIndex::File limitFile,
-            const BoardCellIndex::File fileStep,
-            const BoardCellIndex::Rank rankStep,
-            TextureLoader* loader)
+CellCreator::CellCreator(const BoardCellIndex& start,
+        const Side startSide,
+        const BoardCellIndex& limit,
+        const BoardCellIndex& step,
+        TextureLoader* loader)
     : m_NextIndex{ start }, m_NextSide{ startSide },
-    m_StartFile{ start.GetFile() }, m_LimitRank{ limitRank }, 
-    m_LimitFile{ limitFile }, m_FileStep{ fileStep }, 
-    m_RankStep{ rankStep }, m_TextureLoader{ loader }
+    m_StartFile{ start.GetFile() }, m_Limit{ limit }, 
+    m_Step{ step }, m_TextureLoader{ loader }
 {}
 
 
@@ -32,15 +29,15 @@ void CellCreator::SetNextIndex() noexcept(false)
     m_NextSide = ((m_NextSide == Side::WHITE) ? 
             (Side::BLACK) : (Side::WHITE));
 
-    m_NextIndex.SetFile(m_NextIndex.GetFile() + m_FileStep);
+    m_NextIndex.SetFile(m_NextIndex.GetFile() + m_Step.GetFile());
 
-    if (m_NextIndex.GetFile() > m_LimitFile)
+    if (m_NextIndex.GetFile() > m_Limit.GetFile())
     {
         m_NextIndex.SetFile(m_StartFile);
-        m_NextIndex.SetRank(m_NextIndex.GetRank() + m_RankStep);
+        m_NextIndex.SetRank(m_NextIndex.GetRank() + m_Step.GetRank());
     }
 
-    if (m_NextIndex.GetRank() > m_LimitRank) 
+    if (m_NextIndex.GetRank() > m_Limit.GetRank()) 
     {
         throw std::exception
         { 
