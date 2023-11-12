@@ -1,51 +1,30 @@
 #include "CellIndexCreator.hpp"
 
-#include <stdexcept>
-
 CellIndexCreator::CellIndexCreator(const BoardCellIndex& start,
         const BoardCellIndex& step,
         const BoardCellIndex& lowest, const BoardCellIndex& highest)
-    : m_NextIndex{ start }, m_Start{ start }, m_Step{ step },
-    m_Lowest{ lowest }, m_Highest{ highest }
+    : ConsecutiveCreator<BoardCellIndex>{ start, step, lowest, highest }
 {}
 
-BoardCellIndex CellIndexCreator::CreateIndex() noexcept(false)
+void CellIndexCreator::ChangeNextInstance() noexcept(false)
 {
-    BoardCellIndex index{ m_NextIndex }; 
+    m_NextInstance.SetFile(m_NextInstance.GetFile() + m_Step.GetFile());
 
-    ChangeNextIndex();
-
-    return index;
-}
-
-void CellIndexCreator::ChangeNextIndex() noexcept(false)
-{
-    m_NextIndex.SetFile(m_NextIndex.GetFile() + m_Step.GetFile());
-
-    if (!CheckFileBoundries())
+    if (!CheckColumnBoundries())
     {
-        m_NextIndex.SetFile(m_Start.GetFile());
-        m_NextIndex.SetRank(m_NextIndex.GetRank() + m_Step.GetRank());
-    }
-
-    if (!CheckRankBoundries())
-    {
-        throw std::exception
-        { 
-            "The next cell index is out of the specified range" 
-        };
+        m_NextInstance.SetFile(m_Start.GetFile());
+        m_NextInstance.SetRank(m_NextInstance.GetRank() + m_Step.GetRank());
     }
 }
 
-
-bool CellIndexCreator::CheckFileBoundries() const noexcept
+bool CellIndexCreator::CheckColumnBoundries() const noexcept
 {
-    return  (m_NextIndex.GetFile() <= m_Highest.GetFile())
-        && (m_NextIndex.GetFile() >= m_Lowest.GetFile());
+    return (m_NextInstance.GetFile() <= m_Highest.GetFile())
+        && (m_NextInstance.GetFile() >= m_Lowest.GetFile());
 }
 
-bool CellIndexCreator::CheckRankBoundries() const noexcept
+bool CellIndexCreator::CheckRowBoundries() const noexcept
 {
-    return  (m_NextIndex.GetRank() <= m_Highest.GetRank())
-        && (m_NextIndex.GetRank() >= m_Lowest.GetRank());
+    return (m_NextInstance.GetRank() <= m_Highest.GetRank())
+        && (m_NextInstance.GetRank() >= m_Lowest.GetRank());
 }
