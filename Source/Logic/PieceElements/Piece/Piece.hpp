@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "Type/PieceType.hpp"
-#include "Side/Side.hpp"
+#include "Side/PieceSide.hpp"
 #include "Logic/PieceElements/Move/BasicMove.hpp"
 
 class Piece : public sf::Sprite
@@ -15,11 +15,11 @@ public:
     using MovesContainer = std::vector<MovePointer>;
 
 public:
-	Piece() = delete;
-	Piece(const Piece&) = delete;
-	Piece(Piece&&) = delete;
+	Piece() = default;
+	Piece(const Piece& piece);
+	Piece(Piece&&) = default;
 
-    Piece(const Side side, const PieceType type, 
+    Piece(const PieceSide side, const PieceType type, 
             const sf::Texture& texture, const MovesContainer& moves);
 
 	virtual ~Piece() = default;
@@ -27,13 +27,13 @@ public:
     MoveEffect TryMove(const BoardCell& initial, 
             const BoardCell& final) const noexcept;
 
-	inline const Side GetSide() const noexcept { return m_Side; }
+	inline const PieceSide GetSide() const noexcept { return m_Side; }
 	
 	Piece& operator = (const Piece&) = delete;
 	Piece& operator = (Piece&&) = delete;
 	
 protected:
-	Side m_Side{};
+	PieceSide m_Side{};
     PieceType m_Type{};
     MovesContainer m_Moves{};
 

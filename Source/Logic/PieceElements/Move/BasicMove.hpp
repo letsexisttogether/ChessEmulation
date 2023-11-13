@@ -11,8 +11,8 @@ class BasicMove
 {
 public:
 	BasicMove() = delete;
-	BasicMove(const BasicMove&) = delete;
-	BasicMove(BasicMove&&) = delete;
+	BasicMove(const BasicMove&) = default;
+	BasicMove(BasicMove&&) = default;
 
 	BasicMove(const Board& board, const DefaultMove& defaultMove);
 
@@ -20,6 +20,8 @@ public:
 
 	virtual MoveEffect CheckRequirements(const BoardCell& initial, 
             const BoardCell& final) const noexcept;
+
+    virtual BasicMove* Clone() const noexcept;
 
 	BasicMove& operator = (const BasicMove&) = delete;
 	BasicMove& operator = (BasicMove&&) = delete;

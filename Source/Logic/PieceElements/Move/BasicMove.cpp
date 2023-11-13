@@ -27,12 +27,17 @@ MoveEffect BasicMove::CheckRequirements(const BoardCell& initial,
     return possibleEffect;
 }
 
+BasicMove* BasicMove::Clone() const noexcept
+{
+    return new BasicMove{ *this };
+}
+
 bool BasicMove::CheckSameSide(const BoardCell& initial, 
         const BoardCell& final) const noexcept
 {
     const bool isFinalFree = final.IsFree();
-    const Side initPieceSide = initial.GetPiece()->GetSide();
-    const Side finalPieceSide = ((isFinalFree) ? 
+    const PieceSide initPieceSide = initial.GetPiece()->GetSide();
+    const PieceSide finalPieceSide = ((isFinalFree) ? 
             (initPieceSide) : (final.GetPiece()->GetSide()));
 
     return !isFinalFree && initPieceSide == finalPieceSide;
@@ -110,7 +115,6 @@ bool BasicMove::CheckObstacles(const BoardCell& initial,
 
     return true;
 }
-
 
 MoveEffect BasicMove::DefinePossibleMoveEffect(const BoardCell& initial, 
         const BoardCell& final) const noexcept

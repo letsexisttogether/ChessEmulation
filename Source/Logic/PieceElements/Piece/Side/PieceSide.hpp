@@ -1,6 +1,6 @@
 #pragma once
 
-enum class Side
+enum class PieceSide
 {
 	BLACK,
 	WHITE
