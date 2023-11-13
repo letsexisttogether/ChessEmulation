@@ -2,22 +2,26 @@
 
 #include "Graphic/TextureLoader/TextureLoader.hpp"
 #include "Logic/Board/Cell/BoardCell.hpp"
+#include "Logic/Creator/Consecutive/ConsecutiveCreator.hpp"
+#include "Logic/PieceElements/Piece/Side/SideHolder/PieceSideHolder.hpp"
 
 class CellCreator
 {
 public:
-    using TextureIndex = Side;
+    using TextureIndex = PieceSide;
     using TextureLoader = TextureLoader<TextureIndex, std::string>;
+
+    using IndexCreator = ConsecutiveCreator<BoardCellIndex>;
+    using PositionCreator = ConsecutiveCreator<sf::Vector2f>;
 
 public:
     CellCreator() = delete;
     CellCreator(const CellCreator&) = delete;
     CellCreator(CellCreator&&) = delete;
 
-    CellCreator(const BoardCellIndex& start,
-        const Side startSide,
-        const BoardCellIndex& limit,
-        const BoardCellIndex& step,
+    CellCreator(const PieceSideHolder& sideHolder,
+        IndexCreator* indexCreator, 
+        PositionCreator* positionCreator,
         TextureLoader* loader);
 
     ~CellCreator() = default;
@@ -28,15 +32,8 @@ public:
     CellCreator& operator = (CellCreator&&) = delete;
 
 private:
-    void SetNextIndex() noexcept(false); 
-
-private:
-    BoardCellIndex m_NextIndex{};
-    Side m_NextSide{};    
-
-    const BoardCellIndex::File m_StartFile{};
-    const BoardCellIndex m_Limit{};
-    const BoardCellIndex m_Step{};
-
+    PieceSideHolder m_SideHolder;
+    std::unique_ptr<IndexCreator> m_IndexCreator;
+    std::unique_ptr<PositionCreator> m_PositionCreator;
     std::unique_ptr<TextureLoader> m_TextureLoader;
 };
