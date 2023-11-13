@@ -17,7 +17,8 @@ public:
 public:
 	Piece() = default;
 	Piece(const Piece& piece);
-	Piece(Piece&&) = default;
+    // Implement later in the future
+	Piece(Piece&&) = delete;
 
     Piece(const PieceSide side, const PieceType type, 
             const sf::Texture& texture, const MovesContainer& moves);
