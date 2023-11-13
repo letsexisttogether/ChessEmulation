@@ -74,14 +74,19 @@ DefaultMove BoardCell::operator - (const BoardCell& cell) const noexcept(false)
 		DefaultMove::Distance{ vericalDiff, std::abs(horizontalDiff) } };
 }
 
-std::size_t BoardCell::IndexHash::operator() (const BoardCell& cell) const noexcept
+std::size_t BoardCell::IndexHash::operator() (const BoardCell& cell) 
+    const noexcept
 {
-    const std::size_t h1 = std::hash<uint8_t>{}(cell.GetIndex().GetRank());
-    const std::size_t h2 = std::hash<char>{}(cell.GetIndex().GetFile());
+    const std::size_t h1 = std::hash<BoardCellIndex::Rank>{}(
+            cell.GetIndex().GetRank());
+    const std::size_t h2 = std::hash<BoardCellIndex::File>{}(
+            cell.GetIndex().GetFile());
+
 	return h1 ^ (h2 << 1);
 }
 
-bool BoardCell::IndexEqual::operator() (const BoardCell& fCell, const BoardCell& sCell) const noexcept
+bool BoardCell::IndexEqual::operator() (const BoardCell& fCell, 
+        const BoardCell& sCell) const noexcept
 {
     return fCell.GetIndex() == sCell.GetIndex();
 }

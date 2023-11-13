@@ -5,7 +5,7 @@
 class BoardCellIndex
 {
 public:
-    // Not sure about the file type, but leave it like that for now
+    // Not sure about the file type, but leave it as that for now
     using Rank = std::int8_t;
     using File = std::int8_t;
 

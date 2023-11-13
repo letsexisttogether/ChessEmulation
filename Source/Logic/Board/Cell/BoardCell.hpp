@@ -48,7 +48,8 @@ public:
 
 	struct IndexEqual 
 	{
-  		bool operator() (const BoardCell& fCell, const BoardCell& sCell) const noexcept;
+  		bool operator() (const BoardCell& fCell, 
+                const BoardCell& sCell) const noexcept;
 	};
 
 protected: 
