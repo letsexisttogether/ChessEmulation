@@ -5,7 +5,7 @@
 #include "Spawn/Associative/Storage/AssociativeStorage.hpp"
 
 template <class _Association, class _Instance>
-class AssociativeOwningStorage :
+class PointersStorage :
     public AssociativeStorage<_Association, 
         std::unique_ptr<_Instance>, _Instance*>
 {
@@ -14,11 +14,11 @@ public:
     using InstancePointer = std::unique_ptr<_Instance>;
 
 public:
-    AssociativeOwningStorage() = default;
-    AssociativeOwningStorage(const AssociativeOwningStorage&) = delete; 
-    AssociativeOwningStorage(AssociativeOwningStorage&&) = delete; 
+    PointersStorage() = default;
+    PointersStorage(const PointersStorage&) = delete; 
+    PointersStorage(PointersStorage&&) = delete; 
 
-    AssociativeOwningStorage(const InConteiner& map)
+    PointersStorage(const InConteiner& map)
     {
         for (const auto& [index, pointer] : map)
         {
@@ -26,15 +26,15 @@ public:
         }
     }
 
-    virtual ~AssociativeOwningStorage() = default;
+    virtual ~PointersStorage() = default;
 
     _Instance* GetInstance(const _Association& traits) noexcept(false) override
     {
         return this->Find().get();
     }
     
-    AssociativeOwningStorage& operator = (const AssociativeOwningStorage&) 
+    PointersStorage& operator = (const PointersStorage&) 
         = delete;
-    AssociativeOwningStorage& operator = (AssociativeOwningStorage&&) 
+    PointersStorage& operator = (PointersStorage&&) 
         = delete;
 };
