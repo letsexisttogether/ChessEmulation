@@ -1,37 +1,37 @@
-#pragma once
+#pragma once 
 
-#include <algorithm>
 #include <unordered_map>
-#include <stdexcept>
+#include <algorithm>
 
 #include "Spawn/Associative/AssociativeSpawner.hpp"
 
-template <class _Instance, class _MapIndex>
-class AssociativeStorage : public AssociativeSpawner<const _Instance&, _MapIndex>
+template <class _Association, class _Instance, class _GetResult>
+class AssociativeStorage : public AssociativeSpawner<_GetResult, _Association>
 {
 public:
-    using Map = std::unordered_map<_MapIndex, _Instance>;
+    using Container = std::unordered_map<_Association, _Instance>;
 
 public:
     AssociativeStorage() = default;
-    AssociativeStorage(const AssociativeStorage&) = default;
-    AssociativeStorage(AssociativeStorage&&) = default;
 
-    AssociativeStorage(const Map& map)
-        : m_Map{ map }
+    AssociativeStorage(const Container& container)
+        : m_Container{ container }
     {}
-    AssociativeStorage(Map&& map)
-        : m_Map{ std::move(map) }
+    AssociativeStorage(Container&& container)
+        : m_Container{ std::move(container) }
     {}
 
     virtual ~AssociativeStorage() = default;
 
-    const _Instance& GetInstance(const _MapIndex& traits) 
-        noexcept(false) override
-    {
-        const auto& iter = m_Map.find(traits);
+    virtual _GetResult GetInstance(const _Association& trait) 
+        noexcept(false) = 0;
 
-        if (iter == m_Map.end())
+protected:
+    const _Instance& Find(const _Association& trait) const noexcept(false)
+    {
+        const auto& iter = m_Container.find(trait);
+
+        if (iter == m_Container.end())
         {
             throw std::exception
             {
@@ -42,6 +42,12 @@ public:
         return iter->second;
     }
 
+    _Instance& Find(const _Association& trait) noexcept(false)
+    {
+        return const_cast<_Instance&>(
+                static_cast<const decltype(*this)*>(this)->Find(trait));
+    }
+
 protected:
-    Map m_Map{};
+    Container m_Container{};
 };

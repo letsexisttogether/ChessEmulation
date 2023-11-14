@@ -1,57 +1,40 @@
 #pragma once 
 
-#include <algorithm>
-#include <stdexcept>
-#include <unordered_map>
 #include <memory>
 
-#include "Spawn/Associative/AssociativeSpawner.hpp"
+#include "Spawn/Associative/Storage/AssociativeStorage.hpp"
 
-template <class _Instance, class _MapIndex>
-class AssociativeOwningStorage 
-    : public AssociativeSpawner<_Instance*, _MapIndex> 
+template <class _Association, class _Instance>
+class AssociativeOwningStorage :
+    public AssociativeStorage<_Association, 
+        std::unique_ptr<_Instance>, _Instance*>
 {
 public:
+    using InConteiner = std::unordered_map<_Association, _Instance*>;
     using InstancePointer = std::unique_ptr<_Instance>;
-
-    using InMap = std::unordered_map<_MapIndex, _Instance*>;
-    using Map = std::unordered_map<_MapIndex, InstancePointer>;
 
 public:
     AssociativeOwningStorage() = default;
     AssociativeOwningStorage(const AssociativeOwningStorage&) = delete; 
     AssociativeOwningStorage(AssociativeOwningStorage&&) = delete; 
 
-    AssociativeOwningStorage(InMap&& map)
+    AssociativeOwningStorage(const InConteiner& map)
     {
-        for (auto& [index, pointer] : map)
+        for (const auto& [index, pointer] : map)
         {
-            m_Map[index] = InstancePointer{ pointer };
+            this->m_Container[index] = InstancePointer{ pointer };
         }
     }
 
-    ~AssociativeOwningStorage() = default;
+    virtual ~AssociativeOwningStorage() = default;
 
-    _Instance* GetInstance(const _MapIndex& traits) noexcept(false) override
+    _Instance* GetInstance(const _Association& traits) noexcept(false) override
     {
-        const auto& iter = m_Map.find(traits);
-
-        if (iter == m_Map.end())
-        {
-            throw std::exception
-            {
-                "Failed to find such a pointer in the storage"
-            };
-        }
-
-        return iter->second.get();
+        return this->Find().get();
     }
     
     AssociativeOwningStorage& operator = (const AssociativeOwningStorage&) 
         = delete;
     AssociativeOwningStorage& operator = (AssociativeOwningStorage&&) 
         = delete;
-    
-protected:
-    Map m_Map{};
 };
