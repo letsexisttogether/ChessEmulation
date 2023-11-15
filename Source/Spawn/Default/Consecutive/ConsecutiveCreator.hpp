@@ -2,21 +2,23 @@
 
 #include <stdexcept>
 
+#include "Spawn/Default/DefaultSpawner.hpp"
+
 template <class _Instance>
-class ConsecutiveCreator
+class ConsecutiveSpawner : public DefaultSpawner<_Instance>
 {
 public:
-    ConsecutiveCreator() = delete;
+    ConsecutiveSpawner() = delete;
 
-    ConsecutiveCreator(const _Instance& start, const _Instance& step,
+    ConsecutiveSpawner(const _Instance& start, const _Instance& step,
             const _Instance& lowest, const _Instance& highest)
         : m_NextInstance{ start }, m_Start{ start }, m_Step{ step },
         m_Lowest{ lowest }, m_Highest{ highest }
     {}
 
-    ~ConsecutiveCreator() = default;
+    ~ConsecutiveSpawner() = default;
 
-    _Instance CreateInstance() noexcept(false)
+    _Instance GetInstance() noexcept(false) override
     {
         if (!CheckRowBoundries())
         {
