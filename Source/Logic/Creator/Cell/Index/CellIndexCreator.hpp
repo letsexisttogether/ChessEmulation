@@ -1,10 +1,13 @@
 #pragma once
 
 #include "Logic/Board/Cell/Index/BoardCellIndex.hpp"
-#include "Logic/Creator/Consecutive/ConsecutiveCreator.hpp"
+#include "Spawn/Default/Consecutive/ConsecutiveCreator.hpp"
 
-class CellIndexCreator : public ConsecutiveCreator<BoardCellIndex>
+class CellIndexCreator : public ConsecutiveSpawner<BoardCellIndex>
 {
+public:
+    using Super = ConsecutiveSpawner<BoardCellIndex>;
+
 public:
     CellIndexCreator() = delete;
     CellIndexCreator(const CellIndexCreator&) = default;
@@ -15,8 +18,8 @@ public:
 
     ~CellIndexCreator() = default;
 
-    CellIndexCreator& operator = (const CellIndexCreator&) = default;
-    CellIndexCreator& operator = (CellIndexCreator&&) = default;
+    CellIndexCreator& operator = (const CellIndexCreator&) = delete;
+    CellIndexCreator& operator = (CellIndexCreator&&) = delete;
 
 protected:
     void ChangeNextInstance() noexcept(false) override;

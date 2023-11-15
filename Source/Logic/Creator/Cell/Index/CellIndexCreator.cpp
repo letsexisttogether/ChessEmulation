@@ -3,7 +3,7 @@
 CellIndexCreator::CellIndexCreator(const BoardCellIndex& start,
         const BoardCellIndex& step,
         const BoardCellIndex& lowest, const BoardCellIndex& highest)
-    : ConsecutiveCreator<BoardCellIndex>{ start, step, lowest, highest }
+    : Super{ start, step, lowest, highest }
 {}
 
 void CellIndexCreator::ChangeNextInstance() noexcept(false)

@@ -2,9 +2,9 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include "Logic/Creator/Consecutive/ConsecutiveCreator.hpp"
+#include "Spawn/Default/Consecutive/ConsecutiveCreator.hpp"
 
-class CellPositionCreator : public ConsecutiveCreator<sf::Vector2f>
+class CellPositionCreator : public ConsecutiveSpawner<sf::Vector2f>
 {
 public:
     using Position = sf::Vector2f;
@@ -19,8 +19,8 @@ public:
 
     ~CellPositionCreator() = default;
 
-    CellPositionCreator& operator = (const CellPositionCreator&) = default;
-    CellPositionCreator& operator = (CellPositionCreator&&) = default;
+    CellPositionCreator& operator = (const CellPositionCreator&) = delete;
+    CellPositionCreator& operator = (CellPositionCreator&&) = delete;
 
 protected:
     void ChangeNextInstance() noexcept(false) override;
