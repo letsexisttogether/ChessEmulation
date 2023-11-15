@@ -28,9 +28,9 @@ public:
 
     virtual ~PointersStorage() = default;
 
-    _Instance* GetInstance(const _Association& traits) noexcept(false) override
+    _Instance* GetInstance(const _Association& trait) noexcept(false) override
     {
-        return this->Find().get();
+        return this->Find(trait).get();
     }
     
     PointersStorage& operator = (const PointersStorage&) 

@@ -6,7 +6,7 @@
 #include "Spawn/Associative/AssociativeSpawner.hpp"
 
 template <class _Association, class _Instance, class _GetResult>
-class AssociativeStorage : public AssociativeSpawner<_GetResult, _Association>
+class AssociativeStorage : public AssociativeSpawner<_Association, _GetResult>
 {
 public:
     using Container = std::unordered_map<_Association, _Instance>;
@@ -25,7 +25,7 @@ public:
 
     virtual _GetResult GetInstance(const _Association& trait) 
         noexcept(false) = 0;
-
+  
 protected:
     const _Instance& Find(const _Association& trait) const noexcept(false)
     {
@@ -45,7 +45,7 @@ protected:
     _Instance& Find(const _Association& trait) noexcept(false)
     {
         return const_cast<_Instance&>(
-                static_cast<const decltype(*this)*>(this)->Find(trait));
+                static_cast<const AssociativeStorage*>(this)->Find(trait));
     }
 
 protected:

@@ -12,6 +12,7 @@ class ObjectsStorage :
 {
 public:
     using Super = AssociativeStorage<_Association, _Instance, const _Instance&>;
+
 public:
     ObjectsStorage() = default;
     ObjectsStorage(const ObjectsStorage&) = default;
