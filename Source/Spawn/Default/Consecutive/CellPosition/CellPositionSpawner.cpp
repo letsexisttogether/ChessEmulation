@@ -1,11 +1,11 @@
-#include "CellPositionCreator.hpp"
+#include "CellPositionSpawner.hpp"
 
-CellPositionCreator::CellPositionCreator(const Position& start, 
+CellPositionSpawner::CellPositionSpawner(const Position& start, 
         const Position& step, const Position& lowest, const Position& highest)
-    : ConsecutiveCreator<Position>{ start, step, lowest, highest }
+    : Super{ start, step, lowest, highest }
 {}
 
-void CellPositionCreator::ChangeNextInstance() noexcept(false)
+void CellPositionSpawner::ChangeNextInstance() noexcept(false)
 {
     m_NextInstance.x += m_Step.x;
 
@@ -17,13 +17,13 @@ void CellPositionCreator::ChangeNextInstance() noexcept(false)
 
 }
 
-bool CellPositionCreator::CheckColumnBoundries() const noexcept
+bool CellPositionSpawner::CheckColumnBoundries() const noexcept
 {
     return (m_NextInstance.x <= m_Highest.x)
         && (m_NextInstance.x >= m_Lowest.x);
 }
 
-bool CellPositionCreator::CheckRowBoundries() const noexcept
+bool CellPositionSpawner::CheckRowBoundries() const noexcept
 {
     return (m_NextInstance.y <= m_Highest.y)
         && (m_NextInstance.y >= m_Lowest.y);

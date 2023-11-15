@@ -1,4 +1,4 @@
-#include "CellIndexCreator.hpp"
+#include "CellIndexSpawner.hpp"
 
 CellIndexCreator::CellIndexCreator(const BoardCellIndex& start,
         const BoardCellIndex& step,
