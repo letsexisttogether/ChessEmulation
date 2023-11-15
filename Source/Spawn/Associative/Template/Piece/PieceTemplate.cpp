@@ -10,7 +10,7 @@ PieceTemplate::PieceTemplate(Container&& container, TextureSpawner* spawner)
 {}
 
 
-Piece* PieceTemplate::GetInstance(const PieceSide& trait) 
+Piece* PieceTemplate::GetInstance(const PieceType& trait) 
     noexcept(false) 
 {
     Piece* piece = Super::GetInstance(trait);

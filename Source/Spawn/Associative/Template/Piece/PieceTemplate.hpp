@@ -6,13 +6,13 @@
 #include "Logic/PieceElements/Piece/Piece.hpp"
 #include "Spawn/Associative/Template/AssosiativeTemplate.hpp"
 
-class PieceTemplate : public AssociativeTemplate<PieceSide, Piece>
+class PieceTemplate : public AssociativeTemplate<PieceType, Piece>
 {
 public:
-    using Super = AssociativeTemplate<PieceSide, Piece>;
+    using Super = AssociativeTemplate<PieceType, Piece>;
     using typename Super::Container;
 
-    using TextureSpawner = AssociativeSpawner<PieceSide, sf::Texture*>;
+    using TextureSpawner = AssociativeSpawner<PieceType, sf::Texture*>;
 
 public:
     PieceTemplate() = delete;
@@ -24,7 +24,7 @@ public:
 
     ~PieceTemplate() = default;
     
-    Piece* GetInstance(const PieceSide& trait) noexcept(false) override;
+    Piece* GetInstance(const PieceType& trait) noexcept(false) override;
 
     PieceTemplate& operator = (const PieceTemplate&) 
         = delete;
