@@ -1,12 +1,12 @@
 #include "CellIndexSpawner.hpp"
 
-CellIndexCreator::CellIndexCreator(const BoardCellIndex& start,
+CellIndexSpawner::CellIndexSpawner(const BoardCellIndex& start,
         const BoardCellIndex& step,
         const BoardCellIndex& lowest, const BoardCellIndex& highest)
     : Super{ start, step, lowest, highest }
 {}
 
-void CellIndexCreator::ChangeNextInstance() noexcept(false)
+void CellIndexSpawner::ChangeNextInstance() noexcept(false)
 {
     m_NextInstance.SetFile(m_NextInstance.GetFile() + m_Step.GetFile());
 
@@ -17,13 +17,13 @@ void CellIndexCreator::ChangeNextInstance() noexcept(false)
     }
 }
 
-bool CellIndexCreator::CheckColumnBoundries() const noexcept
+bool CellIndexSpawner::CheckColumnBoundries() const noexcept
 {
     return (m_NextInstance.GetFile() <= m_Highest.GetFile())
         && (m_NextInstance.GetFile() >= m_Lowest.GetFile());
 }
 
-bool CellIndexCreator::CheckRowBoundries() const noexcept
+bool CellIndexSpawner::CheckRowBoundries() const noexcept
 {
     return (m_NextInstance.GetRank() <= m_Highest.GetRank())
         && (m_NextInstance.GetRank() >= m_Lowest.GetRank());

@@ -11,6 +11,7 @@ class TextureFileLoader :
 {
 public:
     using Super = AssociativeLoader<_Association, sf::Texture, std::string>;
+    using typename Super::ObjStorage;
 
 public:
     TextureFileLoader() = delete;
