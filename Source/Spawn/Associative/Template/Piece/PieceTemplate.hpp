@@ -19,23 +19,12 @@ public:
     PieceTemplate(const PieceTemplate&) = delete;
     PieceTemplate(PieceTemplate&&) = delete;
 
-    PieceTemplate(const Container& container, TextureSpawner* spawner)
-        : Super{ container }, m_TextureSpawner{ spawner }
-    {}
-    PieceTemplate(Container&& container, TextureSpawner* spawner)
-        : Super{ std::move(container) }, m_TextureSpawner{ spawner }
-    {}
+    PieceTemplate(const Container& container, TextureSpawner* spawner);
+    PieceTemplate(Container&& container, TextureSpawner* spawner);
 
     ~PieceTemplate() = default;
     
-    Piece* GetInstance(const PieceSide& trait) noexcept(false) override
-    {
-        Piece* piece = Super::GetInstance(trait);
-
-        piece->setTexture(*m_TextureSpawner->GetInstance(trait));
-
-        return piece;
-    }
+    Piece* GetInstance(const PieceSide& trait) noexcept(false) override;
 
     PieceTemplate& operator = (const PieceTemplate&) 
         = delete;
