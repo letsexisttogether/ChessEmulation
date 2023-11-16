@@ -18,7 +18,7 @@ public:
 	Piece() = default;
 	Piece(const Piece& piece);
     // Implement later in the future
-	Piece(Piece&&) = delete;
+	Piece(Piece&& piece);
 
     Piece(const PieceSide side, const PieceType type, 
             const sf::Texture& texture, const MovesContainer& moves);
@@ -31,8 +31,8 @@ public:
 	inline const PieceSide GetSide() const noexcept { return m_Side; }
     inline const PieceType GetType() const noexcept { return m_Type; }
 	
-	Piece& operator = (const Piece&) = delete;
-	Piece& operator = (Piece&&) = delete;
+	Piece& operator = (const Piece& piece);
+	Piece& operator = (Piece&& piece);
 	
 protected:
 	PieceSide m_Side{};
