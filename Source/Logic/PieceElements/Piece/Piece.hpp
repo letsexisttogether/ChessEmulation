@@ -29,6 +29,7 @@ public:
             const BoardCell& final) const noexcept;
 
 	inline const PieceSide GetSide() const noexcept { return m_Side; }
+    inline const PieceType GetType() const noexcept { return m_Type; }
 	
 	Piece& operator = (const Piece&) = delete;
 	Piece& operator = (Piece&&) = delete;
