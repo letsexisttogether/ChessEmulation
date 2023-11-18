@@ -1,6 +1,7 @@
 #include "BoardSpawner.hpp"
 
-BoardSpawner::BoardSpawner(ObjStorage* piecesOrder, PtrStorage* piecesSpawners,
+BoardSpawner::BoardSpawner(OrderSpawnerStorage* piecesOrder, 
+        PieceSpawnerStorage* piecesSpawners,
         CellSpawner* cellSpawner, const Counter blankCellsCount)
     : m_PieceOrder{ piecesOrder }, m_PieceSpawners{ piecesSpawners },
     m_CellSpawner{ cellSpawner }, m_BlankCellsCount{ blankCellsCount }

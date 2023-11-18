@@ -16,8 +16,8 @@ public:
 
     using CellSpawner = DefaultSpawner<BoardCell>;
 
-    using ObjStorage = ObjectsStorage<PieceSide, OrderContainer>;
-    using PtrStorage = PointersStorage<PieceSide, PieceSpawner>;
+    using OrderSpawnerStorage = ObjectsStorage<PieceSide, OrderContainer>;
+    using PieceSpawnerStorage = PointersStorage<PieceSide, PieceSpawner>;
 
     using Counter = std::size_t;
     
@@ -26,7 +26,7 @@ public:
     BoardSpawner(const BoardSpawner&) = delete;
     BoardSpawner(BoardSpawner&&) = delete;
 
-    BoardSpawner(ObjStorage* piecesOrder, PtrStorage* piecesSpawners,
+    BoardSpawner(OrderSpawnerStorage* piecesOrder, PieceSpawnerStorage* piecesSpawners,
             CellSpawner* cellSpawner, const Counter blankCellsCount);
 
     ~BoardSpawner() = default;
@@ -42,8 +42,8 @@ private:
     void FillWithBlank(Board& board) noexcept(false);
 
 private:
-    std::unique_ptr<ObjStorage> m_PieceOrder;
-    std::unique_ptr<PtrStorage> m_PieceSpawners;
+    std::unique_ptr<OrderSpawnerStorage> m_PieceOrder;
+    std::unique_ptr<PieceSpawnerStorage> m_PieceSpawners;
 
     std::unique_ptr<CellSpawner> m_CellSpawner;
 

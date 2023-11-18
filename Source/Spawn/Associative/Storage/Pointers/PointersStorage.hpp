@@ -10,7 +10,12 @@ class PointersStorage :
         std::unique_ptr<_Instance>, _Instance*>
 {
 public:
-    using InConteiner = std::unordered_map<_Association, _Instance*>;
+    using Super = AssociativeStorage<_Association, 
+        std::unique_ptr<_Instance>, _Instance*>;
+
+    using typename Super::Container;
+    using InContainer = std::unordered_map<_Association, _Instance*>;
+
     using InstancePointer = std::unique_ptr<_Instance>;
 
 public:
@@ -18,11 +23,18 @@ public:
     PointersStorage(const PointersStorage&) = delete; 
     PointersStorage(PointersStorage&&) = delete; 
 
-    PointersStorage(const InConteiner& map)
+    PointersStorage(const InContainer& container)
     {
-        for (const auto& [index, pointer] : map)
+        for (const auto& [index, pointer] : container)
         {
             this->m_Container[index] = InstancePointer{ pointer };
+        }
+    }
+    PointersStorage(Container&& container)
+    {
+        for (auto& [index, pointer] : container)
+        {
+            this->m_Container[index] = std::move(pointer);
         }
     }
 
