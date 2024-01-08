@@ -4,7 +4,7 @@
 
 CellCreator::CellCreator(const PieceSideHolder& sideHolder,
         IndexSpawner* indexCreator, 
-        PositionCreator* positionCreator,
+        PositionSpawner* positionCreator,
         TextureLoader* loader)
     : m_SideHolder{ sideHolder }, m_IndexCreator{ indexCreator }, 
     m_PositionCreator{ positionCreator }, m_TextureLoader{ loader }

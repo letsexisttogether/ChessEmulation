@@ -10,7 +10,8 @@ class PieceTemplate : public AssociativeTemplate<PieceType, Piece>
 {
 public:
     using Super = AssociativeTemplate<PieceType, Piece>;
-    using typename Super::Container;
+
+    using PieceExamples = std::vector<Piece>;
 
     using TextureSpawner = AssociativeSpawner<PieceType, sf::Texture*>;
 
@@ -19,8 +20,8 @@ public:
     PieceTemplate(const PieceTemplate&) = delete;
     PieceTemplate(PieceTemplate&&) = delete;
 
-    PieceTemplate(const Container& container, TextureSpawner* spawner);
-    PieceTemplate(Container&& container, TextureSpawner* spawner);
+    PieceTemplate(const PieceExamples& examples, TextureSpawner* spawner);
+    PieceTemplate(PieceExamples&& examples, TextureSpawner* spawner);
 
     ~PieceTemplate() = default;
     

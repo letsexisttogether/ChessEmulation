@@ -11,7 +11,9 @@
 class Piece : public sf::Sprite
 {
 public:
-    using MovePointer = BasicMove*;
+    using MovePointer = std::unique_ptr<BasicMove>;
+
+    using InMovesContainer = std::vector<BasicMove*>;
     using MovesContainer = std::vector<MovePointer>;
 
 public:
@@ -21,7 +23,7 @@ public:
 	Piece(Piece&& piece);
 
     Piece(const PieceSide side, const PieceType type, 
-            const sf::Texture& texture, const MovesContainer& moves);
+            const InMovesContainer& moves);
 
 	virtual ~Piece() = default;
 

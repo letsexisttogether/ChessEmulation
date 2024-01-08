@@ -1,14 +1,23 @@
 #include "PieceTemplate.hpp"
 
 
-PieceTemplate::PieceTemplate(const Container& container, TextureSpawner* spawner)
-    : Super{ container }, m_TextureSpawner{ spawner }
-{}
+PieceTemplate::PieceTemplate(const PieceExamples& examples, TextureSpawner* spawner)
+    : m_TextureSpawner{ spawner }
+{
+    for (const Piece& piece : examples)
+    {
+        m_Container[piece.GetType()] = piece;
+    }
+}
 
-PieceTemplate::PieceTemplate(Container&& container, TextureSpawner* spawner)
-    : Super{ std::move(container) }, m_TextureSpawner{ spawner }
-{}
-
+PieceTemplate::PieceTemplate(PieceExamples&& examples, TextureSpawner* spawner)
+    : m_TextureSpawner{ spawner }
+{
+    for (const Piece& piece : examples)
+    {
+        m_Container[piece.GetType()] = std::move(piece);
+    }
+}
 
 Piece* PieceTemplate::GetInstance(const PieceType& trait) 
     noexcept(false) 

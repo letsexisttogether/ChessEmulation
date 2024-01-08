@@ -12,7 +12,7 @@ class CellCreator : public DefaultSpawner<BoardCell>
 {
 public:
     using IndexSpawner = DefaultSpawner<BoardCellIndex>;
-    using PositionCreator = DefaultSpawner<sf::Vector2f>;
+    using PositionSpawner = DefaultSpawner<sf::Vector2f>;
 
     using TextureLoader = AssociativeSpawner<PieceSide, sf::Texture*>;
 
@@ -23,7 +23,7 @@ public:
 
     CellCreator(const PieceSideHolder& sideHolder,
         IndexSpawner* indexCreator, 
-        PositionCreator* positionCreator,
+        PositionSpawner* positionCreator,
         TextureLoader* loader);
 
     ~CellCreator() = default;
@@ -36,6 +36,6 @@ public:
 private:
     PieceSideHolder m_SideHolder;
     std::unique_ptr<IndexSpawner> m_IndexCreator;
-    std::unique_ptr<PositionCreator> m_PositionCreator;
+    std::unique_ptr<PositionSpawner> m_PositionCreator;
     std::unique_ptr<TextureLoader> m_TextureLoader;
 };

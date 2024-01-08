@@ -1,10 +1,20 @@
 #include "BoardSpawner.hpp"
 
-BoardSpawner::BoardSpawner(OrderSpawnerStorage* piecesOrder, 
+BoardSpawner::BoardSpawner() 
+    : m_SpriteExample{ GetSpriteExample() },
+    m_PieceOrder{ GetPieceOrder() }, 
+    m_PieceSpawners{ GetPieceStorage(), },
+    m_CellSpawner{ GetCellSpawner() },
+    m_BlankCellsCount{}
+{}
+
+BoardSpawner::BoardSpawner(const sf::Sprite& spriteExample,
+        OrderSpawnerStorage* piecesOrder, 
         PieceSpawnerStorage* piecesSpawners,
         CellSpawner* cellSpawner, const Counter blankCellsCount)
-    : m_PieceOrder{ piecesOrder }, m_PieceSpawners{ piecesSpawners },
-    m_CellSpawner{ cellSpawner }, m_BlankCellsCount{ blankCellsCount }
+    : m_SpriteExample{ spriteExample },
+        m_PieceOrder{ piecesOrder }, m_PieceSpawners{ piecesSpawners },
+        m_CellSpawner{ cellSpawner }, m_BlankCellsCount{ blankCellsCount }
 {}
 
 Board BoardSpawner::GetInstance() noexcept(false)

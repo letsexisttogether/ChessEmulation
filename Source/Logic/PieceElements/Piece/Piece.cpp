@@ -3,9 +3,9 @@
 Piece::Piece(const Piece& piece)
     : m_Side{ piece.m_Side }, m_Type{ piece.m_Type }
 {
-    for (const MovePointer move : piece.m_Moves)
+    for (const MovePointer& move : piece.m_Moves)
     {
-        m_Moves.push_back(move->Clone());
+        m_Moves.push_back(MovePointer{ move->Clone() });
     }
 }
 
@@ -15,10 +15,13 @@ Piece::Piece(Piece&& piece)
 {}
 
 Piece::Piece(const PieceSide side, const PieceType type, 
-            const sf::Texture& texture, const MovesContainer& moves)
-    : m_Side{ side }, m_Type{ type }, m_Moves{ moves }
+        const InMovesContainer& moves)
+    : m_Side{ side }, m_Type{ type } 
 {
-    setTexture(texture);
+    for (const BasicMove* move : moves)
+    {
+        m_Moves.push_back(MovePointer{ move->Clone() });
+    }
 }
 
 
@@ -44,9 +47,9 @@ Piece& Piece::operator = (const Piece& piece)
 
     m_Moves.clear();
 
-    for (const auto& move : piece.m_Moves)
+    for (const MovePointer& move : piece.m_Moves)
     {
-        m_Moves.push_back(move->Clone());
+        m_Moves.push_back(MovePointer{ move->Clone() });
     }
 
     return *this;

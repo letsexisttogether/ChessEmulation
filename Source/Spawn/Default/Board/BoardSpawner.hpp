@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "SFML/Graphics/Sprite.hpp"
 #include "Spawn/Associative/Storage/Objects/ObjectsStorage.hpp"
 #include "Spawn/Associative/Storage/Pointers/PointersStorage.hpp"
 #include "Spawn/Default/DefaultSpawner.hpp"
@@ -22,26 +23,39 @@ public:
     using Counter = std::size_t;
     
 public:
-    BoardSpawner() = delete;
     BoardSpawner(const BoardSpawner&) = delete;
     BoardSpawner(BoardSpawner&&) = delete;
 
-    BoardSpawner(OrderSpawnerStorage* piecesOrder, PieceSpawnerStorage* piecesSpawners,
-            CellSpawner* cellSpawner, const Counter blankCellsCount);
+    BoardSpawner(const sf::Sprite& spriteExample,
+            OrderSpawnerStorage* piecesOrder, 
+            PieceSpawnerStorage* piecesSpawners,
+            CellSpawner* cellSpawner, 
+            const Counter blankCellsCount);
 
-    ~BoardSpawner() = default;
+    virtual ~BoardSpawner() = default;
 
     Board GetInstance() noexcept(false) override;
 
     BoardSpawner& operator = (const BoardSpawner&) = delete;
     BoardSpawner& operator = (BoardSpawner&&) = delete;
 
+protected:
+    BoardSpawner();
+
+    virtual sf::Sprite GetSpriteExample() const noexcept;
+
+    virtual OrderSpawnerStorage* GetPieceOrder() const noexcept;
+    virtual PieceSpawnerStorage* GetPieceStorage() const noexcept; 
+    virtual CellSpawner* GetCellSpawner() const noexcept;
+
 private:
     void FillCells(Board& board, const PieceSide side) noexcept(false);
     
     void FillWithBlank(Board& board) noexcept(false);
 
-private:
+protected:
+    const sf::Sprite m_SpriteExample;
+
     std::unique_ptr<OrderSpawnerStorage> m_PieceOrder;
     std::unique_ptr<PieceSpawnerStorage> m_PieceSpawners;
 

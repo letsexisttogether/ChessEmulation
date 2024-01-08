@@ -1,0 +1,16 @@
+BRDCA
+
+t: Textures/Board.png
+
+t: Textures/Cells/Black.png
+t: Textures/Chess/White.png
+
+t: Textures/Piece/White/Rook.png
+t: Texures/Piece/Black/Rook.png
+
+// Side Type TextureIndex Move...
+p: 0 0 1 0 1 3 4 1 2 4
+p: 0 
+
+// Rank File TextureIndex PieceIndex
+c: 0 0 0 0
