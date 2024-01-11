@@ -4,14 +4,18 @@ BoardCell::BoardCell(const BoardCellIndex& index)
     : m_Index{ index }
 {}
 
-BoardCell::BoardCell(const BoardCellIndex& index, const sf::Texture& texture, 
-        const PiecePointer& piece)
-    : Intersectable{ texture }, m_Index{ index }, m_Piece{ piece }
+BoardCell::BoardCell(const BoardCellIndex& index, sf::Texture * const texture)
+    : m_Index{ index }, m_Texture{ texture } 
 {}
 
-void BoardCell::SetPiece(const PiecePointer piece) noexcept
+BoardCell::BoardCell(const BoardCellIndex& index, sf::Texture * const texture, 
+        Piece* const piece)
+    : m_Index{ index }, m_Texture{ texture }, m_Piece{ piece }
+{}
+
+void BoardCell::SetPiece(Piece* const piece) noexcept
 {
-	m_Piece = piece; 
+	m_Piece.reset(piece); 
 
 	FitPiece();
 }

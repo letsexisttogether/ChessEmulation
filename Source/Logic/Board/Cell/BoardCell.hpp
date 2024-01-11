@@ -1,16 +1,16 @@
 #pragma once
 
 #include <memory>
-#include <utility>
 
-#include "Graphic/Intersectable/Intersectable.hpp"
 #include "Logic/PieceElements/Piece/Piece.hpp"
 #include "Index/BoardCellIndex.hpp"
 
-class BoardCell : public Intersectable
+class BoardCell
 {
 public:
-    using PiecePointer = Piece*;
+    using PiecePointer = std::shared_ptr<Piece>;
+    using TexturePointer = std::shared_ptr<sf::Texture>;
+
 public:
 	BoardCell() = delete;
 
@@ -20,15 +20,19 @@ public:
 
     BoardCell(const BoardCellIndex& index);
 
-	BoardCell(const BoardCellIndex& index, const sf::Texture& texture,
-		const PiecePointer& piece);
+    BoardCell(const BoardCellIndex& index, sf::Texture* const texture);
+
+
+	BoardCell(const BoardCellIndex& index, sf::Texture* const texture,
+		Piece* const piece);
 
 	~BoardCell() = default;
 
 	inline const BoardCellIndex& GetIndex() const noexcept { return m_Index; }
 
-	inline const PiecePointer GetPiece() const noexcept { return m_Piece; }
-	void SetPiece(const PiecePointer piece) noexcept;
+	inline const Piece* const GetPiece() 
+        const noexcept { return m_Piece.get(); }
+	void SetPiece(Piece* const piece) noexcept;
 
 	bool IsFree() const noexcept { return !m_Piece; }
 	void FreeCell() noexcept;
@@ -57,5 +61,8 @@ protected:
 
 protected:
 	const BoardCellIndex m_Index;
+    
+    TexturePointer m_Texture;
+
 	PiecePointer m_Piece{};
 };
