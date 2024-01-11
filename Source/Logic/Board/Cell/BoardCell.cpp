@@ -22,7 +22,7 @@ void BoardCell::SetPiece(Piece* const piece) noexcept
 
 void BoardCell::FreeCell() noexcept
 {
-	m_Piece = nullptr;
+	m_Piece.reset();
 }
 
 void BoardCell::FitPiece() noexcept(false)
@@ -32,14 +32,14 @@ void BoardCell::FitPiece() noexcept(false)
 		throw std::exception{ "Missing piece on the cell" };
 	}
 
-	const sf::Vector2u pieceHalfSize{ m_Piece->getTexture()->getSize() / 2u };
-	const sf::Vector2u cellHalfSize{ getTexture()->getSize() / 2u };
-	const sf::Vector2f& currentCellPos = getPosition();
+    // const sf::Vector2u pieceHalfSize{ m_Piece->getTexture()->getSize() / 2u };
+    // const sf::Vector2u cellHalfSize{ m_Texture->getSize() / 2u };
+    // const sf::Vector2f& currentCellPos = getPosition();
 
-	const sf::Vector2f pieceNewPosition{ currentCellPos.x + cellHalfSize.x - 
-        pieceHalfSize.x, currentCellPos.y + cellHalfSize.y - pieceHalfSize.y };
+    // const sf::Vector2f pieceNewPosition{ currentCellPos.x + cellHalfSize.x - 
+        // pieceHalfSize.x, currentCellPos.y + cellHalfSize.y - pieceHalfSize.y };
 
-	m_Piece->setPosition(pieceNewPosition);
+	// m_Piece->setPosition(pieceNewPosition);
 }
 
 DefaultMove BoardCell::operator - (const BoardCell& cell) const noexcept(false)
