@@ -4,12 +4,12 @@
 
 #include "Logic/PieceElements/Piece/Piece.hpp"
 #include "Index/BoardCellIndex.hpp"
+#include "Graphic/Drawable/Drawable.hpp"
 
-class BoardCell
+class BoardCell : Drawable
 {
 public:
     using PiecePointer = std::shared_ptr<Piece>;
-    using TexturePointer = std::shared_ptr<sf::Texture>;
 
 public:
 	BoardCell() = delete;
@@ -20,11 +20,9 @@ public:
 
     BoardCell(const BoardCellIndex& index);
 
-    BoardCell(const BoardCellIndex& index, sf::Texture* const texture);
-
-
-	BoardCell(const BoardCellIndex& index, sf::Texture* const texture,
-		Piece* const piece);
+    BoardCell(const BoardCellIndex& index, sf::Texture* const texture,
+        const Drawable::Position& position = Drawable::DefaultPosition,
+        Piece* const piece = nullptr);
 
 	~BoardCell() = default;
 
@@ -61,8 +59,6 @@ protected:
 
 protected:
 	const BoardCellIndex m_Index;
-    
-    TexturePointer m_Texture;
 
 	PiecePointer m_Piece{};
 };

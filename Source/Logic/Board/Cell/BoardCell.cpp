@@ -4,13 +4,9 @@ BoardCell::BoardCell(const BoardCellIndex& index)
     : m_Index{ index }
 {}
 
-BoardCell::BoardCell(const BoardCellIndex& index, sf::Texture * const texture)
-    : m_Index{ index }, m_Texture{ texture } 
-{}
-
-BoardCell::BoardCell(const BoardCellIndex& index, sf::Texture * const texture, 
-        Piece* const piece)
-    : m_Index{ index }, m_Texture{ texture }, m_Piece{ piece }
+BoardCell::BoardCell(const BoardCellIndex& index, sf::Texture* const texture,
+    const Drawable::Position& position, Piece* const piece)
+    : Drawable(texture, position), m_Index{ index }, m_Piece{ piece }
 {}
 
 void BoardCell::SetPiece(Piece* const piece) noexcept

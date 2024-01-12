@@ -1,11 +1,10 @@
 #pragma once
 
-#include <vector>
 #include <unordered_set>
 
 #include "Logic/Board/Cell/BoardCell.hpp"
 
-class Board
+class Board : public Drawable
 {
 public: 
     using CellSet = std::unordered_set<BoardCell, 
