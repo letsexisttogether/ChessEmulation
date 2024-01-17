@@ -10,18 +10,19 @@ class Drawable: public sf::Drawable, public Placable
 {
 public:
     using Texture = sf::Texture;
+    using TexturePointer = std::shared_ptr<Texture>;
 
 public:
     Drawable() = default;
     Drawable(const Drawable& drawable);
     Drawable(Drawable&& drawable);
 
-    Drawable(Texture* const texture, const Position& position);
+    Drawable(const TexturePointer& texture, const Position& position);
 
-    virtual ~Drawable() = default;
+    ~Drawable() = default;
 
     const Texture& GetTexture() const noexcept(false);
-    void SetTexture(Texture* const texture) noexcept(false);
+    void SetTexture(const TexturePointer& texture) noexcept(false);
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) 
         const override;
@@ -33,5 +34,5 @@ private:
     void CheckTexture() const noexcept(false);
 
 protected:
-    std::shared_ptr<Texture> m_Texture{};
+    TexturePointer m_Texture{};
 };

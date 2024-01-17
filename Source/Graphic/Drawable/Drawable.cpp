@@ -5,7 +5,7 @@
 #include <vector>
 #include <stdexcept>
 
-Drawable::Drawable(sf::Texture* const texture, 
+Drawable::Drawable(const TexturePointer& texture, 
     const Position& position)
 {
     SetTexture(texture);
@@ -16,7 +16,7 @@ Drawable::Drawable(sf::Texture* const texture,
 
 Drawable::Drawable(const Drawable& drawable)
 {
-    SetTexture(drawable.m_Texture.get());
+    SetTexture(drawable.m_Texture);
     
     SetOrigin(drawable.GetOrigin());
     SetSize(drawable.GetSize());
@@ -35,9 +35,9 @@ const sf::Texture& Drawable::GetTexture() const noexcept(false)
     return *m_Texture;
 }
 
-void Drawable::SetTexture(sf::Texture* const texture) noexcept(false)
+void Drawable::SetTexture(const TexturePointer& texture) noexcept(false)
 {
-    m_Texture.reset(texture);
+    m_Texture = texture;
 
     CheckTexture();
 }
@@ -52,7 +52,7 @@ void Drawable::draw(sf::RenderTarget& target, sf::RenderStates states)
     std::vector<Placable::Vertex> vertices
     {
         GetVertex(PositionLocation::UP_LEFT),
-            GetVertex(PositionLocation::DOWN_LEFT),
+        GetVertex(PositionLocation::DOWN_LEFT),
         GetVertex(PositionLocation::UP_RIGHT),
         GetVertex(PositionLocation::DOWN_RIGHT)
     };
@@ -73,7 +73,7 @@ void Drawable::draw(sf::RenderTarget& target, sf::RenderStates states)
 
 Drawable& Drawable::operator = (const Drawable& drawable) noexcept(false)
 {
-    SetTexture(drawable.m_Texture.get());
+    SetTexture(drawable.m_Texture);
 
     SetOrigin(drawable.GetOrigin());
     SetSize(drawable.GetSize());
