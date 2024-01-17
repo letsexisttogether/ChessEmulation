@@ -3,134 +3,39 @@
 #include <memory>
 #include <string>
 
-#include "Logic/Board/Cell/BoardCell.hpp"
-#include "Logic/PieceElements/Piece/Side/PieceSide.hpp"
-#include "Logic/PieceElements/Piece/Type/PieceType.hpp"
-#include "Spawn/Associative/Loader/TextureFile/TextureFileLoader.hpp"
-#include "Spawn/Associative/Template/Piece/PieceTemplate.hpp"
-#include "Spawn/Default/Board/BoardSpawner.hpp"
+#include "Application/Application.hpp"
+#include "Graphic/Drawable/Drawable.hpp"
+#include "Spawn/Scene/Console/ConsoleSceneSpawner.hpp"
+
 
 int main()
 {
-    try
+    sf::RenderWindow window(sf::VideoMode(800, 600), "The new window");
+
+    Drawable::TexturePointer texture{ new sf::Texture{} };
+    texture->loadFromFile("D:\\Important\\Projects\\ChessEmulation\\Resourses\\queen.png");
+
+    Drawable drawable{ texture, { 100.f, 100.f } };
+
+    Drawable me{ texture, { 50.f, 50.f } };
+ 
+    while (window.isOpen())
     {
-        BoardSpawner::ObjStorage* objStorage = new BoardSpawner::ObjStorage
+        sf::Event event;
+        while (window.pollEvent(event))
         {
-            BoardSpawner::ObjStorage::Container
+            if (event.type == sf::Event::Closed)
             {
-                { 
-                    PieceSide::WHITE, 
-                    { 
-                        PieceType::ROOK,
-                        PieceType::KNIGHT,
-                        PieceType::BISHOP,
-
-                        PieceType::QUEEN,
-                        PieceType::KING,
-
-                        PieceType::BISHOP,
-                        PieceType::KNIGHT,
-                        PieceType::ROOK,
-
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                    }
-                },
-                { 
-                    PieceSide::BLACK, 
-                    { 
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-                        PieceType::PAWN,
-
-                        PieceType::ROOK,
-                        PieceType::KNIGHT,
-                        PieceType::BISHOP,
-
-                        PieceType::QUEEN,
-                        PieceType::KING,
-
-                        PieceType::BISHOP,
-                        PieceType::KNIGHT,
-                        PieceType::ROOK,
-                    }
-                }
-            }
-        };
-
-        PieceTemplate::TextureSpawner* whiteTextures = 
-            new TextureFileLoader<PieceType>
-            {
-                TextureFileLoader<PieceType>::ObjStorage
-                {
-                    {
-                        { PieceType::ROOK, "Textures/White/Pawn.png" },
-                        { PieceType::KNIGHT, "Textures/White/Knight.png" },
-                        { PieceType::BISHOP, "Textures/White/Bishop.png" },
-                        { PieceType::QUEEN, "Textures/White/Queen.png" },
-                        { PieceType::KING, "Textures/White/King.png" },
-                        { PieceType::PAWN, "Textures/White/Pawn.png" },
-                    }
-                }
-            };
-
-        PieceTemplate::TextureSpawner* blackTextures = 
-            new TextureFileLoader<PieceType>
-            {
-                TextureFileLoader<PieceType>::ObjStorage
-                {
-                    {
-                        { PieceType::ROOK, "Textures/Black/Pawn.png" },
-                        { PieceType::KNIGHT, "Textures/Black/Knight.png" },
-                        { PieceType::BISHOP, "Textures/Black/Bishop.png" },
-                        { PieceType::QUEEN, "Textures/Black/Queen.png" },
-                        { PieceType::KING, "Textures/Black/King.png" },
-                        { PieceType::PAWN, "Textures/Black/Pawn.png" },
-                    }
-                }
-            };
-
-        BoardSpawner::PieceSpawnerStorage* pieceSpawners = 
-            new BoardSpawner::PieceSpawnerStorage
-        {
-            BoardSpawner::PieceSpawnerStorage::InContainer
-            { 
-                new std::pair<PieceSide, BoardSpawner::PieceSpawner*>
-                {
-                    PieceSide::WHITE,
-                    new PieceTemplate
-                    {
-                        PieceTemplate::PieceExamples
-                        {
-                            Piece
-                            {
-                                PieceSide::WHITE, PieceType::ROOK,
-                                Piece::InMovesContainer
-                                {
-                                    // Add Rook moves
-                                }
-                            }
-                        },
-                        whiteTextures
-                    }
-                },
+                window.close();
             }
         }
+ 
+        window.clear();
+ 
+        window.draw(drawable);
+        window.draw(me);
+ 
+        window.display();
     }
-    catch(std::exception& exp)
-    {
-    }
-
-    return 0;
+    return EXIT_SUCCESS;
 }
