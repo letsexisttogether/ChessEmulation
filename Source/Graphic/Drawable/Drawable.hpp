@@ -1,26 +1,27 @@
-#include <memory>
+#pragma once
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Transformable.hpp>
+#include <memory>
 
-class Drawable: public sf::Drawable, public sf::Transformable
+#include "Graphic/Placable/Placable.hpp"
+
+class Drawable: public sf::Drawable, public Placable 
 {
 public:
-    using Position = sf::Vector2f;
+    using Texture = sf::Texture;
 
 public:
     Drawable() = default;
     Drawable(const Drawable& drawable);
     Drawable(Drawable&& drawable);
 
-    Drawable(sf::Texture* const texture, 
-            const Position& position = DefaultPosition);
+    Drawable(Texture* const texture, const Position& position);
 
     virtual ~Drawable() = default;
 
-    const sf::Texture& GetTexture() const noexcept(false);
-    void SetTexture(sf::Texture* const texture) noexcept(false);
+    const Texture& GetTexture() const noexcept(false);
+    void SetTexture(Texture* const texture) noexcept(false);
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) 
         const override;
@@ -31,9 +32,6 @@ public:
 private:
     void CheckTexture() const noexcept(false);
 
-public:
-    static const Position DefaultPosition;
-
 protected:
-    std::shared_ptr<sf::Texture> m_Texture{};
+    std::shared_ptr<Texture> m_Texture{};
 };
