@@ -6,7 +6,7 @@
 
 #include "Graphic/Placable/Placable.hpp"
 
-class Drawable: public sf::Drawable, public Placable 
+class Drawable: public sf::Drawable, virtual public Placable 
 {
 public:
     using Texture = sf::Texture;
@@ -17,6 +17,7 @@ public:
     Drawable(const Drawable& drawable);
     Drawable(Drawable&& drawable);
 
+    Drawable(const TexturePointer& texture);
     Drawable(const TexturePointer& texture, const Position& position);
 
     ~Drawable() = default;

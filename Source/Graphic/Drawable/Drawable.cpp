@@ -5,6 +5,13 @@
 #include <vector>
 #include <stdexcept>
 
+Drawable::Drawable(const TexturePointer& texture)
+{
+    SetTexture(texture);
+    
+    SetSize(static_cast<Placable::Size>(m_Texture->getSize()) / 2.f);
+}
+
 Drawable::Drawable(const TexturePointer& texture, 
     const Position& position)
 {
