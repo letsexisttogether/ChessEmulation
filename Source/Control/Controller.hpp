@@ -3,18 +3,19 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 
-class Controller
-{
-public:
-    using Position = sf::Vector2i; 
+#include "Graphic/Sprite/Sprite.hpp"
 
+class Controller : public Sprite
+{ 
 public:
-    Controller() = default; 
+    Controller() = delete; 
+
+    Controller(const TexturePointer texture, 
+        const Position position = Position{});
 
     virtual ~Controller() = default;
 
-    virtual const Position& GetPosition() const noexcept = 0;
-    virtual void SetPosition(const Position& position) noexcept = 0;
+    virtual void Control() noexcept(false) = 0;
 
-    virtual bool IsActive(const sf::Event& event) const noexcept = 0;
+    Intersectable* GetPossibleIntersectable() const noexcept(false);
 };

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/Window/Window.hpp"
 #include "Scenes/Scene.hpp"
 
 Application& Application::GetInstance() noexcept
@@ -49,4 +51,9 @@ const sf::RenderWindow& Application::GetWindow() const noexcept
 }
 
 // Change it when the time comes
-Application::Application() = default;
+Application::Application()
+{
+    m_Window.reset(new sf::RenderWindow{ sf::VideoMode{ 800, 600 }, "The new window" });
+
+    m_Window->setMouseCursorVisible(false);
+}
