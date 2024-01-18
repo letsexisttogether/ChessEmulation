@@ -39,11 +39,11 @@ const Scene& Application::GetScene() const noexcept
     return *m_Scene; 
 }
 
-sf::Window& Application::GetWindow() noexcept
+sf::RenderWindow& Application::GetWindow() noexcept
 {
     return *m_Window;
 }
-const sf::Window& Application::GetWindow() const noexcept
+const sf::RenderWindow& Application::GetWindow() const noexcept
 {
     return *m_Window;
 }

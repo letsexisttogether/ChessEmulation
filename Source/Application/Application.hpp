@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SFML/Window/Window.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <memory>
 
 class SceneSpawner;
@@ -27,8 +27,8 @@ public:
     Scene& GetScene() noexcept;
     const Scene& GetScene() const noexcept;
 
-    sf::Window& GetWindow() noexcept;
-    const sf::Window& GetWindow() const noexcept;
+    sf::RenderWindow& GetWindow() noexcept;
+    const sf::RenderWindow& GetWindow() const noexcept;
 
 private:
     Application();
@@ -37,5 +37,5 @@ private:
 
 private:
     std::unique_ptr<Scene> m_Scene{};
-    std::unique_ptr<sf::Window> m_Window{};
+    std::unique_ptr<sf::RenderWindow> m_Window{};
 };
