@@ -1,6 +1,19 @@
 #include "Scene.hpp"
 
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <algorithm>
+
+#include "Application/Application.hpp"
+
+void Scene::UpdateGraphic() noexcept(false)
+{
+    sf::RenderWindow& window = Application::GetInstance().GetWindow();
+
+    for (const Drawable* drawable : m_Drawables)
+    {
+        window.draw(*drawable);
+    }
+}
 
 void Scene::AddIntersectable(Intersectable* const intersectable)
     noexcept
@@ -51,11 +64,5 @@ bool Scene::IsWorking() const noexcept
 void Scene::SetWorking(const bool isWorking) noexcept
 {
     m_IsWorking = isWorking;
-}
-
-
-const std::string& Scene::GetName() const noexcept
-{
-    return m_Name;
 }
 

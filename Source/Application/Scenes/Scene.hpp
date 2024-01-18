@@ -1,11 +1,7 @@
 #pragma once
 
-#include <SFML/Graphics/Drawable.hpp>
-#include <string>
-
 #include "Graphic/Drawable/Drawable.hpp"
 #include "Graphic/Intersectable/Intersectable.hpp"
-#include "UI/Buttons/Button.hpp"
 
 class Scene 
 {
@@ -20,7 +16,7 @@ public:
 
     virtual void UpdateLogic() noexcept(false) = 0;
 
-    virtual void UpdateGraphic() noexcept(false) = 0;
+    virtual void UpdateGraphic() noexcept(false);
 
     void AddIntersectable(Intersectable* const intersectable) noexcept;
 
