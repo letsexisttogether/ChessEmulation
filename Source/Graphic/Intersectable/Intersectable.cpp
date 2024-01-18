@@ -38,3 +38,6 @@ bool Intersectable::IsIntersected(const Intersectable& intersectabla)
 
     return isXIntersected && isYIntersected ;
 }
+
+void Intersectable::OnInteract() noexcept 
+{}

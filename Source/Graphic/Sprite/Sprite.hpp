@@ -10,7 +10,7 @@ public:
     Sprite(const Sprite&) = default;
     Sprite(Sprite&&) = default;
 
-    Sprite(const TexturePointer& texture, 
+    Sprite(const TexturePointer texture, 
         const Position position);
 
     virtual ~Sprite() = default;

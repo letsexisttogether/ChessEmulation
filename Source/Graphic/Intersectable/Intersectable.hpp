@@ -16,4 +16,6 @@ public:
     // The default verison checks the fully coverage of this over intersectabla
     bool IsIntersected(const Intersectable& intersectabla)
         const noexcept;
+
+    virtual void OnInteract() noexcept;
 };
