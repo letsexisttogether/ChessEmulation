@@ -1,6 +1,6 @@
 #pragma once 
 
-#include "Control//Controller.hpp"
+#include "Control/Controller.hpp"
 
 class MouseController : public Controller
 {
@@ -13,7 +13,7 @@ public:
 
     ~MouseController() = default;
 
-    void Control() noexcept(false) override;
+    void Control(const sf::Event event) noexcept(false) override;
 
     MouseController& operator = (const MouseController&) = delete;
     MouseController& operator = (MouseController&&) = delete;

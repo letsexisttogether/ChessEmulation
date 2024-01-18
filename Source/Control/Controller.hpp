@@ -15,7 +15,7 @@ public:
 
     virtual ~Controller() = default;
 
-    virtual void Control() noexcept(false) = 0;
+    virtual void Control(const sf::Event event) noexcept(false) = 0;
 
     Intersectable* GetPossibleIntersectable() const noexcept(false);
 };
