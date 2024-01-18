@@ -1,11 +1,24 @@
-﻿#include <iostream>
+﻿#include <ios>
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <string>
 
 #include "Application/Application.hpp"
 #include "Graphic/Drawable/Drawable.hpp"
+#include "Graphic/Intersectable/Intersectable.hpp"
 #include "Spawn/Scene/Console/ConsoleSceneSpawner.hpp"
+
+class Sprite : public Intersectable, public Drawable
+{
+public:
+    Sprite(const Drawable::TexturePointer& texture, const Position& position)
+        : Intersectable{ position },
+        Drawable{ texture }
+    {}
+
+    virtual ~Sprite() = default;
+};
 
 
 int main()
@@ -15,10 +28,8 @@ int main()
     Drawable::TexturePointer texture{ new sf::Texture{} };
     texture->loadFromFile("D:\\Important\\Projects\\ChessEmulation\\Resourses\\queen.png");
 
-    Drawable drawable{ texture, { 100.f, 100.f } };
+    Drawable sprite{ texture, { 100.f, 100.f } };
 
-    Drawable me{ texture, { 50.f, 50.f } };
- 
     while (window.isOpen())
     {
         sf::Event event;
@@ -29,13 +40,13 @@ int main()
                 window.close();
             }
         }
- 
+
         window.clear();
- 
-        window.draw(drawable);
-        window.draw(me);
- 
+
+        window.draw(sprite);
+
         window.display();
     }
+
     return EXIT_SUCCESS;
 }
