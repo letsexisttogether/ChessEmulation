@@ -1,18 +1,14 @@
 #include "Application.hpp"
-#include "Spawn/Scene/SceneSpawner.hpp"
 
 #include <iostream>
 
-Application::Application(SceneSpawner* const initialSceneSpawner)
-{
-    initialSceneSpawner->SetApplication(this);
+#include "Scenes/Scene.hpp"
 
-    m_Scene = initialSceneSpawner->SpawnScene();
-}
-
-Application::~Application()
+Application& Application::GetInstance() noexcept
 {
-    delete m_Scene;
+    static Application instance{};
+
+    return instance;
 }
 
 void Application::CarryTheBoatsAndTheLogs() noexcept
@@ -23,15 +19,7 @@ void Application::CarryTheBoatsAndTheLogs() noexcept
         {
            m_Scene->UpdateLogic(); 
 
-           std::int32_t buttonIndex{};
-
-            std::cout << "Enter a button buttonIndex: ";
-
-            std::cin >> buttonIndex;
-
-            std::cout << std::endl;
-
-            m_Scene->ActivateButton(buttonIndex);
+           m_Scene->UpdateGraphic();
         }
         catch (std::exception& exp)
         {
@@ -42,7 +30,23 @@ void Application::CarryTheBoatsAndTheLogs() noexcept
     std::cout << "Have a nice day" << std::endl;
 }
 
-Scene* const Application::GetScene() const noexcept
+Scene& Application::GetScene() noexcept
 {
-    return m_Scene;
+    return *m_Scene;
 }
+const Scene& Application::GetScene() const noexcept
+{
+    return *m_Scene; 
+}
+
+sf::Window& Application::GetWindow() noexcept
+{
+    return *m_Window;
+}
+const sf::Window& Application::GetWindow() const noexcept
+{
+    return *m_Window;
+}
+
+// Change it when the time comes
+Application::Application() = default;

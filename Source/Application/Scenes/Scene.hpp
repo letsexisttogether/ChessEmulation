@@ -26,7 +26,7 @@ public:
     bool IsWorking() const noexcept;
     void SetWorking(const bool isWorking) noexcept;
 
-// Change to private some of the fields
+// Change some of the fields to private
 protected:
     const std::string m_Name;
 
