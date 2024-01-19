@@ -30,10 +30,9 @@ bool Intersectable::IsIntersected(const Intersectable& intersectabla)
         GetPosition(PositionLocation::DOWN_LEFT)
     };
 
-
     const bool isXIntersected = (thisDownLeft.x <= intersecatblaDownLeft.x 
             && thisUpRight.x >= intersectablaUpRight.x);
-    const bool isYIntersected  = (thisDownLeft.y >= intersecatblaDownLeft.y
+    const bool isYIntersected = (thisDownLeft.y >= intersecatblaDownLeft.y
             && thisUpRight.y <= intersectablaUpRight.y);
 
     return isXIntersected && isYIntersected;

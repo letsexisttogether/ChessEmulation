@@ -17,13 +17,13 @@ public:
     Drawable(const Drawable& drawable);
     Drawable(Drawable&& drawable);
 
-    Drawable(const TexturePointer& texture);
-    Drawable(const TexturePointer& texture, const Position& position);
+    Drawable(const TexturePointer texture);
+    Drawable(const TexturePointer texture, const Position position);
 
     ~Drawable() = default;
 
     const Texture& GetTexture() const noexcept(false);
-    void SetTexture(const TexturePointer& texture) noexcept(false);
+    void SetTexture(const TexturePointer texture) noexcept(false);
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) 
         const override;

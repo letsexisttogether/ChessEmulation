@@ -5,29 +5,22 @@
 #include <vector>
 #include <stdexcept>
 
-Drawable::Drawable(const TexturePointer& texture)
+Drawable::Drawable(const TexturePointer texture)
 {
     SetTexture(texture);
-    
-    SetSize(static_cast<Size>(m_Texture->getSize()));
 }
 
-Drawable::Drawable(const TexturePointer& texture, 
-    const Position& position)
+Drawable::Drawable(const TexturePointer texture, 
+    const Position position)
 {
-    SetTexture(texture);
-    
     SetOrigin(position);
-    SetSize(static_cast<Size>(m_Texture->getSize()));
-
+    SetTexture(texture);    
 }
 
 Drawable::Drawable(const Drawable& drawable)
 {
-    SetTexture(drawable.m_Texture);
-    
     SetOrigin(drawable.GetOrigin());
-    SetSize(drawable.GetSize());
+    SetTexture(drawable.m_Texture);
 }
 
 Drawable::Drawable(Drawable&& drawable)
@@ -43,9 +36,11 @@ const sf::Texture& Drawable::GetTexture() const noexcept(false)
     return *m_Texture;
 }
 
-void Drawable::SetTexture(const TexturePointer& texture) noexcept(false)
+void Drawable::SetTexture(const TexturePointer texture) noexcept(false)
 {
     m_Texture = texture;
+
+    SetSize(static_cast<Size>(texture->getSize()));
 
     CheckTexture();
 }
@@ -81,10 +76,9 @@ void Drawable::draw(sf::RenderTarget& target, sf::RenderStates states)
 
 Drawable& Drawable::operator = (const Drawable& drawable) noexcept(false)
 {
-    SetTexture(drawable.m_Texture);
-
     SetOrigin(drawable.GetOrigin());
-    SetSize(drawable.GetSize());
+
+    SetTexture(drawable.m_Texture);
 
     return *this;
 }
