@@ -28,7 +28,12 @@ Piece::Piece(const PieceSide side, const PieceType type,
     const InMovesContainer& moves, const TexturePointer texture,
     const Drawable::Position position)
     : Sprite{ texture, position }, m_Side{ side }, m_Type{ type }
-{}
+{
+    for (const BasicMove* move : moves)
+    {
+        m_Moves.push_back(MovePointer{ move->Clone() });
+    }
+}
 
 MoveEffect Piece::TryMove(const BoardCell& initial, const BoardCell& final) 
     const noexcept
@@ -69,3 +74,4 @@ Piece& Piece::operator = (Piece&& piece)
 
     return *this;
 }
+

@@ -1,9 +1,8 @@
 #pragma once
 
 #include <utility>
-#include <memory>
 
-#include "Logic/PieceElements/Move/DefaultMove/MoveDirection.hpp"
+#include "MoveDirection.hpp"
 
 class DefaultMove
 {

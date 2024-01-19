@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "Logic/PieceElements/Move/BasicMove.hpp"
+#include "Logic/Piece/Moves/BasicMove.hpp"
 #include "Graphic/Sprite/Sprite.hpp"
 #include "Type/PieceType.hpp"
 #include "Side/PieceSide.hpp"
