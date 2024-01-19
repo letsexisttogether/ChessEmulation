@@ -3,11 +3,12 @@
 #include <algorithm>
 #include <stdexcept>
 
+
 Board::Board(CellSet&& cells)
     : m_Cells{ std::move(cells) }
 {}
 
-void Board::AddCell(BoardCell&& cell) noexcept
+void Board::AddCell(BoardCell&& cell) noexcept(false)
 {
     m_Cells.insert(cell);
 }

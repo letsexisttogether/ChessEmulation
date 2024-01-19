@@ -12,6 +12,7 @@ public:
 
 public:
     Board() = default;
+    // Change later 
     Board(const Board&) = default;
     Board(Board&&) = default;
 
@@ -19,13 +20,15 @@ public:
 
     ~Board() = default;
 
-    void AddCell(BoardCell&& cell) noexcept;
+    void AddCell(BoardCell&& cell) noexcept(false);
     
     Board& operator = (const Board&) = delete;
     Board& operator = (Board&&) = delete;
     
-    const BoardCell& operator [] (const BoardCellIndex& index) const noexcept(false);
-    BoardCell& operator [] (const BoardCellIndex& index) noexcept(false);
+    const BoardCell& operator [] (const BoardCellIndex& index) 
+        const noexcept(false);
+    BoardCell& operator [] (const BoardCellIndex& index) 
+        noexcept(false);
 
 private:
 	CellSet m_Cells{};
