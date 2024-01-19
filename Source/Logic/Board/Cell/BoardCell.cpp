@@ -4,44 +4,47 @@ BoardCell::BoardCell(const BoardCellIndex& index)
     : m_Index{ index }
 {}
 
-BoardCell::BoardCell(const BoardCellIndex& index, sf::Texture* const texture,
-    const Drawable::Position& position, Piece* const piece)
-    : Drawable(texture, position), m_Index{ index }, m_Piece{ piece }
+BoardCell::BoardCell(const BoardCellIndex& index, 
+    const Position position, 
+    const Size size,
+    const PiecePointer piece)
+    : Intersectable{ position, size }, 
+    m_Index{ index }, m_Piece{ piece }
 {}
 
-void BoardCell::SetPiece(Piece* const piece) noexcept
+Piece& BoardCell::GetPiece() noexcept
 {
-	m_Piece.reset(piece); 
+    return *m_Piece;
+}
+
+const Piece& BoardCell::GetPiece() const noexcept
+{
+    return *m_Piece;
+}
+
+void BoardCell::SetPiece(const PiecePointer piece) noexcept
+{
+    m_Piece = piece;
 
 	FitPiece();
 }
 
-void BoardCell::FreeCell() noexcept
+bool BoardCell::IsFree() const noexcept
+{
+    return !m_Piece;
+}
+
+void BoardCell::MakeFree() noexcept
 {
 	m_Piece.reset();
 }
 
-void BoardCell::FitPiece() noexcept(false)
-{
-	if (!m_Piece)
-	{
-		throw std::exception{ "Missing piece on the cell" };
-	}
-
-    // const sf::Vector2u pieceHalfSize{ m_Piece->getTexture()->getSize() / 2u };
-    // const sf::Vector2u cellHalfSize{ m_Texture->getSize() / 2u };
-    // const sf::Vector2f& currentCellPos = getPosition();
-
-    // const sf::Vector2f pieceNewPosition{ currentCellPos.x + cellHalfSize.x - 
-        // pieceHalfSize.x, currentCellPos.y + cellHalfSize.y - pieceHalfSize.y };
-
-	// m_Piece->setPosition(pieceNewPosition);
-}
-
 DefaultMove BoardCell::operator - (const BoardCell& cell) const noexcept(false)
 {
-	const std::int8_t vericalDiff = m_Index.GetRank() - cell.m_Index.GetRank();
-	const std::int8_t horizontalDiff = m_Index.GetFile() - cell.m_Index.GetFile();
+	const BoardCellIndex::Rank vericalDiff = 
+        m_Index.GetRank() - cell.m_Index.GetRank();
+	const BoardCellIndex::File horizontalDiff = 
+        m_Index.GetFile() - cell.m_Index.GetFile();
 
 	if (!vericalDiff && !horizontalDiff)
 	{
@@ -89,4 +92,26 @@ bool BoardCell::IndexEqual::operator() (const BoardCell& fCell,
         const BoardCell& sCell) const noexcept
 {
     return fCell.GetIndex() == sCell.GetIndex();
+}
+
+void BoardCell::FitPiece() noexcept(false)
+{
+    CheckPiece();
+
+    const sf::Vector2u pieceHalfSize{ m_Piece->GetTexture().getSize() / 2u };
+    const sf::Vector2u cellHalfSize{ m_Texture->getSize() / 2u };
+    const sf::Vector2f& currentCellPos = getPosition();
+
+    const sf::Vector2f pieceNewPosition{ currentCellPos.x + cellHalfSize.x - 
+        pieceHalfSize.x, currentCellPos.y + cellHalfSize.y - pieceHalfSize.y };
+
+	m_Piece->setPosition(pieceNewPosition);
+}
+
+void BoardCell::CheckPiece() const noexcept(false)
+{
+	if (!m_Piece)
+	{
+		throw std::exception{ "Missing piece on the cell" };
+	}
 }

@@ -2,38 +2,37 @@
 
 #include <memory>
 
-#include "Logic/PieceElements/Piece/Piece.hpp"
+#include "Graphic/Intersectable/Intersectable.hpp"
+#include "Logic/Piece/Piece.hpp"
 #include "Index/BoardCellIndex.hpp"
-#include "Graphic/Drawable/Drawable.hpp"
 
-class BoardCell : Drawable
+class BoardCell : public Intersectable
 {
 public:
     using PiecePointer = std::shared_ptr<Piece>;
 
 public:
 	BoardCell() = delete;
-
-    // Change it latter mb
 	BoardCell(const BoardCell&) = default;
 	BoardCell(BoardCell&& cell) = default;
 
     BoardCell(const BoardCellIndex& index);
 
-    BoardCell(const BoardCellIndex& index, sf::Texture* const texture,
-        const Drawable::Position& position = Drawable::DefaultPosition,
-        Piece* const piece = nullptr);
+    BoardCell(const BoardCellIndex& index, 
+        const Position position = Position{},
+        const Size size = Size{},
+        const PiecePointer piece = nullptr);
 
 	~BoardCell() = default;
 
-	inline const BoardCellIndex& GetIndex() const noexcept { return m_Index; }
+    const BoardCellIndex& GetIndex() const noexcept;
 
-	inline const Piece* const GetPiece() 
-        const noexcept { return m_Piece.get(); }
-	void SetPiece(Piece* const piece) noexcept;
+    Piece& GetPiece() noexcept;
+    const Piece& GetPiece() const noexcept;
+	void SetPiece(const PiecePointer piece) noexcept;
 
-	bool IsFree() const noexcept { return !m_Piece; }
-	void FreeCell() noexcept;
+	bool IsFree() const noexcept;
+	void MakeFree() noexcept;
 
     // void OnIntersect(const Controller& controller) noexcept override;
 
@@ -51,11 +50,13 @@ public:
 	struct IndexEqual 
 	{
   		bool operator() (const BoardCell& fCell, 
-                const BoardCell& sCell) const noexcept;
+            const BoardCell& sCell) const noexcept;
 	};
 
-protected: 
+private: 
 	void FitPiece() noexcept(false);
+
+    void CheckPiece() const noexcept(false);
 
 protected:
 	const BoardCellIndex m_Index;
