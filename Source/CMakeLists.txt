@@ -14,7 +14,7 @@ add_executable(${PROJECT_NAME}
     Main.cpp
     ${APPLICATION_SOURCES}
     # ${SPAWN_SOURCES}
-    # ${UI_SOURCES}
+    ${UI_SOURCES}
     ${GRAPHIC_SOURCES}
     ${CONTROL_SOURCES}
 )

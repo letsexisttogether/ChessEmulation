@@ -1,20 +1,26 @@
-#pragma once
+#pragma once 
 
-#include "Graphic/Controllable/Controllable.hpp"
+#include <functional>
 
-template<class _Result>
-class Button : public Controllable
+#include "Graphic/Sprite/Sprite.hpp"
+
+class Button : public Sprite
 {
 public:
-    Button() = default;
+    using Delegate = std::function<void()>;
 
-    Button(const sf::Texture& texture, const sf::Vector2f& position)
-        : Controllable{ texture, position }
-    {
-        setPosition(position);
-    }
+public:
+    Button() = default;
+    Button(const Button&) = default;
+    Button(Button&&) = default;
+
+    Button(const TexturePointer texture, const Position position,
+        const Delegate onClickCallBack);
 
     virtual ~Button() = default;
 
-    virtual _Result OnPress() noexcept = 0; 
+    void OnInteract() noexcept(false) override;
+
+private:
+    Delegate m_CallBack;
 };
