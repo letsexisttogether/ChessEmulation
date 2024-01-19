@@ -2,9 +2,10 @@
 
 #include <unordered_set>
 
+#include "Graphic/Sprite/Sprite.hpp"
 #include "Logic/Board/Cell/BoardCell.hpp"
 
-class Board : public Drawable
+class Board : public Sprite 
 {
 public: 
     using CellSet = std::unordered_set<BoardCell, 
@@ -17,6 +18,8 @@ public:
     Board(Board&&) = default;
 
     Board(CellSet&& cells);
+    Board(CellSet&& cells, const TexturePointer texture,
+        const Position position);
 
     ~Board() = default;
 
