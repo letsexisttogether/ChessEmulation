@@ -14,28 +14,21 @@ Piece::Piece(Piece&& piece)
     m_Moves{ std::move(piece.m_Moves) }
 {}
 
-
-Piece::Piece(const PieceSide side, const PieceType type, 
-    const InMovesContainer& moves, sf::Texture* const texture,
-    const Drawable::Position& position)
-    : m_Side{ side }, m_Type{ type }, Drawable{ texture, position }
-{
-    for (const BasicMove* move : moves)
-    {
-        m_Moves.push_back(MovePointer{ move->Clone() });
-    }
-}
-
-
-Piece::Piece(const PieceSide side, const PieceType type, 
+Piece::Piece(const PieceSide side, const PieceType type,
     const InMovesContainer& moves)
-    : m_Side{ side }, m_Type{ type } 
+    : m_Side{ side }, m_Type{ type }
 {
     for (const BasicMove* move : moves)
     {
         m_Moves.push_back(MovePointer{ move->Clone() });
     }
 }
+
+Piece::Piece(const PieceSide side, const PieceType type, 
+    const InMovesContainer& moves, const TexturePointer texture,
+    const Drawable::Position position)
+    : Sprite{ texture, position }, m_Side{ side }, m_Type{ type }
+{}
 
 MoveEffect Piece::TryMove(const BoardCell& initial, const BoardCell& final) 
     const noexcept

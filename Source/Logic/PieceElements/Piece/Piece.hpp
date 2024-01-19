@@ -4,12 +4,12 @@
 #include <memory>
 #include <vector>
 
+#include "Logic/PieceElements/Move/BasicMove.hpp"
+#include "Graphic/Sprite/Sprite.hpp"
 #include "Type/PieceType.hpp"
 #include "Side/PieceSide.hpp"
-#include "Graphic/Drawable/Drawable.hpp"
-#include "Logic/PieceElements/Move/BasicMove.hpp"
 
-class Piece : public Drawable 
+class Piece : public Sprite 
 {
 public:
     using MovePointer = std::unique_ptr<BasicMove>;
@@ -24,10 +24,9 @@ public:
 
     Piece(const PieceSide side, const PieceType type,
         const InMovesContainer& moves);
-
     Piece(const PieceSide side, const PieceType type, 
-        const InMovesContainer& moves, sf::Texture* const texture,
-        const Drawable::Position& position = Drawable::DefaultPosition);
+        const InMovesContainer& moves, const TexturePointer texture,
+        const Position position = Position{});
 
 	virtual ~Piece() = default;
 
@@ -44,18 +43,6 @@ protected:
 	PieceSide m_Side{};
     PieceType m_Type{};
 
-    std::shared_ptr<sf::Texture> m_Texture{};
     MovesContainer m_Moves{};
-
-    // Old ideas, let's just leave them as that
-
-	// Includes default moves and attacks
-	// std::vector<PieceMove> m_AllPossibleMoves{};
-	// 
-	// std::vector<PieceMove> m_AllowedAttacks{};
-	// std::vector<PieceMove> m_AllowedMoves{};
 };
-
-
-
 
