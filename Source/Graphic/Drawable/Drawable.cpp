@@ -9,7 +9,7 @@ Drawable::Drawable(const TexturePointer& texture)
 {
     SetTexture(texture);
     
-    SetSize(static_cast<Placable::Size>(m_Texture->getSize()) / 2.f);
+    SetSize(static_cast<Size>(m_Texture->getSize()));
 }
 
 Drawable::Drawable(const TexturePointer& texture, 
@@ -18,7 +18,8 @@ Drawable::Drawable(const TexturePointer& texture,
     SetTexture(texture);
     
     SetOrigin(position);
-    SetSize(static_cast<Placable::Size>(m_Texture->getSize()) / 2.f);
+    SetSize(static_cast<Size>(m_Texture->getSize()));
+
 }
 
 Drawable::Drawable(const Drawable& drawable)

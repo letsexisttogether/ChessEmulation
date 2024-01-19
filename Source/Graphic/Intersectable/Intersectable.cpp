@@ -1,9 +1,7 @@
 #include "Intersectable.hpp"
 
-#include <iostream>
-
 Intersectable::Intersectable(const Placable::Position origin)
-    : Placable{ origin, Placable::Size{ 1.f, 1.f } }
+    : Placable{ origin, Placable::Size{} }
 {}
 
 Intersectable::Intersectable(const Placable::Position origin, 

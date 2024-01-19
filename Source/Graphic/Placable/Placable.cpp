@@ -5,12 +5,15 @@
 #include "Graphic/Placable/PositionLocation.hpp"
 
 Placable::Placable(const Placable& placable)
-    : m_Origin{ placable.m_Origin }, m_Size{ placable.m_Size }
-{}
+{
+    SetOrigin(placable.m_Origin);
+    SetSize(placable.m_Size);
+}
 
 Placable::Placable(const Position origin, const Size size)
-    : m_Origin{ origin }, m_Size{ size }
-{}
+{
+    SetOrigin(origin);
+}
 
 const Placable::Position& Placable::GetOrigin() const noexcept
 {
@@ -36,22 +39,25 @@ const Placable::Position
     Placable::GetPosition(const PositionLocation location) 
     const noexcept(false)
 {
+
+    const Size halfSize{ m_Size / 2.f };
+
     switch (location)
     {
         case PositionLocation::CENTER:
             return { m_Origin };
 
         case PositionLocation::UP_RIGHT:
-            return { m_Origin.x + m_Size.x, m_Origin.y - m_Size.y };
+            return { m_Origin.x + halfSize.x, m_Origin.y - halfSize.y };
 
         case PositionLocation::UP_LEFT:
-            return { m_Origin.x - m_Size.x, m_Origin.y - m_Size.y };
+            return { m_Origin.x - halfSize.x, m_Origin.y - halfSize.y };
 
         case PositionLocation::DOWN_RIGHT:
-            return { m_Origin.x + m_Size.x, m_Origin.y + m_Size.y };
+            return { m_Origin.x + halfSize.x, m_Origin.y + halfSize.y };
 
         case PositionLocation::DOWN_LEFT:
-            return { m_Origin.x - m_Size.x, m_Origin.y + m_Size.y };
+            return { m_Origin.x - halfSize.x, m_Origin.y + halfSize.y };
     }
 
     throw std::runtime_error{ "This enum value was not supposed to be here" };

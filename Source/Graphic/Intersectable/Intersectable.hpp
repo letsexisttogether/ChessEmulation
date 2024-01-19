@@ -7,9 +7,9 @@ class Intersectable : virtual public Placable
 public:
     Intersectable() = default;
     
-    Intersectable(const Placable::Position origin);
-    Intersectable(const Placable::Position origin, 
-        const Placable::Size size);
+    Intersectable(const Position origin);
+    Intersectable(const Position origin, 
+        const Size size);
 
     virtual ~Intersectable() = default;
 
