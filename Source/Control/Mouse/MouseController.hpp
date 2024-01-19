@@ -15,6 +15,9 @@ public:
 
     void Control(const sf::Event event) noexcept(false) override;
 
+    bool IsIntersected(const Intersectable& intersectabla)
+        const noexcept override;
+
     MouseController& operator = (const MouseController&) = delete;
     MouseController& operator = (MouseController&&) = delete;
 

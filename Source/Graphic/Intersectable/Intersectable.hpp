@@ -9,13 +9,13 @@ public:
     
     Intersectable(const Placable::Position origin);
     Intersectable(const Placable::Position origin, 
-            const Placable::Size size);
+        const Placable::Size size);
 
     virtual ~Intersectable() = default;
 
     // The default verison checks the fully coverage of this over intersectabla
-    bool IsIntersected(const Intersectable& intersectabla)
+    virtual bool IsIntersected(const Intersectable& intersectabla)
         const noexcept;
 
-    virtual void OnInteract() noexcept;
+    virtual void OnInteract() noexcept(false);
 };

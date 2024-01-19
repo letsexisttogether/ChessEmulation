@@ -1,5 +1,7 @@
 #include "Intersectable.hpp"
 
+#include <iostream>
+
 Intersectable::Intersectable(const Placable::Position origin)
     : Placable{ origin, Placable::Size{ 1.f, 1.f } }
 {}
@@ -16,7 +18,7 @@ bool Intersectable::IsIntersected(const Intersectable& intersectabla)
     { 
         intersectabla.GetPosition(PositionLocation::UP_RIGHT)
     };
-    const Position intersecatbleDownLeft 
+    const Position intersecatblaDownLeft 
     {
         intersectabla.GetPosition(PositionLocation::DOWN_LEFT)
     };
@@ -31,13 +33,13 @@ bool Intersectable::IsIntersected(const Intersectable& intersectabla)
     };
 
 
-    bool isXIntersected = (thisDownLeft.x <= intersecatbleDownLeft.x 
+    const bool isXIntersected = (thisDownLeft.x <= intersecatblaDownLeft.x 
             && thisUpRight.x >= intersectablaUpRight.x);
-    bool isYIntersected  = (thisDownLeft.y >= intersecatbleDownLeft.y
+    const bool isYIntersected  = (thisDownLeft.y >= intersecatblaDownLeft.y
             && thisUpRight.y <= intersectablaUpRight.y);
 
-    return isXIntersected && isYIntersected ;
+    return isXIntersected && isYIntersected;
 }
 
-void Intersectable::OnInteract() noexcept 
+void Intersectable::OnInteract() noexcept(false)
 {}

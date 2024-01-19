@@ -14,7 +14,7 @@ Intersectable* Controller::GetPossibleIntersectable() const noexcept(false)
     
     for (Intersectable* intersectable : scene.GetIntersectables())
     {
-        if (intersectable->IsIntersected(*this))
+        if (IsIntersected(*intersectable))
         {
             return intersectable;
         }

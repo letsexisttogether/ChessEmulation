@@ -11,7 +11,7 @@ public:
     Sprite(Sprite&&) = default;
 
     Sprite(const TexturePointer texture, 
-        const Position position);
+        const Position position = Position{});
 
     virtual ~Sprite() = default;
 

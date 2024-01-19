@@ -17,5 +17,5 @@ public:
 
     virtual void Control(const sf::Event event) noexcept(false) = 0;
 
-    Intersectable* GetPossibleIntersectable() const noexcept(false);
+    virtual Intersectable* GetPossibleIntersectable() const noexcept(false);
 };

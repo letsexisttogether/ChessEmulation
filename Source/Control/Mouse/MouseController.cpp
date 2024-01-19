@@ -26,6 +26,29 @@ void MouseController::Control(const sf::Event event) noexcept(false)
     }
 }
 
+bool MouseController::IsIntersected(const Intersectable& intersectabla)
+    const noexcept
+{
+    const Position arrowPosition { GetPosition(PositionLocation::UP_LEFT) };
+
+    const Position intersectablaUpRight
+    { 
+        intersectabla.GetPosition(PositionLocation::UP_RIGHT)
+    };
+    const Position intersecatblaDownLeft 
+    {
+        intersectabla.GetPosition(PositionLocation::DOWN_LEFT)
+    };
+
+    const bool isXIntersected = (intersectablaUpRight.x >= arrowPosition.x
+        && intersecatblaDownLeft.x <= arrowPosition.x);
+
+    const bool isYIntersected = (intersectablaUpRight.y <= arrowPosition.x
+        && intersecatblaDownLeft.y >= arrowPosition.y);
+
+    return isXIntersected && isYIntersected;
+}
+
 void MouseController::UpdatePosition() noexcept
 {
     const sf::RenderWindow& window = Application::GetInstance().GetWindow();
