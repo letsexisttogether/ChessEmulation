@@ -43,7 +43,7 @@ bool MouseController::IsIntersected(const Intersectable& intersectabla)
     const bool isXIntersected = (intersectablaUpRight.x >= arrowPosition.x
         && intersecatblaDownLeft.x <= arrowPosition.x);
 
-    const bool isYIntersected = (intersectablaUpRight.y <= arrowPosition.x
+    const bool isYIntersected = (intersectablaUpRight.y <= arrowPosition.y
         && intersecatblaDownLeft.y >= arrowPosition.y);
 
     return isXIntersected && isYIntersected;
