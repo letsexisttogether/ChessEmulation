@@ -2,9 +2,8 @@
 
 #include <memory>
 
-#include "Graphic/Intersectable/Intersectable.hpp"
-#include "Logic/Piece/Piece.hpp"
 #include "Index/BoardCellIndex.hpp"
+#include "Logic/Piece/Piece.hpp"
 
 class BoardCell : public Intersectable
 {
@@ -31,10 +30,12 @@ public:
     const Piece& GetPiece() const noexcept;
 	void SetPiece(const PiecePointer piece) noexcept;
 
+    void TransferPiece(BoardCell& cell) noexcept(false);
+
 	bool IsFree() const noexcept;
 	void MakeFree() noexcept;
 
-    // void OnIntersect(const Controller& controller) noexcept override;
+    void OnInteract() noexcept(false) override;
 
  	BoardCell& operator = (const BoardCell&) = delete;
 	BoardCell& operator = (BoardCell&&) = delete;

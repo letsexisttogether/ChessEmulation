@@ -1,5 +1,11 @@
 #include "BoardCell.hpp"
 
+#include <stdexcept>
+
+#include "Application/Application.hpp"
+#include "Application/Scenes/Game/GameScene.hpp"
+
+
 BoardCell::BoardCell(const BoardCellIndex& index)
     : m_Index{ index }
 {}
@@ -29,6 +35,21 @@ void BoardCell::SetPiece(const PiecePointer piece) noexcept
 	FitPiece();
 }
 
+void BoardCell::TransferPiece(BoardCell& cell) noexcept(false)
+{
+    CheckPiece();
+
+    // I do it like this for now, because there's no any dead pieces handling
+    if (!cell.IsFree())
+    {
+        cell.MakeFree();
+    }
+
+    cell.SetPiece(m_Piece);
+    
+    MakeFree();
+}
+
 bool BoardCell::IsFree() const noexcept
 {
     return !m_Piece;
@@ -37,6 +58,19 @@ bool BoardCell::IsFree() const noexcept
 void BoardCell::MakeFree() noexcept
 {
 	m_Piece.reset();
+}
+
+void BoardCell::OnInteract() noexcept(false) 
+{
+    Scene& scene = Application::GetInstance().GetScene();
+
+    GameScene& gameScene = static_cast<GameScene&>(scene); 
+    Match& match = gameScene.GetMatch();
+
+    if (!IsFree())
+    {
+        match.GetGameObserver().SetCell(this);
+    }
 }
 
 DefaultMove BoardCell::operator - (const BoardCell& cell) const noexcept(false)
@@ -98,6 +132,7 @@ void BoardCell::FitPiece() noexcept(false)
 {
     CheckPiece();
 
+    /*
     const sf::Vector2u pieceHalfSize{ m_Piece->GetTexture().getSize() / 2u };
     const sf::Vector2u cellHalfSize{ m_Texture->getSize() / 2u };
     const sf::Vector2f& currentCellPos = getPosition();
@@ -106,12 +141,14 @@ void BoardCell::FitPiece() noexcept(false)
         pieceHalfSize.x, currentCellPos.y + cellHalfSize.y - pieceHalfSize.y };
 
 	m_Piece->setPosition(pieceNewPosition);
+    
+    */
 }
 
 void BoardCell::CheckPiece() const noexcept(false)
 {
 	if (!m_Piece)
 	{
-		throw std::exception{ "Missing piece on the cell" };
+		throw std::runtime_error{ "Missing piece on the cell" };
 	}
 }
