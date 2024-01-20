@@ -14,8 +14,8 @@ public:
 public:
     Board() = default;
     // Change later 
-    Board(const Board&) = default;
-    Board(Board&&) = default;
+    Board(const Board&) = delete;
+    Board(Board&& board);
 
     Board(CellSet&& cells);
     Board(CellSet&& cells, const TexturePointer texture,

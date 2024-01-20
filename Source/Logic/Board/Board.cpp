@@ -3,6 +3,10 @@
 #include <algorithm>
 #include <stdexcept>
 
+Board::Board(Board&& board)
+    : m_Cells{ std::move(board.m_Cells) }
+{}
+
 Board::Board(CellSet&& cells)
     : m_Cells{ std::move(cells) }
 {}
