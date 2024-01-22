@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "Logic/Piece/Moves/BasicMove.hpp"
+#include "Logic/Move/Moves/BasicMove.hpp"
 #include "Graphic/Sprite/Sprite.hpp"
 #include "Type/PieceType.hpp"
 #include "Side/PieceSide.hpp"
@@ -24,14 +24,15 @@ public:
 
     Piece(const PieceSide side, const PieceType type,
         const InMovesContainer& moves);
+
     Piece(const PieceSide side, const PieceType type, 
-        const InMovesContainer& moves, const TexturePointer texture,
+        const TexturePointer texture,
+        const InMovesContainer& moves = {},
         const Position position = Position{});
 
 	virtual ~Piece() = default;
 
-    MoveEffect TryMove(const BoardCell& initial, 
-            const BoardCell& final) const noexcept;
+    MoveEffect TryMove(const Match& match) const noexcept;
 
 	inline const PieceSide GetSide() const noexcept { return m_Side; }
     inline const PieceType GetType() const noexcept { return m_Type; }

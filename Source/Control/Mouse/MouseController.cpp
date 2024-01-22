@@ -2,22 +2,22 @@
 
 #include <SFML/Window/Mouse.hpp>
 
-#include "Application/Application.hpp"
-
-MouseController::MouseController(const TexturePointer texture)
-    : Controller{ texture }
+MouseController::MouseController(Window& window, const TexturePointer texture)
+    : Controller{ window, texture }
 {}
 
 // This version of the method is a piece of my mourning creation
 // I will change in the future, when all the controllers are implemented
-void MouseController::Control(const sf::Event event) noexcept(false)
+void MouseController::Control() noexcept(false)
 {
     UpdatePosition();
 
-    sf::RenderWindow& window = Application::GetInstance().GetWindow();
+    sf::Event event{};
+
+    while(m_Window.pollEvent(event));
 
     if (event.type == sf::Event::MouseButtonReleased
-            && event.mouseButton.button == sf::Mouse::Left)
+        && event.mouseButton.button == sf::Mouse::Left)
     {
         if (Intersectable* intersectable = GetPossibleIntersectable())
         {
@@ -29,7 +29,7 @@ void MouseController::Control(const sf::Event event) noexcept(false)
 bool MouseController::IsIntersected(const Intersectable& intersectabla)
     const noexcept
 {
-    const Position arrowPosition { GetPosition(PositionLocation::UP_LEFT) };
+    const Position arrowPosition{ GetPosition(PositionLocation::UP_LEFT) };
 
     const Position intersectablaUpRight
     { 
@@ -51,11 +51,9 @@ bool MouseController::IsIntersected(const Intersectable& intersectabla)
 
 void MouseController::UpdatePosition() noexcept
 {
-    const sf::RenderWindow& window = Application::GetInstance().GetWindow();
-
     const Position mousePosition
     {
-        static_cast<Position>(sf::Mouse::getPosition(window))
+        static_cast<Position>(sf::Mouse::getPosition(m_Window))
     };
 
     SetOrigin(mousePosition);

@@ -9,11 +9,11 @@ public:
     MouseController(const MouseController&) = delete;
     MouseController(MouseController&&) = delete;
 
-    MouseController(const TexturePointer texture);
+    MouseController(Window& window, const TexturePointer texture);
 
     ~MouseController() = default;
 
-    void Control(const sf::Event event) noexcept(false) override;
+    void Control() noexcept(false) override;
 
     bool IsIntersected(const Intersectable& intersectabla)
         const noexcept override;

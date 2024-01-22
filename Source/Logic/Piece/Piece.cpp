@@ -1,5 +1,7 @@
 #include "Piece.hpp"
 
+#include "Logic/Match/Match.hpp"
+
 Piece::Piece(const Piece& piece)
     : m_Side{ piece.m_Side }, m_Type{ piece.m_Type }
 {
@@ -25,7 +27,8 @@ Piece::Piece(const PieceSide side, const PieceType type,
 }
 
 Piece::Piece(const PieceSide side, const PieceType type, 
-    const InMovesContainer& moves, const TexturePointer texture,
+    const TexturePointer texture,
+    const InMovesContainer& moves,
     const Drawable::Position position)
     : Sprite{ texture, position }, m_Side{ side }, m_Type{ type }
 {
@@ -35,13 +38,13 @@ Piece::Piece(const PieceSide side, const PieceType type,
     }
 }
 
-MoveEffect Piece::TryMove(const BoardCell& initial, const BoardCell& final) 
+MoveEffect Piece::TryMove(const Match& match) 
     const noexcept
 {
     for (const MovePointer& move : m_Moves)
     {
-        if (const MoveEffect effect = move->CheckRequirements(initial, final);
-                effect != MoveEffect::NONE)
+        if (const MoveEffect effect = move->Try(match);
+            effect != MoveEffect::NONE)
         {
             return effect;
         }

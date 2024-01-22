@@ -1,11 +1,13 @@
 #include "Controller.hpp"
 
+#include <iostream>
+
 #include "Application/Application.hpp"
 #include "Application/Scenes/Scene.hpp"
 
-Controller::Controller(const TexturePointer texture, 
+Controller::Controller(Window& window, const TexturePointer texture, 
     const Position position)
-    : Sprite{ texture, position }
+    : Sprite{ texture, position }, m_Window{ window }
 {}
 
 Intersectable* Controller::GetPossibleIntersectable() const noexcept(false)
