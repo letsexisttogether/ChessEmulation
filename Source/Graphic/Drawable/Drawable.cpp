@@ -5,6 +5,18 @@
 #include <vector>
 #include <stdexcept>
 
+Drawable::Drawable(const Drawable& drawable)
+{
+    SetOrigin(drawable.GetOrigin());
+    SetTexture(drawable.m_Texture);
+}
+
+Drawable::Drawable(Drawable&& drawable)
+    : Drawable{ drawable }
+{
+    drawable.m_Texture.reset();
+}
+
 Drawable::Drawable(const TexturePointer texture)
 {
     SetTexture(texture);
@@ -15,18 +27,6 @@ Drawable::Drawable(const TexturePointer texture,
 {
     SetOrigin(position);
     SetTexture(texture);    
-}
-
-Drawable::Drawable(const Drawable& drawable)
-{
-    SetOrigin(drawable.GetOrigin());
-    SetTexture(drawable.m_Texture);
-}
-
-Drawable::Drawable(Drawable&& drawable)
-    : Drawable(drawable)
-{
-    drawable.m_Texture.reset();
 }
 
 const sf::Texture& Drawable::GetTexture() const noexcept(false)

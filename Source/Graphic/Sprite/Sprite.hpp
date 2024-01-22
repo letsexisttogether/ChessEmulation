@@ -8,7 +8,7 @@ class Sprite : public Intersectable, public Drawable
 public:
     Sprite() = default;;
     Sprite(const Sprite&) = default;
-    Sprite(Sprite&&) = default;
+    Sprite(Sprite&& sprite);
 
     Sprite(const TexturePointer texture, 
         const Position position = Position{});

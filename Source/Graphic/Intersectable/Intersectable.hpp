@@ -6,10 +6,11 @@ class Intersectable : virtual public Placable
 {
 public:
     Intersectable() = default;
+    Intersectable(const Intersectable& intersectabla);
+    Intersectable(Intersectable&& intersectabla);
     
-    Intersectable(const Position origin);
     Intersectable(const Position origin, 
-        const Size size);
+        const Size size = Size{});
 
     virtual ~Intersectable() = default;
 
@@ -18,4 +19,7 @@ public:
         const noexcept;
 
     virtual void OnInteract() noexcept(false);
+
+    Intersectable& operator = (const Intersectable&) = default;
+    Intersectable& operator = (Intersectable&&) = default;
 };

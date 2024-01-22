@@ -1,11 +1,14 @@
 #include "Intersectable.hpp"
 
-Intersectable::Intersectable(const Placable::Position origin)
-    : Placable{ origin, Placable::Size{} }
+Intersectable::Intersectable(const Intersectable& intersectabla)
+    : Placable{ intersectabla }
 {}
 
-Intersectable::Intersectable(const Placable::Position origin, 
-    const Placable::Size size)
+Intersectable::Intersectable(Intersectable&& intersectabla)
+    : Intersectable{ intersectabla }
+{}
+
+Intersectable::Intersectable(const Position origin, const Size size)
     : Placable{ origin, size }
 {}
 

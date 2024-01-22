@@ -1,6 +1,8 @@
 #include "Sprite.hpp"
 
-#include <iostream>
+Sprite::Sprite(Sprite&& sprite)
+    : Drawable{ std::move(sprite) }
+{}
 
 Sprite::Sprite(const TexturePointer texture, 
     const Position position)

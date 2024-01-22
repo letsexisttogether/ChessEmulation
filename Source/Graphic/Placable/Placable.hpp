@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics/Vertex.hpp>
-#include <vector>
 
 #include "PositionLocation.hpp"
 
@@ -18,7 +17,7 @@ public:
 public:
     Placable() = default;
     Placable(const Placable& placable);
-    Placable(Placable&&) = default;
+    Placable(Placable&& placable);
 
     Placable(const Position origin, const Size size);
     

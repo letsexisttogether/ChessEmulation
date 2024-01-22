@@ -9,10 +9,14 @@ Placable::Placable(const Placable& placable)
     SetOrigin(placable.m_Origin);
     SetSize(placable.m_Size);
 }
+Placable::Placable(Placable&& placable)
+    : Placable{ placable }
+{}
 
 Placable::Placable(const Position origin, const Size size)
 {
     SetOrigin(origin);
+    SetSize(size);
 }
 
 const Placable::Position& Placable::GetOrigin() const noexcept
@@ -39,7 +43,6 @@ const Placable::Position
     Placable::GetPosition(const PositionLocation location) 
     const noexcept(false)
 {
-
     const Size halfSize{ m_Size / 2.f };
 
     switch (location)
