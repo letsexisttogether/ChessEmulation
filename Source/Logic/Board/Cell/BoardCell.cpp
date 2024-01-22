@@ -1,10 +1,19 @@
 #include "BoardCell.hpp"
 
+#include <iostream>
 #include <stdexcept>
 
 #include "Application/Application.hpp"
 #include "Application/Scenes/Game/GameScene.hpp"
 
+BoardCell::BoardCell(BoardCell&& cell)
+    : m_Index{ cell.m_Index }
+{
+    SetOrigin(cell.GetOrigin());
+    SetSize(cell.GetSize());
+
+    cell.TransferPiece(*this);
+}
 
 BoardCell::BoardCell(const BoardCellIndex& index)
     : m_Index{ index }
@@ -14,17 +23,34 @@ BoardCell::BoardCell(const BoardCellIndex& index,
     const Position position, 
     const Size size,
     const PiecePointer piece)
-    : Intersectable{ position, size }, 
-    m_Index{ index }, m_Piece{ piece }
-{}
-
-Piece& BoardCell::GetPiece() noexcept
+    : m_Index{ index }, m_Piece{ piece }
 {
+    // Change later due to virtual inheritance
+    SetOrigin(position);
+    SetSize(size);
+
+    if (!IsFree())
+    {
+        FitPiece();
+    }
+}
+
+const BoardCellIndex& BoardCell::GetIndex() const noexcept
+{
+    return m_Index;
+}
+
+Piece& BoardCell::GetPiece() noexcept(false)
+{
+    CheckPiece();
+
     return *m_Piece;
 }
 
-const Piece& BoardCell::GetPiece() const noexcept
+const Piece& BoardCell::GetPiece() const noexcept(false)
 {
+    CheckPiece();
+
     return *m_Piece;
 }
 
@@ -35,14 +61,11 @@ void BoardCell::SetPiece(const PiecePointer piece) noexcept
 	FitPiece();
 }
 
-void BoardCell::TransferPiece(BoardCell& cell) noexcept(false)
+void BoardCell::TransferPiece(BoardCell& cell) noexcept
 {
-    CheckPiece();
-
-    // I do it like this for now, because there's no any dead pieces handling
-    if (!cell.IsFree())
+    if (IsFree())
     {
-        cell.MakeFree();
+        return;
     }
 
     cell.SetPiece(m_Piece);
@@ -67,10 +90,7 @@ void BoardCell::OnInteract() noexcept(false)
     GameScene& gameScene = static_cast<GameScene&>(scene); 
     Match& match = gameScene.GetMatch();
 
-    if (!IsFree())
-    {
-        match.GetGameObserver().SetCell(this);
-    }
+    match.GetGameObserver().SetCell(this);
 }
 
 DefaultMove BoardCell::operator - (const BoardCell& cell) const noexcept(false)
@@ -90,25 +110,25 @@ DefaultMove BoardCell::operator - (const BoardCell& cell) const noexcept(false)
 	{
 		return DefaultMove{ ((horizontalDiff < 0) ? 
                 (MoveDirection::RIGHT) : (MoveDirection::LEFT)), 
-			DefaultMove::Distance{ vericalDiff, std::abs(horizontalDiff) } };
+			DefaultMove::Distance{ vericalDiff, horizontalDiff } };
 	}
 	if (!horizontalDiff)
 	{
 		return DefaultMove{ ((vericalDiff < 0) ? 
                 (MoveDirection::UP) : (MoveDirection::DOWN)), 
-			DefaultMove::Distance{ std::abs(vericalDiff), horizontalDiff } };
+			DefaultMove::Distance{ vericalDiff, horizontalDiff } };
 	}
 
 	if (vericalDiff < 0)
 	{
 		return DefaultMove{ ((horizontalDiff < 0) ? 
                 (MoveDirection::UP_RIGHT) : (MoveDirection::UP_LEFT)), 
-			DefaultMove::Distance{ std::abs(vericalDiff), std::abs(horizontalDiff) } };
+			DefaultMove::Distance{ vericalDiff, horizontalDiff } };
 	}
 
 	return DefaultMove{ ((horizontalDiff < 0) ? 
             (MoveDirection::DOWN_RIGHT) : (MoveDirection::DOWN_LEFT)), 
-		DefaultMove::Distance{ vericalDiff, std::abs(horizontalDiff) } };
+		DefaultMove::Distance{ vericalDiff, horizontalDiff } };
 }
 
 std::size_t BoardCell::IndexHash::operator() (const BoardCell& cell) 
@@ -132,17 +152,8 @@ void BoardCell::FitPiece() noexcept(false)
 {
     CheckPiece();
 
-    /*
-    const sf::Vector2u pieceHalfSize{ m_Piece->GetTexture().getSize() / 2u };
-    const sf::Vector2u cellHalfSize{ m_Texture->getSize() / 2u };
-    const sf::Vector2f& currentCellPos = getPosition();
-
-    const sf::Vector2f pieceNewPosition{ currentCellPos.x + cellHalfSize.x - 
-        pieceHalfSize.x, currentCellPos.y + cellHalfSize.y - pieceHalfSize.y };
-
-	m_Piece->setPosition(pieceNewPosition);
-    
-    */
+    m_Piece->SetOrigin(m_Origin);
+    m_Piece->SetSize(m_Size);
 }
 
 void BoardCell::CheckPiece() const noexcept(false)

@@ -1,8 +1,8 @@
 #include "BoardCellIndex.hpp"
 
 
-BoardCellIndex::BoardCellIndex(const Rank rank, const File file)
-    : m_Rank{ rank }, m_File{ file }
+BoardCellIndex::BoardCellIndex(const File file, const Rank rank)
+    : m_File{ file }, m_Rank{ rank }
 {}
 
 bool BoardCellIndex::operator == (const BoardCellIndex& index)
@@ -30,6 +30,11 @@ BoardCellIndex BoardCellIndex::operator + (const BoardCellIndex& index)
         static_cast<Rank>(m_Rank + index.m_Rank),
         static_cast<File>(m_File + index.m_File) 
     };
+}
+
+BoardCellIndex& BoardCellIndex::operator += (const BoardCellIndex& index) noexcept
+{
+    return *this = *this + index;
 }
 
 BoardCellIndex BoardCellIndex::operator ++ (std::int32_t) noexcept

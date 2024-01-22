@@ -12,25 +12,25 @@ public:
 
 public:
 	BoardCell() = delete;
-	BoardCell(const BoardCell&) = default;
-	BoardCell(BoardCell&& cell) = default;
+	BoardCell(const BoardCell&) = delete;
+	BoardCell(BoardCell&& cell);
 
     BoardCell(const BoardCellIndex& index);
 
     BoardCell(const BoardCellIndex& index, 
-        const Position position = Position{},
-        const Size size = Size{},
+        const Position position,
+        const Size size,
         const PiecePointer piece = nullptr);
 
 	~BoardCell() = default;
 
     const BoardCellIndex& GetIndex() const noexcept;
 
-    Piece& GetPiece() noexcept;
-    const Piece& GetPiece() const noexcept;
+    Piece& GetPiece() noexcept(false);
+    const Piece& GetPiece() const noexcept(false);
 	void SetPiece(const PiecePointer piece) noexcept;
 
-    void TransferPiece(BoardCell& cell) noexcept(false);
+    void TransferPiece(BoardCell& cell) noexcept;
 
 	bool IsFree() const noexcept;
 	void MakeFree() noexcept;
