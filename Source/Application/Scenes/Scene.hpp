@@ -10,7 +10,7 @@ class Scene
 {
 public:
     using IntersectablesContainer = std::vector<Intersectable*>;
-    using DrawablesContainer = std::vector<Drawable*>;
+    using DrawablesContainer = std::vector<const Drawable*>;
 
 public:
     Scene() = default;
@@ -23,15 +23,11 @@ public:
 
     virtual void UpdateGraphic() noexcept(false);
 
-    void AddIntersectable(Intersectable* const intersectable) noexcept;
+    virtual IntersectablesContainer GetIntersectables() 
+        const noexcept = 0;
 
-    IntersectablesContainer& GetIntersectables() noexcept;
-    const IntersectablesContainer& GetIntersectables() const noexcept;
-
-    void AddDrawable(Drawable* const drawable) noexcept;
-
-    DrawablesContainer& GetDrawable() noexcept;
-    const DrawablesContainer& GetDrawable() const noexcept;
+    virtual DrawablesContainer GetDrawables() 
+        const noexcept = 0;
 
     const Controller& GetController() const noexcept;
     Controller& GetController() noexcept;
@@ -40,11 +36,7 @@ public:
     bool IsWorking() const noexcept;
     void SetWorking(const bool isWorking) noexcept;
 
-// Change some of the fields to private
 protected:
-    DrawablesContainer m_Drawables{};
-    IntersectablesContainer  m_Intersectables{};
-
     std::unique_ptr<Controller> m_Controller{};
 
 private:

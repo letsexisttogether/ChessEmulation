@@ -28,6 +28,12 @@ public:
 
     void UpdateLogic() noexcept(false) override;
 
+    IntersectablesContainer GetIntersectables() 
+        const noexcept override;
+
+    DrawablesContainer GetDrawables() 
+        const noexcept override;
+
     Match& GetMatch() noexcept;
     const Match& GetMatch() const noexcept;
 
