@@ -4,7 +4,11 @@
 #include <stdexcept>
 
 Board::Board(Board&& board)
-    : m_Cells{ std::move(board.m_Cells) }
+    : Sprite{ std::move(board) }, m_Cells{ std::move(board.m_Cells) }
+{}
+
+Board::Board(const TexturePointer texture, const Position position)
+    : Sprite{ texture, position }
 {}
 
 Board::Board(CellSet&& cells)
@@ -18,7 +22,17 @@ Board::Board(CellSet&& cells, const TexturePointer texture,
 
 void Board::AddCell(BoardCell&& cell) noexcept(false)
 {
-    m_Cells.insert(cell);
+    m_Cells.insert(std::move(cell));
+}
+
+Board::CellSet& Board::GetCells() noexcept
+{
+    return m_Cells;
+}
+
+const Board::CellSet& Board::GetCells() const noexcept
+{
+    return m_Cells;
 }
 
 const BoardCell& Board::operator[] (const BoardCellIndex& index) const noexcept(false)
