@@ -7,7 +7,10 @@
 class DefaultMove
 {
 public:
-    using Distance = std::pair<std::uint8_t, std::uint8_t>;
+    using File = std::int8_t;
+    using Rank = std::int8_t;
+
+    using Distance = std::pair<Rank, File>;
 
 public:
 	DefaultMove() = delete;

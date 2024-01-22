@@ -41,11 +41,14 @@ bool BasicMove::IsUnderDistance(const BoardCell& initial,
 {
     const DefaultMove possibleMove = initial - final;
 
-    const DefaultMove::Distance& objDistance = m_DefaultMove.GetDistance();
-    const DefaultMove::Distance& possibleMoveDistance = possibleMove.GetDistance();
+    const DefaultMove::Distance& allowedDistance = 
+        m_DefaultMove.GetDistance();
+    const DefaultMove::Distance& possibleMoveDistance = 
+        possibleMove.GetDistance();
 
-    const bool isDistanceAllowed = (objDistance.first >= possibleMoveDistance.first)
-        && (objDistance.second >= possibleMoveDistance.second);
+    const bool isDistanceAllowed = 
+        (allowedDistance.first >= possibleMoveDistance.first)
+        && (allowedDistance.second >= possibleMoveDistance.second);
 
     const bool isSameDirection = 
         (m_DefaultMove.GetDirection() == possibleMove.GetDirection());
@@ -60,34 +63,24 @@ bool BasicMove::IsAnyObstacles(const Board& board,
     const DefaultMove possibleMove = initial - final;
     const MoveDirection direction = possibleMove.GetDirection();
 
-    BoardCellIndex additionIndex{ 1, 1 };
+    // Add logic of checking obstacles
+    BoardCellIndex additionIndex{ 0, 1 };
 
-    if (direction == MoveDirection::DOWN_RIGHT 
-        || direction == MoveDirection::DOWN_LEFT
-        || direction == MoveDirection::DOWN)
-    {
-        additionIndex.SetRank(-1);
-    }
-
-    if (direction == MoveDirection::UP_LEFT 
-        || direction == MoveDirection::DOWN_LEFT 
-        || direction == MoveDirection::LEFT)
-    {
-        additionIndex.SetFile(-1);
-    }
-
-    for (BoardCellIndex index = initial.GetIndex() + additionIndex, 
+    for (BoardCellIndex index{ initial.GetIndex() + additionIndex }, 
         endIndex = final.GetIndex(); 
         additionIndex && index != endIndex; 
-        index = index + additionIndex)
+        index += additionIndex)
     {
         try
         {
             const BoardCell& cell = board[index];
 
+            std::cout << static_cast<std::int32_t>(index.GetFile()) << ' ' 
+                << static_cast<std::int32_t>(index.GetRank()) << '\n';
+
             if (!cell.IsFree())
             {
-                return false;
+                return true;
             }
         }
         catch(std::exception& exp)
@@ -96,7 +89,7 @@ bool BasicMove::IsAnyObstacles(const Board& board,
         }
     }
 
-    return true;
+    return false;
 }
 
 MoveEffect BasicMove::DefinePossibleMoveEffect(const Match& match) 

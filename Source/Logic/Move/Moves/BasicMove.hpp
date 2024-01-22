@@ -37,7 +37,6 @@ protected:
         const BoardCell& initial, const BoardCell& final) 
         const noexcept;
 
-private:
     bool IsSameSide(const BoardCell& initial,
         const BoardCell& final) const noexcept(false);
 

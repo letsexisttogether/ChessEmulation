@@ -9,6 +9,8 @@ enum class MoveEffect : std::uint8_t
     TRANSFER,
     ATTACK,
 
+    PIECE_TRANSFER,
+
     EN_PASSANT,
     CASTLE
 };
