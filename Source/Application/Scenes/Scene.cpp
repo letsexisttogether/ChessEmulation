@@ -1,9 +1,12 @@
 #include "Scene.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <algorithm>
 
 #include "Application/Application.hpp"
+
+Scene::Scene(Controller* controller)
+    : m_Controller{ controller }
+{}
 
 void Scene::UpdateGraphic() noexcept(false)
 {
@@ -11,7 +14,10 @@ void Scene::UpdateGraphic() noexcept(false)
 
     for (const Drawable* drawable : m_Drawables)
     {
-        window.draw(*drawable);
+        if (drawable)
+        {
+            window.draw(*drawable);
+        };
     }
 }
 
@@ -19,7 +25,7 @@ void Scene::AddIntersectable(Intersectable* const intersectable)
     noexcept
 {
     if (const auto iter = std::find(m_Intersectables.begin(), 
-                m_Intersectables.end(), intersectable);
+            m_Intersectables.end(), intersectable);
         iter == m_Intersectables.end())
     {
         m_Intersectables.push_back(intersectable);
@@ -54,6 +60,21 @@ Scene::DrawablesContainer& Scene::GetDrawable() noexcept
 const Scene::DrawablesContainer& Scene::GetDrawable() const noexcept
 {
     return m_Drawables;
+}
+
+const Controller& Scene::GetController() const noexcept
+{
+    return *m_Controller;
+}
+
+Controller& Scene::GetController() noexcept
+{
+    return *m_Controller;
+}
+
+void Scene::SetController(Controller* controller) noexcept
+{
+    m_Controller.reset(controller);
 }
 
 bool Scene::IsWorking() const noexcept

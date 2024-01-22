@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+
+#include "Control/Controller.hpp"
 #include "Graphic/Drawable/Drawable.hpp"
 #include "Graphic/Intersectable/Intersectable.hpp"
 
@@ -11,6 +14,8 @@ public:
 
 public:
     Scene() = default;
+
+    Scene(Controller* controller);
     
     virtual ~Scene() = default;
 
@@ -28,6 +33,10 @@ public:
     DrawablesContainer& GetDrawable() noexcept;
     const DrawablesContainer& GetDrawable() const noexcept;
 
+    const Controller& GetController() const noexcept;
+    Controller& GetController() noexcept;
+    void SetController(Controller* controller) noexcept;
+
     bool IsWorking() const noexcept;
     void SetWorking(const bool isWorking) noexcept;
 
@@ -35,6 +44,8 @@ public:
 protected:
     DrawablesContainer m_Drawables{};
     IntersectablesContainer  m_Intersectables{};
+
+    std::unique_ptr<Controller> m_Controller{};
 
 private:
     bool m_IsWorking{ true };

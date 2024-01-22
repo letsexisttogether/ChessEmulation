@@ -24,16 +24,19 @@ public:
 
     void CarryTheBoatsAndTheLogs() noexcept;
 
-    Scene& GetScene() noexcept;
-    const Scene& GetScene() const noexcept;
+    Scene& GetScene() noexcept(false);
+    const Scene& GetScene() const noexcept(false);
 
-    sf::RenderWindow& GetWindow() noexcept;
-    const sf::RenderWindow& GetWindow() const noexcept;
+    sf::RenderWindow& GetWindow() noexcept(false);
+    const sf::RenderWindow& GetWindow() const noexcept(false);
 
 private:
     Application();
 
     ~Application() = default; 
+
+    void CheckScene() const noexcept(false);
+    void CheckWindow() const noexcept(false);
 
 private:
     std::unique_ptr<Scene> m_Scene{};
