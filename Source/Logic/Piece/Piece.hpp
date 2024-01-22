@@ -36,14 +36,19 @@ public:
 
 	inline const PieceSide GetSide() const noexcept { return m_Side; }
     inline const PieceType GetType() const noexcept { return m_Type; }
+
+    bool WasMoved() const noexcept;
+    void NotifyAboutMove() noexcept;
 	
 	Piece& operator = (const Piece& piece);
 	Piece& operator = (Piece&& piece);
 	
-protected:
+private:
 	PieceSide m_Side{};
     PieceType m_Type{};
 
+    bool m_WasMoved{};
     MovesContainer m_Moves{};
+
 };
 

@@ -53,6 +53,16 @@ MoveEffect Piece::TryMove(const Match& match)
     return MoveEffect::NONE;
 }
 
+bool Piece::WasMoved() const noexcept
+{
+    return m_WasMoved;
+}
+
+void Piece::NotifyAboutMove() noexcept
+{
+    m_WasMoved = true;
+}
+
 Piece& Piece::operator = (const Piece& piece)
 {
     m_Side = piece.m_Side;
