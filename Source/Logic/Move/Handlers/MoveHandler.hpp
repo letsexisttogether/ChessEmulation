@@ -10,6 +10,6 @@ public:
 
     virtual ~MoveHandler() = default;
 
-    virtual void Handle(Board& board, const GameObserver& gameObsever)
+    virtual void Handle(Board& board, GameObserver& gameObsever)
         const noexcept(false) = 0;
 };

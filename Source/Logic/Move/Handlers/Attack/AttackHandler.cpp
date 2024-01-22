@@ -1,12 +1,12 @@
-#include "TransferHandler.hpp"
+#include "Logic/Move/Handlers/Attack/AttackHandler.hpp"
 
 #include <stdexcept>
 
 #include "Logic/Board/Board.hpp"
 #include "Logic/Gameplay/GameObserver/GameObserver.hpp"
 
-void TransferHandler::Handle(Board& board, GameObserver& gameObsever)
-        const noexcept(false)
+void AttackHandler::Handle(Board& board, GameObserver& gameObsever)
+    const noexcept(false)
 {
     if (!gameObsever.IsMoveBeingMade())
     {
@@ -17,6 +17,8 @@ void TransferHandler::Handle(Board& board, GameObserver& gameObsever)
 
     BoardCell& initial = *cells.first;
     BoardCell& final = *cells.second;
+
+    final.MakeFree();
 
     initial.TransferPiece(final);
 }

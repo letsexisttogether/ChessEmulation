@@ -9,7 +9,7 @@ public:
 
     ~TransferHandler() = default;
 
-    void Handle(Board& board, const GameObserver& gameObsever)
+    void Handle(Board& board, GameObserver& gameObsever)
         const noexcept(false) override;
 
     TransferHandler& operator = (const TransferHandler&) = default;
