@@ -1,8 +1,8 @@
 #include "BoardCellIndex.hpp"
 
 
-BoardCellIndex::BoardCellIndex(const File file, const Rank rank)
-    : m_File{ file }, m_Rank{ rank }
+BoardCellIndex::BoardCellIndex(const Rank rank, const File file)
+    : m_Rank{ rank }, m_File{ file }
 {}
 
 bool BoardCellIndex::operator == (const BoardCellIndex& index)

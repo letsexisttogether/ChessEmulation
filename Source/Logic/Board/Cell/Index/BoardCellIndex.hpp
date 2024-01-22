@@ -2,19 +2,21 @@
 
 #include <cstdint>
 
+#include "Logic/Move/Moves/DefaultMove/DefaultMove.hpp"
+
 class BoardCellIndex
 {
 public:
     // Not sure about the file type, but leave it as that for now
-    using Rank = std::int8_t;
-    using File = std::int8_t;
+    using Rank = DefaultMove::Rank; 
+    using File = DefaultMove::File; 
 
 public:
     BoardCellIndex() = default;
     BoardCellIndex(const BoardCellIndex&) = default;
     BoardCellIndex(BoardCellIndex&&) = default;
 
-    BoardCellIndex(const File file, const Rank rank);
+    BoardCellIndex(const Rank rank, const File file);
 
     ~BoardCellIndex() = default;
 
@@ -42,6 +44,6 @@ public:
     BoardCellIndex& operator -- () noexcept;
 
 private:
-    File m_File{};
     Rank m_Rank{};
+    File m_File{};
 };

@@ -91,14 +91,17 @@ void BoardCell::OnInteract() noexcept(false)
     Match& match = gameScene.GetMatch();
 
     match.GetGameObserver().SetCell(this);
+    
+    std::cout << "Rank (x): " << static_cast<std::int32_t>(m_Index.GetRank()) << ' '
+        << "The file (y): " << static_cast<std::int32_t>(m_Index.GetFile()) << '\n';
 }
 
 DefaultMove BoardCell::operator - (const BoardCell& cell) const noexcept(false)
 {
 	const BoardCellIndex::Rank vericalDiff = 
-        m_Index.GetRank() - cell.m_Index.GetRank();
-	const BoardCellIndex::File horizontalDiff = 
         m_Index.GetFile() - cell.m_Index.GetFile();
+	const BoardCellIndex::File horizontalDiff = 
+        m_Index.GetRank() - cell.m_Index.GetRank();
 
 	if (!vericalDiff && !horizontalDiff)
 	{
