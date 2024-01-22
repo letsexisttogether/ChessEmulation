@@ -20,6 +20,12 @@ public:
     const CellPointerPair& GetCellPair() noexcept;
     CellReferencePair GetCellPair() const noexcept(false);
 
+    BoardCell* GetInitial() noexcept;
+    const BoardCell& GetInitial() const noexcept(false);
+
+    BoardCell* GetFinal() noexcept;
+    const BoardCell& GetFinal() const noexcept(false);
+
     void SetCell(BoardCell* cell) noexcept;
     
     void ClearCells() noexcept;

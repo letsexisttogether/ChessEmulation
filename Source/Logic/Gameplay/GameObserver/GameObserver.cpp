@@ -22,13 +22,49 @@ GameObserver::CellReferencePair GameObserver::GetCellPair()
     return { firstRef, secondRef };
 }
 
+BoardCell* GameObserver::GetInitial() noexcept
+{
+    return m_CellPair.first;
+}
+
+const BoardCell& GameObserver::GetInitial() 
+    const noexcept(false)
+{
+    const BoardCell* initial = m_CellPair.first;
+
+    if (!initial)
+    {
+        throw std::runtime_error{ "GameObserver: The initial cell was not set" };
+    }
+
+    return *initial;
+}
+
+BoardCell* GameObserver::GetFinal() noexcept
+{
+    return m_CellPair.second;
+}
+
+const BoardCell& GameObserver::GetFinal() 
+    const noexcept(false)
+{
+    const BoardCell* final = m_CellPair.second;
+
+    if (!final)
+    {
+        throw std::runtime_error{ "GameObserver: The final cell was not set" };
+    }
+
+    return *final;
+}
+
 void GameObserver::SetCell(BoardCell* cell) noexcept
 {
-    if (!m_CellPair.first)
+    if (!m_CellPair.first && !cell->IsFree())
     {
         m_CellPair.first = cell;
     }
-    else 
+    else if (!m_CellPair.second)
     {
         m_CellPair.second = cell;
     }
