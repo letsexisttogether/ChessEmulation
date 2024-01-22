@@ -1,4 +1,5 @@
 list(APPEND SCENE_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/Game/GameScene.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Scene.cpp
 )
 
