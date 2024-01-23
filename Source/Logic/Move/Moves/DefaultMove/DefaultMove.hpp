@@ -33,6 +33,9 @@ public:
 
     bool operator == (const DefaultMove& move) const noexcept;
 
+    bool operator >= (const DefaultMove& move) const noexcept;
+    bool operator <= (const DefaultMove& move) const noexcept;
+
 private:
 	MoveDirection m_Direction;
 	Distance m_Distance; 

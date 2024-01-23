@@ -12,3 +12,19 @@ bool DefaultMove::operator == (const DefaultMove& move)
         && m_Distance.second == move.m_Distance.second
         && m_Direction == move.m_Direction);
 }
+
+
+bool DefaultMove::operator >= (const DefaultMove& move) 
+    const noexcept
+{
+    return (m_Distance.first >= move.m_Distance.first
+        && m_Distance.second >= move.m_Distance.second
+        && m_Direction == move.m_Direction);
+}
+bool DefaultMove::operator <= (const DefaultMove& move) 
+    const noexcept
+{
+    return (m_Distance.first <= move.m_Distance.first
+        && m_Distance.second <= move.m_Distance.second
+        && m_Direction == move.m_Direction);
+}
