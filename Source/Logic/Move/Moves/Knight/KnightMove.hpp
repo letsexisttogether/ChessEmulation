@@ -11,7 +11,7 @@ public:
 
     KnightMove(const DefaultMove& defaultMove);
 
-    virtual ~KnightMove() = default;
+    ~KnightMove() = default;
 
     MoveEffect Try(const Match& match) 
         const noexcept override;

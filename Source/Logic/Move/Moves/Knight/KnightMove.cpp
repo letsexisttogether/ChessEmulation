@@ -10,14 +10,12 @@ MoveEffect KnightMove::Try(const Match& match)
 {
     const Board& board = match.GetBoard();
 
-    const GameObserver::CellReferencePair cellPair
-    { 
-        match.GetGameObserver().GetCellPair() 
-    };
-    const BoardCell& initial = cellPair.first;
-    const BoardCell& final = cellPair.second;
+    const GameObserver& gameObserver = match.GetGameObserver();
+
+    const BoardCell& initial = gameObserver.GetInitial();
+    const BoardCell& final = gameObserver.GetFinal();
     
-    if (IsUnderDistance(initial, final))
+    if (IsBasicAdhered(match) && IsUnderDistance(initial, final))
     {
         return DefinePossibleMoveEffect(match);
     }

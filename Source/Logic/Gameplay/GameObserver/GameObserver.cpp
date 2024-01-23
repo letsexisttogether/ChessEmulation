@@ -13,7 +13,10 @@ GameObserver::CellReferencePair GameObserver::GetCellPair()
 {
     if (!IsMoveBeingMade())
     {
-        throw std::runtime_error{ "The move is now being made" };
+        throw std::runtime_error
+        { 
+            "GameObserver: The move is now being made" 
+        };
     }
 
     const BoardCell& firstRef = *m_CellPair.first;
@@ -34,7 +37,10 @@ const BoardCell& GameObserver::GetInitial()
 
     if (!initial)
     {
-        throw std::runtime_error{ "GameObserver: The initial cell was not set" };
+        throw std::runtime_error
+        { 
+            "GameObserver: The initial cell was not set" 
+        };
     }
 
     return *initial;
