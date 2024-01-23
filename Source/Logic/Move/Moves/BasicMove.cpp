@@ -42,7 +42,7 @@ bool BasicMove::IsUnderDistance(const BoardCell& initial,
 {
     const DefaultMove possibleMove = initial - final;
 
-    return m_DefaultMove >= possibleMove; 
+    return m_DefaultMove.IsUnderDistance(possibleMove); 
 }
 
 bool BasicMove::IsAnyObstacles(const Board& board,
@@ -50,7 +50,6 @@ bool BasicMove::IsAnyObstacles(const Board& board,
     const noexcept
 {
     const DefaultMove possibleMove = initial - final;
-    const MoveDirection direction = possibleMove.GetDirection();
 
     // Add logic of checking obstacles
     BoardCellIndex additionIndex{ 0, 1 };
@@ -91,7 +90,8 @@ MoveEffect BasicMove::DefinePossibleMoveEffect(const Match& match)
         return MoveEffect::NONE;
     }
 
-    return ((final.IsFree()) ? (MoveEffect::TRANSFER) : (MoveEffect::ATTACK));
+    return ((final.IsFree()) ? 
+            (MoveEffect::TRANSFER) : (MoveEffect::ATTACK));
 }
 
 bool BasicMove::IsSameSide(const BoardCell& initial,
