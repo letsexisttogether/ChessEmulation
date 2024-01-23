@@ -28,19 +28,7 @@ bool KnightMove::IsUnderDistance(const BoardCell& initial,
 {
     const DefaultMove possibleMove = initial - final;
 
-    const DefaultMove::Distance& allowedDistance = 
-        m_DefaultMove.GetDistance();
-    const DefaultMove::Distance& possibleMoveDistance = 
-        possibleMove.GetDistance();
-
-    const bool isDistanceTheSame = 
-        (allowedDistance.first == possibleMoveDistance.first)
-        && (allowedDistance.second == possibleMoveDistance.second);
-
-    const bool isSameDirection = 
-        (m_DefaultMove.GetDirection() == possibleMove.GetDirection());
-
-    return isSameDirection && isDistanceTheSame;
+    return m_DefaultMove == possibleMove; 
 }
 
 BasicMove* KnightMove::Clone() const noexcept

@@ -15,12 +15,8 @@ MoveEffect BasicMove::Try(const Match& match)
 {
     const Board& board = match.GetBoard();
 
-    const GameObserver::CellReferencePair cellPair
-    { 
-        match.GetGameObserver().GetCellPair() 
-    };
-    const BoardCell& initial = cellPair.first;
-    const BoardCell& final = cellPair.second;
+    const BoardCell& initial = match.GetGameObserver().GetInitial();
+    const BoardCell& final = match.GetGameObserver().GetFinal();
     
     if (IsBasicAdhered(match) && IsUnderDistance(initial, final) 
         && !IsAnyObstacles(board, initial, final))
@@ -46,19 +42,7 @@ bool BasicMove::IsUnderDistance(const BoardCell& initial,
 {
     const DefaultMove possibleMove = initial - final;
 
-    const DefaultMove::Distance& allowedDistance = 
-        m_DefaultMove.GetDistance();
-    const DefaultMove::Distance& possibleMoveDistance = 
-        possibleMove.GetDistance();
-
-    const bool isDistanceAllowed = 
-        (allowedDistance.first >= possibleMoveDistance.first)
-        && (allowedDistance.second >= possibleMoveDistance.second);
-
-    const bool isSameDirection = 
-        (m_DefaultMove.GetDirection() == possibleMove.GetDirection());
-
-    return isSameDirection && isDistanceAllowed;
+    return m_DefaultMove >= possibleMove; 
 }
 
 bool BasicMove::IsAnyObstacles(const Board& board,
