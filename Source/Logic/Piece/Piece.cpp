@@ -59,9 +59,9 @@ bool Piece::WasMoved() const noexcept
     return m_WasMoved;
 }
 
-void Piece::NotifyAboutMove() noexcept
+void Piece::SetWasMoved(const bool wasMoved) noexcept
 {
-    m_WasMoved = true;
+    m_WasMoved = wasMoved;
 }
 
 Piece& Piece::operator = (const Piece& piece)

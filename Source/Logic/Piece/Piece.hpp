@@ -40,7 +40,7 @@ public:
     inline const PieceType GetType() const noexcept { return m_Type; }
 
     bool WasMoved() const noexcept;
-    void NotifyAboutMove() noexcept;
+    void SetWasMoved(const bool wasMoved) noexcept;
 	
 	Piece& operator = (const Piece& piece);
 	Piece& operator = (Piece&& piece);
