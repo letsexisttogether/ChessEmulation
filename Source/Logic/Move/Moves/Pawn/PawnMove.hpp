@@ -14,9 +14,6 @@ public:
 
 	~PawnMove() = default;
 
-    MoveEffect Try(const Match& match) 
-        const noexcept override;
-
     BasicMove* Clone() const noexcept override;
 
 protected:

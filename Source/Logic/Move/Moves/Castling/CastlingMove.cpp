@@ -6,12 +6,6 @@ CastlingMove::CastlingMove(const DefaultMove& defaultMove)
     : KnightMove{ defaultMove }
 {}
 
-MoveEffect CastlingMove::Try(const Match& match) 
-    const noexcept 
-{
-    return BasicMove::Try(match);
-}
-
 BasicMove* CastlingMove::Clone() const noexcept
 {
     return new CastlingMove{ *this };
