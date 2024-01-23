@@ -34,7 +34,12 @@ BasicMove* BasicMove::Clone() const noexcept
 
 bool BasicMove::IsBasicAdhered(const Match& match) const noexcept
 {
-    return (match.GetGameObserver().IsMoveBeingMade());
+    const GameObserver& gameObserver = match.GetGameObserver();
+    const BoardCell& initial = gameObserver.GetInitial();
+    const BoardCell& final = gameObserver.GetFinal();
+
+    return match.GetGameObserver().IsMoveBeingMade()
+        && !IsSameSide(initial, final) && !IsAttackingKing(final);
 }
 
 bool BasicMove::IsUnderDistance(const BoardCell& initial, 
@@ -51,8 +56,26 @@ bool BasicMove::IsAnyObstacles(const Board& board,
 {
     const DefaultMove possibleMove = initial - final;
 
-    // Add logic of checking obstacles
-    BoardCellIndex additionIndex{ 0, 1 };
+    BoardCellIndex additionIndex{ 0, 0 }; 
+
+    if (DefaultMove::Rank rank = possibleMove.GetRank();
+        rank > 0)
+    {
+        additionIndex.SetRank(-1);
+    }
+    else if (rank < 0)
+    {
+        additionIndex.SetRank(1);
+    }
+    if (DefaultMove::File file = possibleMove.GetFile();
+        file > 0)
+    {
+        additionIndex.SetFile(-1);
+    }
+    else if (file < 0)
+    {
+        additionIndex.SetFile(1);
+    }
 
     for (BoardCellIndex index{ initial.GetIndex() + additionIndex }, 
         endIndex = final.GetIndex(); 
@@ -80,15 +103,7 @@ bool BasicMove::IsAnyObstacles(const Board& board,
 MoveEffect BasicMove::DefinePossibleMoveEffect(const Match& match) 
     const noexcept(false)
 {
-    const GameObserver& gameObserver = match.GetGameObserver();
-
-    const BoardCell& initial = gameObserver.GetInitial();
-    const BoardCell& final = gameObserver.GetFinal(); 
-
-    if (IsSameSide(initial, final))
-    {
-        return MoveEffect::NONE;
-    }
+    const BoardCell& final = match.GetGameObserver().GetFinal(); 
 
     return ((final.IsFree()) ? 
             (MoveEffect::TRANSFER) : (MoveEffect::ATTACK));
@@ -106,4 +121,18 @@ bool BasicMove::IsSameSide(const BoardCell& initial,
     const Piece& finalPiece = final.GetPiece();
 
     return initialPiece.GetSide() == finalPiece.GetSide();
+}
+
+
+bool BasicMove::IsAttackingKing(const BoardCell& final)
+    const noexcept
+{
+    if (final.IsFree())
+    {
+        return false;
+    }
+
+    const Piece& piece = final.GetPiece();
+
+    return piece.GetType() == PieceType::KING;
 }
