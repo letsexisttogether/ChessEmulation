@@ -29,8 +29,7 @@ bool PawnMove::IsUnderDistance(const BoardCell& initial,
 {
     const DefaultMove possibleMove = initial - final;
 
-    const bool isAllowedByDefault = 
-        m_DefaultMove.IsUnderDistance(possibleMove);
+    const bool isAllowedByDefault = (m_DefaultMove == possibleMove);
 
     const bool isStarMove = (!initial.GetPiece().WasMoved()
         && m_MaximumStartMove == possibleMove);
