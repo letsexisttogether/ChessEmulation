@@ -23,5 +23,5 @@ public:
     PieceSideHolder& operator = (PieceSideHolder&&) = default;
 
 private:
-    PieceSide m_Side{};
+    PieceSide m_Side{ PieceSide::WHITE };
 };
