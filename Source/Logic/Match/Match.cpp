@@ -33,9 +33,14 @@ const GameObserver& Match::GetGameObserver() const noexcept
     return m_GameObserver;
 }
 
-const PieceSide Match::GetTurnSide() const noexcept
+PieceSideHolder& Match::GetTurnSide() noexcept
 {
-    return m_TurnSide.GetSide();
+    return m_TurnSide;
+}
+
+const PieceSideHolder& Match::GetTurnSide() const noexcept
+{
+    return m_TurnSide;
 }
 
 

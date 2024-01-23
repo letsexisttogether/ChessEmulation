@@ -28,7 +28,8 @@ public:
     // I hope me from the future will get more experienced 
     // and now can deal with returning const or non-const 
     // if we return an easy-copyable field
-    const PieceSide GetTurnSide() const noexcept;
+    PieceSideHolder& GetTurnSide() noexcept;
+    const PieceSideHolder& GetTurnSide() const noexcept;
 
     const TurnCount GetTurnCount() const noexcept;
 
