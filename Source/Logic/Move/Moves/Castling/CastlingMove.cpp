@@ -14,19 +14,6 @@ BasicMove* CastlingMove::Clone() const noexcept
 MoveEffect CastlingMove::DefinePossibleMoveEffect(const Match& match) 
     const noexcept(false)
 {
-    const GameObserver::CellReferencePair cellPair
-    { 
-        match.GetGameObserver().GetCellPair() 
-    };
-
-    const BoardCell& initial = cellPair.first;
-    const BoardCell& final = cellPair.second;
-
-    if (!IsSameSide(initial, final))
-    {
-        return MoveEffect::NONE;
-    }
-
     return MoveEffect::CASTLE;
 }
 
@@ -42,7 +29,15 @@ bool CastlingMove::IsBasicAdhered(const Match& match) const noexcept
     const BoardCell& initial = gameObserver.GetInitial();
     const BoardCell& final = gameObserver.GetFinal();
 
-    return !(initial.GetPiece().WasMoved()) 
-        && !(final.GetPiece().WasMoved());
+    if (final.IsFree() || !IsSameSide(initial, final))
+    {
+        return false;
+    }
+    
+    const Piece& initialPiece = initial.GetPiece();
+    const Piece& finalPiece = final.GetPiece();
+
+    return !(initialPiece.WasMoved()
+        || finalPiece.WasMoved());
 }
 
