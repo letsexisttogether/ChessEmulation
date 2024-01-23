@@ -11,6 +11,7 @@ enum class MoveEffect : std::uint8_t
 
     PIECE_TRANSFER,
 
-    EN_PASSANT,
+    // I will work on making it into the game someday 
+    // EN_PASSANT,
     CASTLE
 };
