@@ -1,5 +1,7 @@
 #include "PawnMove.hpp"
 
+#include <iostream>
+
 #include "Logic/Match/Match.hpp"
 
 PawnMove::PawnMove(const DefaultMove& defaultMove, 
@@ -30,6 +32,9 @@ bool PawnMove::IsUnderDistance(const BoardCell& initial,
     const DefaultMove possibleMove = initial - final;
 
     const bool isAllowedByDefault = (m_DefaultMove == possibleMove);
+
+    std::cout << "Rank: " << static_cast<std::int32_t>(possibleMove.GetRank()) << ' ' 
+        << "File: " << static_cast<std::int32_t>(possibleMove.GetFile()) << '\n'; 
 
     const bool isStarMove = (!initial.GetPiece().WasMoved()
         && m_MaximumStartMove == possibleMove);

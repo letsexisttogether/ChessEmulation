@@ -20,9 +20,13 @@ bool DefaultMove::IsUnderDistance(const DefaultMove& move)
     {
         isRankUnderDistance = (m_Rank <= moveRank);
     }
-    else 
+    else if (m_Rank > 0)
     {
         isRankUnderDistance = (m_Rank >= moveRank);
+    }
+    else 
+    {
+        isRankUnderDistance = (!moveRank);
     }
 
     if (const File moveFile = move.GetFile();
@@ -30,9 +34,13 @@ bool DefaultMove::IsUnderDistance(const DefaultMove& move)
     {
         isFileUnderDistance = (m_File <= moveFile);
     }
-    else 
+    else if (m_File > 0)
     {
         isFileUnderDistance = (m_File >= moveFile);
+    }
+    else 
+    {
+        isFileUnderDistance = !(moveFile);
     }
 
     return isRankUnderDistance && isFileUnderDistance;

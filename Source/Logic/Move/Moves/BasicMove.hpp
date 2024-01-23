@@ -41,9 +41,6 @@ protected:
 
     bool IsSameSide(const BoardCell& initial,
         const BoardCell& final) const noexcept(false);
-    
-    bool IsAttackingKing(const BoardCell& final)
-        const noexcept;
 
 protected:
 	DefaultMove m_DefaultMove;
