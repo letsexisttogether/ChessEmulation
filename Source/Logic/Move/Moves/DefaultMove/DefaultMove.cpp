@@ -8,15 +8,18 @@ DefaultMove::DefaultMove(const Rank rank, const File file)
 	: m_Rank{ rank }, m_File{ file }
 {}
 
-
 bool DefaultMove::IsUnderDistance(const DefaultMove& move) 
     const noexcept
 {
     bool isRankUnderDistance = false;
     bool isFileUnderDistance = false;
 
-    if (const Rank moveRank = move.GetRank(); 
-        m_Rank < 0)
+    if (const Rank moveRank = move.GetRank();
+        !moveRank || !m_Rank)
+    {
+        isRankUnderDistance = (!moveRank && !m_Rank) ;
+    }
+    else if (m_Rank < 0 )
     {
         isRankUnderDistance = (m_Rank <= moveRank);
     }
@@ -24,23 +27,19 @@ bool DefaultMove::IsUnderDistance(const DefaultMove& move)
     {
         isRankUnderDistance = (m_Rank >= moveRank);
     }
-    else 
-    {
-        isRankUnderDistance = (!moveRank);
-    }
 
     if (const File moveFile = move.GetFile();
-        m_File < 0)
+        !moveFile || !m_File)
+    {
+        isFileUnderDistance = (!moveFile && !m_File) ;
+    }
+    else if (m_File < 0)
     {
         isFileUnderDistance = (m_File <= moveFile);
     }
     else if (m_File > 0)
     {
         isFileUnderDistance = (m_File >= moveFile);
-    }
-    else 
-    {
-        isFileUnderDistance = !(moveFile);
     }
 
     return isRankUnderDistance && isFileUnderDistance;
