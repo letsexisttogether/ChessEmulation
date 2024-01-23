@@ -101,11 +101,11 @@ DefaultMove BoardCell::operator - (const BoardCell& cell)
     const noexcept(false)
 {
     const DefaultMove::Rank horizontalDiff = 
-        m_Index.GetRank() - cell.m_Index.GetRank();
+        cell.m_Index.GetRank() - m_Index.GetRank();
     const DefaultMove::File verticalDiff = 
-        m_Index.GetFile() - cell.m_Index.GetFile();
+        cell.m_Index.GetFile() - m_Index.GetFile() ;
 
-    return { verticalDiff, horizontalDiff };
+    return { horizontalDiff, verticalDiff };
 }
 
 std::size_t BoardCell::IndexHash::operator() (const BoardCell& cell) 

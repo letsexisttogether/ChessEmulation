@@ -16,9 +16,9 @@ public:
     BasicMove* Clone() const noexcept override;
 
 protected:
-    MoveEffect DefinePossibleMoveEffect(const Match& match) 
-        const noexcept(false) override;
+    MoveEffect DefinePossibleMoveEffect(const BoardCell& initial,
+        const BoardCell& final) const noexcept(false) override;
 
-    bool IsBasicAdhered(const Match& match) 
-        const noexcept override;
+    bool IsBasicAdhered(const BoardCell& initial,
+        const BoardCell& final) const noexcept(false) override;
 };

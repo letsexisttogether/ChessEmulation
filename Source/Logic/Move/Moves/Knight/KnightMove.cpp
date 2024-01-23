@@ -1,23 +1,19 @@
 #include "KnightMove.hpp"
-#include "Logic/Match/Match.hpp"
+
+#include "Logic/Board/Board.hpp"
 
 KnightMove::KnightMove(const DefaultMove& defaultMove)
     : BasicMove{ defaultMove }
 {}
 
-MoveEffect KnightMove::Try(const Match& match) 
-    const noexcept 
+MoveEffect KnightMove::Try(const Board& board, 
+    const BoardCell& initial, const BoardCell& final) 
+    const noexcept(false)
 {
-    const Board& board = match.GetBoard();
-
-    const GameObserver& gameObserver = match.GetGameObserver();
-
-    const BoardCell& initial = gameObserver.GetInitial();
-    const BoardCell& final = gameObserver.GetFinal();
-    
-    if (IsBasicAdhered(match) && IsUnderDistance(initial, final))
+    if (IsBasicAdhered(initial, final) 
+        && IsUnderDistance(initial, final))
     {
-        return DefinePossibleMoveEffect(match);
+        return DefinePossibleMoveEffect(initial, final);
     }
 
     return MoveEffect::NONE;

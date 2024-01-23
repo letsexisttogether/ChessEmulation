@@ -38,12 +38,13 @@ Piece::Piece(const PieceSide side, const PieceType type,
     }
 }
 
-MoveEffect Piece::TryMove(const Match& match) 
-    const noexcept
+MoveEffect Piece::TryMove(const Board& board, 
+    const BoardCell& initial, const BoardCell& final) 
+    const noexcept(false)
 {
     for (const MovePointer& move : m_Moves)
     {
-        if (const MoveEffect effect = move->Try(match);
+        if (const MoveEffect effect = move->Try(board, initial, final);
             effect != MoveEffect::NONE)
         {
             return effect;

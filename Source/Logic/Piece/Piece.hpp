@@ -32,7 +32,9 @@ public:
 
 	virtual ~Piece() = default;
 
-    MoveEffect TryMove(const Match& match) const noexcept;
+    MoveEffect TryMove(const Board& board, 
+        const BoardCell& initial, const BoardCell& final) 
+        const noexcept(false);
 
 	inline const PieceSide GetSide() const noexcept { return m_Side; }
     inline const PieceType GetType() const noexcept { return m_Type; }

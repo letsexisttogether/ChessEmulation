@@ -13,8 +13,8 @@ public:
 
     ~KnightMove() = default;
 
-    MoveEffect Try(const Match& match) 
-        const noexcept override;
+    MoveEffect Try(const Board& board, const BoardCell& initial,
+        const BoardCell& final) const noexcept(false) override;
 
     BasicMove* Clone() const noexcept override;
 

@@ -3,7 +3,6 @@
 #include "DefaultMove/DefaultMove.hpp"
 #include "MoveEffect/MoveEffect.hpp"
 
-class Match;
 class Board;
 class BoardCell;
 
@@ -18,8 +17,8 @@ public:
 
 	virtual ~BasicMove() = default;
 
-	virtual MoveEffect Try(const Match& match) 
-        const noexcept;
+	virtual MoveEffect Try(const Board& board, const BoardCell& initial,
+        const BoardCell& final) const noexcept(false);
 
     virtual BasicMove* Clone() const noexcept;
 
@@ -27,17 +26,18 @@ public:
 	BasicMove& operator = (BasicMove&&) = delete;
 
 protected:
-    virtual MoveEffect DefinePossibleMoveEffect(const Match& match) 
-        const noexcept(false);
+    virtual MoveEffect DefinePossibleMoveEffect(const BoardCell& initial,
+        const BoardCell& final) const noexcept(false);
 
-    virtual bool IsBasicAdhered(const Match& match) const noexcept;
+    virtual bool IsBasicAdhered(const BoardCell& initial,
+        const BoardCell& final) const noexcept(false);
 
-    virtual bool IsUnderDistance(const BoardCell& initial, 
-        const BoardCell& final) const noexcept;
+    virtual bool IsUnderDistance(const BoardCell& initial,
+        const BoardCell& final) const noexcept(false);
     
-    virtual bool IsAnyObstacles(const Board& board,
+    virtual bool IsAnyObstacles(const Board& board, 
         const BoardCell& initial, const BoardCell& final) 
-        const noexcept;
+        const noexcept(false);
 
     bool IsSameSide(const BoardCell& initial,
         const BoardCell& final) const noexcept(false);

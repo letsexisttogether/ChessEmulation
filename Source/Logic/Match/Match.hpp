@@ -1,8 +1,5 @@
 #pragma once 
 
-#include <memory>
-
-#include "Control/Controller.hpp"
 #include "Logic/Board/Board.hpp"
 #include "Logic/Gameplay/GameObserver/GameObserver.hpp"
 #include "Logic/Gameplay/SideHolder/PieceSideHolder.hpp"
