@@ -31,6 +31,8 @@ public:
 	DefaultMove& operator = (const DefaultMove&) = default;
 	DefaultMove& operator = (DefaultMove&&) = default;
 
+    bool operator == (const DefaultMove& move) const noexcept;
+
 private:
 	MoveDirection m_Direction;
 	Distance m_Distance; 
