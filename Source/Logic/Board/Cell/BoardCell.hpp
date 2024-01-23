@@ -26,6 +26,7 @@ public:
 
     const BoardCellIndex& GetIndex() const noexcept;
 
+    PiecePointer GetPiecePointer() noexcept;
     Piece& GetPiece() noexcept(false);
     const Piece& GetPiece() const noexcept(false);
 	void SetPiece(const PiecePointer piece) noexcept;

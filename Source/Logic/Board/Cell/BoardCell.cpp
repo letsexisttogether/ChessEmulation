@@ -41,6 +41,11 @@ const BoardCellIndex& BoardCell::GetIndex() const noexcept
     return m_Index;
 }
 
+BoardCell::PiecePointer BoardCell::GetPiecePointer() noexcept
+{
+    return m_Piece;
+}
+
 Piece& BoardCell::GetPiece() noexcept(false)
 {
     CheckPiece();
