@@ -13,11 +13,12 @@ public:
     using Distance = std::pair<Rank, File>;
 
 public:
-	DefaultMove() = delete;
-	DefaultMove(const DefaultMove&) = default;
+	DefaultMove(const DefaultMove&);
 	DefaultMove(DefaultMove&&) = default;
 
 	DefaultMove(const Rank rank, const File file);
+
+    bool IsUnderDistance(const DefaultMove& move) const noexcept;
 
 	Distance GetDistance() const noexcept;
 	
@@ -31,10 +32,10 @@ public:
 
     bool operator == (const DefaultMove& move) const noexcept;
 
-    bool operator >= (const DefaultMove& move) const noexcept;
-    bool operator <= (const DefaultMove& move) const noexcept;
+private:
+    DefaultMove() = default;
 
 private:
-    const Rank m_Rank;
-    const File m_File;
+    const Rank m_Rank{};
+    const File m_File{};
 };
