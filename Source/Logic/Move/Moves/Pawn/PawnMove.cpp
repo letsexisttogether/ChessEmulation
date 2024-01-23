@@ -18,13 +18,12 @@ BasicMove* PawnMove::Clone() const noexcept
 MoveEffect PawnMove::DefinePossibleMoveEffect(const BoardCell& initial,
     const BoardCell& final) const noexcept(false)
 {
-    if (BasicMove::DefinePossibleMoveEffect(initial, final) 
-        != MoveEffect::NONE)
+    if (!final.IsFree())
     {
-        return MoveEffect::PIECE_TRANSFER;
+        return MoveEffect::NONE;
     }
 
-    return MoveEffect::NONE;
+    return MoveEffect::PIECE_TRANSFER;
 }
 
 bool PawnMove::IsUnderDistance(const BoardCell& initial, 
