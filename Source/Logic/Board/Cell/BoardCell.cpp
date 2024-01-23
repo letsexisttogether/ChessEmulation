@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <type_traits>
 
 #include "Application/Application.hpp"
 #include "Application/Scenes/Game/GameScene.hpp"
@@ -96,42 +97,15 @@ void BoardCell::OnInteract() noexcept(false)
         << "The file (y): " << static_cast<std::int32_t>(m_Index.GetFile()) << '\n';
 }
 
-DefaultMove BoardCell::operator - (const BoardCell& cell) const noexcept(false)
+DefaultMove BoardCell::operator - (const BoardCell& cell) 
+    const noexcept(false)
 {
-	const BoardCellIndex::Rank vericalDiff = 
-        m_Index.GetFile() - cell.m_Index.GetFile();
-	const BoardCellIndex::File horizontalDiff = 
+    const DefaultMove::Rank horizontalDiff = 
         m_Index.GetRank() - cell.m_Index.GetRank();
+    const DefaultMove::File verticalDiff = 
+        m_Index.GetFile() - cell.m_Index.GetFile();
 
-	if (!vericalDiff && !horizontalDiff)
-	{
-		return DefaultMove{ MoveDirection::NONE, 
-			DefaultMove::Distance{ vericalDiff, vericalDiff } };
-	}
-
-	if(!vericalDiff)
-	{
-		return DefaultMove{ ((horizontalDiff < 0) ? 
-                (MoveDirection::RIGHT) : (MoveDirection::LEFT)), 
-			DefaultMove::Distance{ vericalDiff, horizontalDiff } };
-	}
-	if (!horizontalDiff)
-	{
-		return DefaultMove{ ((vericalDiff < 0) ? 
-                (MoveDirection::UP) : (MoveDirection::DOWN)), 
-			DefaultMove::Distance{ vericalDiff, horizontalDiff } };
-	}
-
-	if (vericalDiff < 0)
-	{
-		return DefaultMove{ ((horizontalDiff < 0) ? 
-                (MoveDirection::UP_RIGHT) : (MoveDirection::UP_LEFT)), 
-			DefaultMove::Distance{ vericalDiff, horizontalDiff } };
-	}
-
-	return DefaultMove{ ((horizontalDiff < 0) ? 
-            (MoveDirection::DOWN_RIGHT) : (MoveDirection::DOWN_LEFT)), 
-		DefaultMove::Distance{ vericalDiff, horizontalDiff } };
+    return { verticalDiff, horizontalDiff };
 }
 
 std::size_t BoardCell::IndexHash::operator() (const BoardCell& cell) 
