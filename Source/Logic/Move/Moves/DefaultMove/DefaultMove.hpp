@@ -17,15 +17,13 @@ public:
 	DefaultMove(const DefaultMove&) = default;
 	DefaultMove(DefaultMove&&) = default;
 
-	DefaultMove(const MoveDirection direction, 
-            const Distance& distance);
+	DefaultMove(const Rank rank, const File file);
 
-	inline const MoveDirection& GetDirection() const noexcept 
-        { return m_Direction; }
+	Distance GetDistance() const noexcept;
 	
-	inline const Distance& GetDistance() const noexcept 
-        { return m_Distance; }
-	
+    Rank GetRank() const noexcept;
+    File GetFile() const noexcept;
+
 	~DefaultMove() = default;
 
 	DefaultMove& operator = (const DefaultMove&) = default;
@@ -37,6 +35,6 @@ public:
     bool operator <= (const DefaultMove& move) const noexcept;
 
 private:
-	MoveDirection m_Direction;
-	Distance m_Distance; 
+    const Rank m_Rank;
+    const File m_File;
 };
