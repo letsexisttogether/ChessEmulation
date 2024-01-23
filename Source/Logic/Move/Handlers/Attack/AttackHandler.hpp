@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Logic/Move/Handlers/MoveHandler.hpp"
+#include "Logic/Move/Handlers/Transfer/TransferHandler.hpp"
 
-class AttackHandler : public MoveHandler
+class AttackHandler : public TransferHandler
 {
 public:
     AttackHandler() = default;
@@ -11,9 +11,15 @@ public:
 
     ~AttackHandler() = default;
 
-    void Handle(Board& board, GameObserver& gameObsever)
-        const noexcept(false);
+    void Handle(Match& match) noexcept(false) override;
 
-    AttackHandler& operator = (const AttackHandler&) = default;
-    AttackHandler& operator = (AttackHandler&&) = default;
+protected:
+    void DoMove(Board& board, BoardCell& initial, 
+        BoardCell& final) noexcept(false) override;
+
+    void UndoMove(Board& board, BoardCell& initial, 
+        BoardCell& final) noexcept(false) override;
+
+private:
+    std::shared_ptr<Piece> m_FinalPieceStorage{};
 };

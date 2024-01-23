@@ -1,22 +1,18 @@
 #include "TransferHandler.hpp"
 
-#include <stdexcept>
-
-#include "Logic/Board/Board.hpp"
-#include "Logic/Gameplay/GameObserver/GameObserver.hpp"
-
-void TransferHandler::Handle(Board& board, GameObserver& gameObsever)
-        const noexcept(false)
+void TransferHandler::DoMove(Board& board, BoardCell& initial, 
+    BoardCell& final) noexcept(false)
 {
-    if (!gameObsever.IsMoveBeingMade())
-    {
-        throw std::runtime_error { "Observer does not contain enough cells" };
-    }
-
-    GameObserver::CellPointerPair cells{ gameObsever.GetCellPair() };
-
-    BoardCell& initial = *cells.first;
-    BoardCell& final = *cells.second;
-
     initial.TransferPiece(final);
+
+    final.GetPiece().SetWasMoved(true);
 }
+
+void TransferHandler::UndoMove(Board& board, BoardCell& initial, 
+    BoardCell& final) noexcept(false)
+{
+    final.TransferPiece(initial);
+
+    initial.GetPiece().SetWasMoved(false);
+}
+

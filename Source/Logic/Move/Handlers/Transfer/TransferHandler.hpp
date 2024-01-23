@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Logic/Move/Handlers/MoveHandler.hpp"
 
 class TransferHandler : public MoveHandler
@@ -9,9 +11,11 @@ public:
 
     ~TransferHandler() = default;
 
-    void Handle(Board& board, GameObserver& gameObsever)
-        const noexcept(false) override;
+protected:
+    void DoMove(Board& board, BoardCell& initial, 
+        BoardCell& final) noexcept(false) override;
 
-    TransferHandler& operator = (const TransferHandler&) = default;
-    TransferHandler& operator = (TransferHandler&&) = default;
+    void UndoMove(Board& board, BoardCell& initial, 
+        BoardCell& final) noexcept(false) override;
 };
+

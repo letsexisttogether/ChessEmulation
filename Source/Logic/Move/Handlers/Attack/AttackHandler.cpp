@@ -1,24 +1,26 @@
 #include "Logic/Move/Handlers/Attack/AttackHandler.hpp"
 
-#include <stdexcept>
-
 #include "Logic/Board/Board.hpp"
-#include "Logic/Gameplay/GameObserver/GameObserver.hpp"
 
-void AttackHandler::Handle(Board& board, GameObserver& gameObsever)
-    const noexcept(false)
+void AttackHandler::Handle(Match& match) noexcept(false)
 {
-    if (!gameObsever.IsMoveBeingMade())
-    {
-        throw std::runtime_error { "Observer does not contain enough cells" };
-    }
+    TransferHandler::Handle(match);
 
-    GameObserver::CellPointerPair cells{ gameObsever.GetCellPair() };
+    m_FinalPieceStorage.reset();
+}
 
-    BoardCell& initial = *cells.first;
-    BoardCell& final = *cells.second;
+void AttackHandler::DoMove(Board& board, BoardCell& initial, 
+    BoardCell& final) noexcept(false)
+{
+    m_FinalPieceStorage = final.GetPiecePointer();
 
-    final.MakeFree();
+    TransferHandler::DoMove(board, initial, final);
+}
 
-    initial.TransferPiece(final);
+void AttackHandler::UndoMove(Board& board, BoardCell& initial, 
+    BoardCell& final) noexcept(false)
+{
+    TransferHandler::UndoMove(board, initial, final);
+
+    final.SetPiece(m_FinalPieceStorage);
 }

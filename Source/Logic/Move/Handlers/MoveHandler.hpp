@@ -1,7 +1,6 @@
 #pragma once 
 
-class Board;
-class GameObserver;
+#include "Logic/Match/Match.hpp"
 
 class MoveHandler
 {
@@ -10,6 +9,15 @@ public:
 
     virtual ~MoveHandler() = default;
 
-    virtual void Handle(Board& board, GameObserver& gameObsever)
-        const noexcept(false) = 0;
+    virtual void Handle(Match& match) noexcept(false);
+
+protected:
+    virtual void DoMove(Board& board, BoardCell& initial, 
+        BoardCell& final) noexcept(false) = 0;
+
+    virtual void UndoMove(Board& board, BoardCell& initial, 
+        BoardCell& final) noexcept(false) = 0;
+
+    virtual void FinishMove(Match& match) noexcept(false);
 };
+
