@@ -22,7 +22,7 @@ MoveEffect BasicMove::Try(const Match& match)
     const BoardCell& initial = cellPair.first;
     const BoardCell& final = cellPair.second;
     
-    if (IsUnderDistance(initial, final) 
+    if (IsBasicAdhered(match) && IsUnderDistance(initial, final) 
         && !IsAnyObstacles(board, initial, final))
     {
         return DefinePossibleMoveEffect(match);
@@ -34,6 +34,11 @@ MoveEffect BasicMove::Try(const Match& match)
 BasicMove* BasicMove::Clone() const noexcept
 {
     return new BasicMove{ *this };
+}
+
+bool BasicMove::IsBasicAdhered(const Match& match) const noexcept
+{
+    return (match.GetGameObserver().IsMoveBeingMade());
 }
 
 bool BasicMove::IsUnderDistance(const BoardCell& initial, 
@@ -75,9 +80,6 @@ bool BasicMove::IsAnyObstacles(const Board& board,
         {
             const BoardCell& cell = board[index];
 
-            std::cout << static_cast<std::int32_t>(index.GetFile()) << ' ' 
-                << static_cast<std::int32_t>(index.GetRank()) << '\n';
-
             if (!cell.IsFree())
             {
                 return true;
@@ -95,13 +97,10 @@ bool BasicMove::IsAnyObstacles(const Board& board,
 MoveEffect BasicMove::DefinePossibleMoveEffect(const Match& match) 
     const noexcept(false)
 {
-    const GameObserver::CellReferencePair cellPair
-    { 
-        match.GetGameObserver().GetCellPair() 
-    };
+    const GameObserver& gameObserver = match.GetGameObserver();
 
-    const BoardCell& initial = cellPair.first;
-    const BoardCell& final = cellPair.second;
+    const BoardCell& initial = gameObserver.GetInitial();
+    const BoardCell& final = gameObserver.GetFinal(); 
 
     if (IsSameSide(initial, final))
     {

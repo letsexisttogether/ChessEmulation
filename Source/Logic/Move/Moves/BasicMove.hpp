@@ -30,6 +30,8 @@ protected:
     virtual MoveEffect DefinePossibleMoveEffect(const Match& match) 
         const noexcept(false);
 
+    virtual bool IsBasicAdhered(const Match& match) const noexcept;
+
     virtual bool IsUnderDistance(const BoardCell& initial, 
         const BoardCell& final) const noexcept;
     
