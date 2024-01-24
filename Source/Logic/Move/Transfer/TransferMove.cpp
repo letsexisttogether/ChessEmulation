@@ -48,6 +48,8 @@ void TransferMove::DoMove(Board& board, BoardCell& initial,
 
     initial.TransferPiece(final);
 
+    final.GetPiece().SetWasMoved(true);
+
     observer.UpdateCell(initial.GetIndex(), final);
 }
 
@@ -57,6 +59,8 @@ void TransferMove::UndoMove(Board& board, BoardCell& initial,
     BoardObserver& observer = board.GetObserver();
 
     final.TransferPiece(initial);
+
+    initial.GetPiece().SetWasMoved(false);
 
     observer.UpdateCell(final.GetIndex(), initial);
 

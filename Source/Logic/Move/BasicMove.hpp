@@ -18,7 +18,7 @@ public:
 	virtual ~BasicMove() = default;
 
 	virtual bool IsConditionSatisfied(Board& board, BoardCell& initial, 
-        BoardCell& final) noexcept(false) = 0;
+        BoardCell& final, const bool shouldCheckKing) noexcept(false) = 0;
 
     virtual void DoMove(Board& board, BoardCell& initial, 
         BoardCell& final) noexcept = 0;
