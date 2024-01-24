@@ -1,5 +1,8 @@
-add_subdirectory(Moves)
-add_subdirectory(Handlers)
-
-set(LOGIC_SOURCES ${LOGIC_SOURCES} PARENT_SCOPE)
+set(LOGIC_SOURCES 
+    ${LOGIC_SOURCES} 
+    ${CMAKE_CURRENT_SOURCE_DIR}/DefaultMove/DefaultMove.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/BasicMove.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Transfer/TransferMove.cpp
+    PARENT_SCOPE
+)
 
