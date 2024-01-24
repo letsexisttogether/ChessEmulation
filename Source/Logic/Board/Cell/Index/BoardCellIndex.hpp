@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "Logic/Move/Moves/DefaultMove/DefaultMove.hpp"
+#include "Logic/Move/DefaultMove/DefaultMove.hpp"
 
 class BoardCellIndex
 {

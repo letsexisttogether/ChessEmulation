@@ -24,6 +24,9 @@ public:
 
 	~BoardCell() = default;
 
+    BasicMove* TryMove(Board& board, BoardCell& final) 
+        noexcept(false);
+
     const BoardCellIndex& GetIndex() const noexcept;
 
     PiecePointer GetPiecePointer() noexcept;

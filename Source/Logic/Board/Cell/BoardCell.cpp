@@ -36,6 +36,24 @@ BoardCell::BoardCell(const BoardCellIndex& index,
     }
 }
 
+
+BasicMove* BoardCell::TryMove(Board& board, BoardCell& final) 
+    noexcept
+{
+    CheckPiece();
+
+    Piece::MovesContainer& moves = m_Piece->GetMoves();
+    for (Piece::MovePointer& move : moves)
+    {
+        if (move->IsConditionSatisfied(board, *this, final))
+        {
+            return move.get();
+        }
+    }
+
+    return nullptr;
+}
+
 const BoardCellIndex& BoardCell::GetIndex() const noexcept
 {
     return m_Index;
@@ -106,9 +124,9 @@ DefaultMove BoardCell::operator - (const BoardCell& cell)
     const noexcept(false)
 {
     const DefaultMove::Rank horizontalDiff = 
-        cell.m_Index.GetRank() - m_Index.GetRank();
+         m_Index.GetRank() - cell.m_Index.GetRank();
     const DefaultMove::File verticalDiff = 
-        cell.m_Index.GetFile() - m_Index.GetFile() ;
+        m_Index.GetFile() - cell.m_Index.GetFile();
 
     return { horizontalDiff, verticalDiff };
 }
@@ -142,6 +160,13 @@ void BoardCell::CheckPiece() const noexcept(false)
 {
 	if (!m_Piece)
 	{
-		throw std::runtime_error{ "Missing piece on the cell" };
+        std::cout << static_cast<std::int32_t>(m_Index.GetRank()) << ' '
+            << static_cast<std::int32_t>(m_Index.GetFile()) << std::endl;
+
+		throw std::runtime_error
+        { 
+            "BoardCell: Missing piece on the cell" 
+        };
+
 	}
 }

@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "Logic/Move/Moves/BasicMove.hpp"
+#include "Logic/Move/BasicMove.hpp"
 #include "Graphic/Sprite/Sprite.hpp"
 #include "Type/PieceType.hpp"
 #include "Side/PieceSide.hpp"
@@ -32,9 +32,8 @@ public:
 
 	virtual ~Piece() = default;
 
-    MoveEffect TryMove(const Board& board, 
-        const BoardCell& initial, const BoardCell& final) 
-        const noexcept(false);
+    MovesContainer& GetMoves() noexcept;
+    const MovesContainer& GetMoves() const noexcept;
 
 	inline const PieceSide GetSide() const noexcept { return m_Side; }
     inline const PieceType GetType() const noexcept { return m_Type; }
@@ -44,7 +43,7 @@ public:
 	
 	Piece& operator = (const Piece& piece);
 	Piece& operator = (Piece&& piece);
-	
+
 private:
 	PieceSide m_Side{};
     PieceType m_Type{};

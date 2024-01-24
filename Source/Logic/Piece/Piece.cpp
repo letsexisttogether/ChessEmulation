@@ -38,21 +38,17 @@ Piece::Piece(const PieceSide side, const PieceType type,
     }
 }
 
-MoveEffect Piece::TryMove(const Board& board, 
-    const BoardCell& initial, const BoardCell& final) 
-    const noexcept(false)
+Piece::MovesContainer& Piece::GetMoves() noexcept
 {
-    for (const MovePointer& move : m_Moves)
-    {
-        if (const MoveEffect effect = move->Try(board, initial, final);
-            effect != MoveEffect::NONE)
-        {
-            return effect;
-        }
-    }
-
-    return MoveEffect::NONE;
+    return m_Moves;
 }
+
+const Piece::MovesContainer& Piece::GetMoves() 
+    const noexcept
+{
+    return m_Moves;
+}
+
 
 bool Piece::WasMoved() const noexcept
 {
