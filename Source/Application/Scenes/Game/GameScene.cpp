@@ -2,15 +2,12 @@
 #include "Logic/Move/Moves/MoveEffect/MoveEffect.hpp"
 #include "Application/Application.hpp"
 
-#include <iostream>
-#include <stdexcept>
 #include <utility>
 
 GameScene::GameScene(Controller* controller, Match&& match,
-        MoveHandlers&& handlers,
         ButtonsContainer&& buttons)
     : Scene{ controller }, m_Match{ std::move(match) },
-    m_Handlers{ std::move(handlers) }, m_Buttons{ std::move(buttons) }
+    m_Buttons{ std::move(buttons) }
 {}
 
 void GameScene::UpdateLogic() noexcept(false)
@@ -24,18 +21,19 @@ void GameScene::UpdateLogic() noexcept(false)
         return;
     }
 
-   const MoveEffect moveEffect =
-        gameObsever.GetCellPair().first->GetPiece().TryMove(m_Match);
+    GameObserver& constGameObserver = m_Match.GetGameObserver();
 
-    if (moveEffect == MoveEffect::NONE)
+    Board& board = m_Match.GetBoard();
+    BoardCell& initial = *constGameObserver.GetInitial();
+    BoardCell& final = *constGameObserver.GetFinal();
+    
+    BasicMove* move = initial.TryMove(board, final);
+
+    if (move)
     {
-        gameObsever.ClearCells();
-        return;
+        move->CompleteMove(m_Match);
     }
 
-    const MoveHandler& handler = GetHandler(moveEffect);
-    handler.Handle(m_Match.GetBoard(), m_Match.GetGameObserver());
-    
     gameObsever.ClearCells();
 
     // CheckGameState(); 
@@ -49,7 +47,6 @@ Scene::IntersectablesContainer GameScene::GetIntersectables()
     for (const BoardCell& cell : m_Match.GetBoard().GetCells())
     { 
         BoardCell& cellRef = const_cast<BoardCell&>(cell);
-
         intersectables.push_back(&cellRef);
     }
 
@@ -101,15 +98,3 @@ const Match& GameScene::GetMatch() const noexcept
     return m_Match;
 }
 
-const MoveHandler& GameScene::GetHandler(const MoveEffect effect) 
-    const noexcept(false)
-{
-    const auto& iter = m_Handlers.find(effect);
-
-    if (iter == m_Handlers.end())
-    {
-        throw std::runtime_error{ "There's no such a handler for this move" };
-    }
-
-    return *iter->second;
-}

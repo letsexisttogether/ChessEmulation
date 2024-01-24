@@ -5,15 +5,12 @@
 
 #include "Application/Scenes/Scene.hpp"
 #include "Logic/Match/Match.hpp"
-#include "Logic/Move/Handlers/MoveHandler.hpp"
 #include "UI/Buttons/Button.hpp"
 
 class GameScene : public Scene
 {
 public:
     using ButtonsContainer = std::vector<Button>;
-    using MoveHandlers = 
-        std::unordered_map<MoveEffect, std::unique_ptr<MoveHandler>>;
 
 public:
     GameScene() = delete;
@@ -21,7 +18,6 @@ public:
     GameScene(GameScene&&) = delete;
 
     GameScene(Controller* controller, Match&& match,
-        MoveHandlers&& handlers, 
         ButtonsContainer&& buttons);
 
     ~GameScene() = default;
@@ -41,10 +37,6 @@ public:
     GameScene& operator = (GameScene&&) = delete;
 
 private:
-    const MoveHandler& GetHandler(const MoveEffect effect) const noexcept(false);
-
-private:
     Match m_Match;
-    MoveHandlers m_Handlers;
     ButtonsContainer m_Buttons{};
 };
