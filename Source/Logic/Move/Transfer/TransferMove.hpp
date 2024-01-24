@@ -15,8 +15,8 @@ public:
 
 	~TransferMove() = default;
 
-	bool IsConditionSatisfied(Match& match) 
-        noexcept(false) override;
+	bool IsConditionSatisfied(Board& board, BoardCell& initial,
+        BoardCell& final) noexcept(false) override;
 
     void DoMove(Board& board, BoardCell& initial, BoardCell& final)
         noexcept override;

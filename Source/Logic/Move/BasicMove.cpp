@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "Logic/Match/Match.hpp"
+#include "Logic/Board/Board.hpp"
 
 BasicMove::BasicMove(const DefaultMove& defaultMove)
     : m_DefaultMove{ defaultMove }

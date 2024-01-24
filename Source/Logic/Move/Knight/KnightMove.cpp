@@ -5,7 +5,6 @@ KnightMove::KnightMove(const DefaultMove& defaultMove)
     : TransferMove{ defaultMove }
 {}
 
-
 BasicMove* KnightMove::Clone() const noexcept
 {
     return new KnightMove{ *this };

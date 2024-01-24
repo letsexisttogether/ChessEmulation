@@ -6,13 +6,9 @@ TransferMove::TransferMove(const DefaultMove& move)
     : BasicMove{ move }
 {}
 
-bool TransferMove::IsConditionSatisfied(Match& match) 
-    noexcept(false)
+bool TransferMove::IsConditionSatisfied(Board& board, 
+    BoardCell& initial, BoardCell& final) noexcept(false)
 {
-    Board& board = match.GetBoard();
-    BoardCell& initial = *match.GetGameObserver().GetInitial();
-    BoardCell& final = *match.GetGameObserver().GetFinal();
-    
     if (!IsBasicAlright(initial, final) 
         || !IsUnderDistance(initial,final) 
         || IsAnyObstacles(board, initial, final))
