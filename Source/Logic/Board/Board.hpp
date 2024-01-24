@@ -4,6 +4,7 @@
 
 #include "Graphic/Sprite/Sprite.hpp"
 #include "Logic/Board/Cell/BoardCell.hpp"
+#include "Observer/BoardObserver.hpp"
 
 class Board : public Sprite 
 {
@@ -32,6 +33,10 @@ public:
     CellSet& GetCells() noexcept;
     const CellSet& GetCells() const noexcept;
 
+    BoardObserver& GetObserver() noexcept;
+
+    bool IsKingSafe(const PieceSide side) noexcept(false);
+
     Board& operator = (const Board&) = delete;
     Board& operator = (Board&&) = delete;
     
@@ -42,5 +47,7 @@ public:
 
 private:
 	CellSet m_Cells{};
+
+    BoardObserver m_Observer{};
 };
  

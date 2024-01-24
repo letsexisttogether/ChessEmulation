@@ -37,6 +37,7 @@ public:
     void TransferPiece(BoardCell& cell) noexcept;
 
 	bool IsFree() const noexcept;
+    void CheckPiece() const noexcept(false);
 	void MakeFree() noexcept;
 
     void OnInteract() noexcept(false) override;
@@ -60,8 +61,6 @@ public:
 
 private: 
 	void FitPiece() noexcept(false);
-
-    void CheckPiece() const noexcept(false);
 
 protected:
 	const BoardCellIndex m_Index;

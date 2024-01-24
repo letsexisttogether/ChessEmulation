@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <stdexcept>
-#include <type_traits>
 
 #include "Application/Application.hpp"
 #include "Application/Scenes/Game/GameScene.hpp"
@@ -36,16 +35,15 @@ BoardCell::BoardCell(const BoardCellIndex& index,
     }
 }
 
-
 BasicMove* BoardCell::TryMove(Board& board, BoardCell& final) 
-    noexcept
+    noexcept(false)
 {
     CheckPiece();
 
     Piece::MovesContainer& moves = m_Piece->GetMoves();
     for (Piece::MovePointer& move : moves)
     {
-        if (move->IsConditionSatisfied(board, *this, final))
+        if (move->IsConditionSatisfied(board, *this, final, true))
         {
             return move.get();
         }
@@ -102,6 +100,21 @@ bool BoardCell::IsFree() const noexcept
     return !m_Piece;
 }
 
+void BoardCell::CheckPiece() const noexcept(false)
+{
+	if (!m_Piece)
+	{
+        std::cout << "Missing\nRank (x): " << static_cast<std::int32_t>(m_Index.GetRank()) << ' '
+            << "The file (y): " << static_cast<std::int32_t>(m_Index.GetFile()) << '\n';
+
+		throw std::runtime_error
+        { 
+            "BoardCell: Missing piece on the cell" 
+        };
+
+	}
+}
+
 void BoardCell::MakeFree() noexcept
 {
 	m_Piece.reset();
@@ -156,17 +169,3 @@ void BoardCell::FitPiece() noexcept(false)
     m_Piece->SetSize(m_Size);
 }
 
-void BoardCell::CheckPiece() const noexcept(false)
-{
-	if (!m_Piece)
-	{
-        std::cout << static_cast<std::int32_t>(m_Index.GetRank()) << ' '
-            << static_cast<std::int32_t>(m_Index.GetFile()) << std::endl;
-
-		throw std::runtime_error
-        { 
-            "BoardCell: Missing piece on the cell" 
-        };
-
-	}
-}
