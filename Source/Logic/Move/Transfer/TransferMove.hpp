@@ -16,7 +16,8 @@ public:
 	~TransferMove() = default;
 
 	bool IsConditionSatisfied(Board& board, BoardCell& initial,
-        BoardCell& final) noexcept(false) override;
+        BoardCell& final, const bool shouldCheckKing)
+        noexcept(false) override;
 
     void DoMove(Board& board, BoardCell& initial, BoardCell& final)
         noexcept override;

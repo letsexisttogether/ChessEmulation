@@ -6,8 +6,9 @@ TransferMove::TransferMove(const DefaultMove& move)
     : BasicMove{ move }
 {}
 
-bool TransferMove::IsConditionSatisfied(Board& board, 
-    BoardCell& initial, BoardCell& final) noexcept(false)
+bool TransferMove::IsConditionSatisfied(Board& board, BoardCell& initial, 
+    BoardCell& final, const bool shouldCheckKing)
+    noexcept(false)
 {
     if (!IsBasicAlright(initial, final) 
         || !IsUnderDistance(initial,final) 
@@ -16,33 +17,54 @@ bool TransferMove::IsConditionSatisfied(Board& board,
         return false;
     }
 
+    const PieceSide initialSide = initial.GetPiece().GetSide();
+
     DoMove(board, initial, final);
     
-    // const bool success = board.IsKingSave();
-    // UndoMove(board, initial, final);
+    bool success = true;
 
-    return true;
+    if (shouldCheckKing)
+    {
+        success = board.IsKingSafe(initialSide);
+    }
+
+    UndoMove(board, initial, final);
+
+    return success;
 }
 
 void TransferMove::DoMove(Board& board, BoardCell& initial, 
     BoardCell& final) noexcept
 {
+    BoardObserver& observer = board.GetObserver();
+
     if (!final.IsFree())
     {
         m_PieceSave = final.GetPiecePointer();
+
+        observer.DeleteCell(final.GetIndex(), 
+            m_PieceSave->GetSide());
     }
 
     initial.TransferPiece(final);
+
+    observer.UpdateCell(initial.GetIndex(), final);
 }
 
 void TransferMove::UndoMove(Board& board, BoardCell& initial, 
     BoardCell& final) noexcept
 {
+    BoardObserver& observer = board.GetObserver();
+
     final.TransferPiece(initial);
+
+    observer.UpdateCell(final.GetIndex(), initial);
 
     if (m_PieceSave)
     {
         final.SetPiece(m_PieceSave);
+
+        observer.AddCell(final);    
 
         m_PieceSave.reset();
     }
@@ -54,7 +76,15 @@ void TransferMove::CompleteMove(Match& match) noexcept
     BoardCell& initial = *match.GetGameObserver().GetInitial();
     BoardCell& final = *match.GetGameObserver().GetFinal();
 
+    if (!final.IsFree() && final.GetPiece()
+        .GetType() == PieceType::KING)
+    {
+        return; 
+    }
+
     DoMove(board, initial, final);
+
+    m_PieceSave.reset();
 
     // match.GetBoard().Notify()
 
@@ -78,3 +108,4 @@ bool TransferMove::IsBasicAlright(BoardCell& initial,
     return initial.GetPiece().GetSide() 
         != final.GetPiece().GetSide();
 }
+
