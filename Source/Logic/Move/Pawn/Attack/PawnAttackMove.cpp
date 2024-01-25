@@ -9,8 +9,8 @@ BasicMove* PawnAttackMove::Clone() const noexcept
     return new PawnAttackMove{ *this };
 }
 
-bool PawnAttackMove::IsBasicAlright(BoardCell& initial, 
-    BoardCell& final) const noexcept
+bool PawnAttackMove::IsBasicAlright(const BoardCell& initial, 
+    const BoardCell& final) const noexcept
 {
     return !final.IsFree();
 }

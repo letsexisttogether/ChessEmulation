@@ -16,6 +16,6 @@ public:
     BasicMove* Clone() const noexcept override;
 
 private:
-    bool IsBasicAlright(BoardCell& initial, BoardCell& final) 
+    bool IsBasicAlright(const BoardCell& initial, const BoardCell& final) 
         const noexcept override;
 };

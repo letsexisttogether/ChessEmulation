@@ -10,16 +10,36 @@ BasicMove::BasicMove(const DefaultMove& defaultMove)
     : m_DefaultMove{ defaultMove }
 {}
 
-bool BasicMove::IsUnderDistance(BoardCell& initial, BoardCell& final)
-    const noexcept
+bool BasicMove::TryAct(Board& board, BoardCell& initial,
+    BoardCell& final, const bool shouldCheckKing)
+{
+    const PieceSide initialSide = initial.GetPiece().GetSide();
+
+    DoMove(board, initial, final);
+    
+    bool success = true;
+
+    if (shouldCheckKing)
+    {
+        success = board.IsKingSafe(initialSide);
+    }
+
+    UndoMove(board, initial, final);
+
+    return success;
+}
+
+
+bool BasicMove::IsUnderDistance(const BoardCell& initial, 
+    const BoardCell& final) const noexcept(false)
 {
     const DefaultMove possibleMove = final - initial;
 
     return m_DefaultMove.IsUnderDistance(possibleMove); 
 }
 
-bool BasicMove::IsAnyObstacles(Board& board, BoardCell& initial, 
-        BoardCell& final) const noexcept
+bool BasicMove::IsAnyObstacles(const Board& board, const BoardCell& initial, 
+        const BoardCell& final) const noexcept
 {
     const DefaultMove possibleMove = final - initial;
 
@@ -45,7 +65,8 @@ bool BasicMove::IsAnyObstacles(Board& board, BoardCell& initial,
     }
 
 
-    WalkThrougher walker{ initial, final, { 8, 8 } };
+    WalkThrougher walker{ initial.GetIndex(), 
+        final.GetIndex(), { 8, 8 } };
 
     for (BoardCellIndex index = walker.GetNext(); !walker.IsEndReached();
         index = walker.GetNext())
@@ -54,26 +75,13 @@ bool BasicMove::IsAnyObstacles(Board& board, BoardCell& initial,
         {
             return true;
         }
-        try
-        {
-            const BoardCell& cell  = board[index];
-            if (!cell.IsFree())
-            {
-                return true;
-            }
-        }
-        catch(std::exception& exp)
-        {
-            std::cerr << exp.what() << std::endl;
 
-            std::cout << "Index: " << 
-                static_cast<std::int32_t>(index.GetRank()) << ' '
-                << static_cast<std::int32_t>(index.GetFile()) << '\n';
-
+        const BoardCell& cell  = board[index];
+        if (!cell.IsFree())
+        {
             return true;
         }
     }
-
 
     return false;
 }

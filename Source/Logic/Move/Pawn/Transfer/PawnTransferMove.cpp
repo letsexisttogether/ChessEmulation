@@ -11,14 +11,14 @@ BasicMove* PawnTransferMove::Clone() const noexcept
     return new PawnTransferMove{ *this };
 }
 
-bool PawnTransferMove::IsBasicAlright(BoardCell& initial, 
-    BoardCell& final) const noexcept
+bool PawnTransferMove::IsBasicAlright(const BoardCell& initial, 
+    const BoardCell& final) const noexcept
 {
     return final.IsFree();
 }
     
-bool PawnTransferMove::IsUnderDistance(BoardCell& initial, 
-    BoardCell& final) const noexcept
+bool PawnTransferMove::IsUnderDistance(const BoardCell& initial, 
+    const BoardCell& final) const noexcept
 {
     const DefaultMove possibleMove = final - initial;
 

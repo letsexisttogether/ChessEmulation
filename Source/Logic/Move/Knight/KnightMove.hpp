@@ -16,9 +16,9 @@ public:
     BasicMove* Clone() const noexcept override;
 
 protected:
-    bool IsUnderDistance(BoardCell& initial, BoardCell& final)
-        const noexcept override;
+    bool IsUnderDistance(const BoardCell& initial, 
+        const BoardCell& final) const noexcept override;
 
-    bool IsAnyObstacles(Board& board, BoardCell& initial, 
-        BoardCell& final) const noexcept override;
+    bool IsAnyObstacles(const Board& board, const BoardCell& initial, 
+        const BoardCell& final) const noexcept override;
 };

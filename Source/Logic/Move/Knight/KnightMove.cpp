@@ -10,16 +10,17 @@ BasicMove* KnightMove::Clone() const noexcept
     return new KnightMove{ *this };
 }
 
-bool KnightMove::IsUnderDistance(BoardCell& initial, 
-    BoardCell& final) const noexcept 
+bool KnightMove::IsUnderDistance(const BoardCell& initial, 
+    const BoardCell& final) const noexcept 
 {
     const DefaultMove possibleMove = final - initial;
 
     return m_DefaultMove == possibleMove; 
 }
 
-bool KnightMove::IsAnyObstacles(Board& board, BoardCell& initial, 
-    BoardCell& final) const noexcept
+bool KnightMove::IsAnyObstacles(const Board& board,
+    const BoardCell& initial, const BoardCell& final) 
+    const noexcept
 {
     return false;
 }

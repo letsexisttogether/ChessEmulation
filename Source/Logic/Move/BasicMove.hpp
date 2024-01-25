@@ -1,10 +1,13 @@
 #pragma once
 
+#include <vector>
+#include <memory>
+
+#include "DefaultMove/DefaultMove.hpp"
+
 class Match;
 class Board; 
 class BoardCell;
-
-#include "DefaultMove/DefaultMove.hpp"
 
 class BasicMove
 {
@@ -30,18 +33,26 @@ public:
 
     virtual BasicMove* Clone() const noexcept = 0;
 
+    virtual void SpawnLegalMoves(Board& board, 
+        BoardCell& initial, 
+        std::vector<std::unique_ptr<BasicMove>>& moves) 
+        noexcept(false) = 0;
+
 	BasicMove& operator = (const BasicMove&) = delete;
 	BasicMove& operator = (BasicMove&&) = delete;
 
-protected:
-    virtual bool IsBasicAlright(BoardCell& initial, 
-        BoardCell& final) const noexcept = 0;
-    
-    virtual bool IsUnderDistance(BoardCell& initial, 
-        BoardCell& final) const noexcept;
+    bool TryAct(Board& board, BoardCell& initial,
+        BoardCell& final, const bool shouldCheckKing);
 
-    virtual bool IsAnyObstacles(Board& board, BoardCell& initial, 
-        BoardCell& final) const noexcept;
+    virtual bool IsBasicAlright(const BoardCell& initial, 
+        const BoardCell& final) const noexcept = 0;
+    
+    virtual bool IsUnderDistance(const BoardCell& initial, 
+        const BoardCell& final) const noexcept(false);
+
+    virtual bool IsAnyObstacles(const Board& board, 
+        const BoardCell& initial, const BoardCell& final) 
+        const noexcept;
 
 protected:
     const DefaultMove m_DefaultMove;

@@ -1,5 +1,6 @@
 #include "TransferMove.hpp"
 
+#include "Logic/Board/WalkThrougher/WalkThrougher.hpp"
 #include "Logic/Match/Match.hpp"
 
 TransferMove::TransferMove(const DefaultMove& move)
@@ -17,20 +18,7 @@ bool TransferMove::IsConditionSatisfied(Board& board, BoardCell& initial,
         return false;
     }
 
-    const PieceSide initialSide = initial.GetPiece().GetSide();
-
-    DoMove(board, initial, final);
-    
-    bool success = true;
-
-    if (shouldCheckKing)
-    {
-        success = board.IsKingSafe(initialSide);
-    }
-
-    UndoMove(board, initial, final);
-
-    return success;
+    return TryAct(board, initial, final, shouldCheckKing);
 }
 
 void TransferMove::DoMove(Board& board, BoardCell& initial, 
@@ -90,7 +78,6 @@ void TransferMove::CompleteMove(Match& match) noexcept
 
     m_PieceSave.reset();
 
-
     match.NotifyAboutMove();
 }
 
@@ -99,9 +86,44 @@ BasicMove* TransferMove::Clone() const noexcept
     return new TransferMove{ *this };
 }
 
+void TransferMove::SpawnLegalMoves(Board& board, 
+    BoardCell& initial, 
+    std::vector<std::unique_ptr<BasicMove>>& moves) 
+    noexcept(false)
+{
+    const BoardCellIndex final{ m_DefaultMove };
 
-bool TransferMove::IsBasicAlright(BoardCell& initial, 
-    BoardCell& final) const noexcept 
+    WalkThrougher walker{ initial.GetIndex(), final, { 8, 8 } };
+
+    for (BoardCellIndex index = walker.GetNext(); !walker.IsEndReached();
+        index = walker.GetNext())
+    {
+        if (!walker.IsInBoundries())
+        {
+            return;
+        }
+
+        BoardCell& cell  = board[index];
+        if (!cell.IsFree())
+        {
+            return;
+        }
+
+        std::unique_ptr<BasicMove> move
+        {
+            new TransferMove{ cell - initial } 
+        };
+
+        if (move->IsBasicAlright(initial, cell) 
+                || TryAct(board, initial, cell, true))
+        {
+            moves.push_back(std::move(move));
+        }
+    }
+}
+
+bool TransferMove::IsBasicAlright(const BoardCell& initial, 
+    const BoardCell& final) const noexcept
 {
     if (final.IsFree())
     {

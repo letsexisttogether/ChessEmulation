@@ -29,12 +29,16 @@ public:
 
     BasicMove* Clone() const noexcept override;
 
+    void SpawnLegalMoves(Board& board, 
+        BoardCell& initial, 
+        std::vector<std::unique_ptr<BasicMove>>& moves) 
+        noexcept(false) override;
+
 	TransferMove& operator = (const TransferMove&) = delete;
 	TransferMove& operator = (TransferMove&&) = delete;
 
-protected:
-    bool IsBasicAlright(BoardCell& initial, 
-        BoardCell& final) const noexcept override;
+    bool IsBasicAlright(const BoardCell& initial, 
+        const BoardCell& final) const noexcept override;
 
 protected:
     BoardCell::PiecePointer m_PieceSave{};
