@@ -1,8 +1,10 @@
 #include "BasicMove.hpp"
 
 #include <iostream>
+#include <sys/stat.h>
 
 #include "Logic/Board/Board.hpp"
+#include "Logic/Board/WalkThrougher/WalkThrougher.hpp"
 
 BasicMove::BasicMove(const DefaultMove& defaultMove)
     : m_DefaultMove{ defaultMove }
@@ -42,15 +44,19 @@ bool BasicMove::IsAnyObstacles(Board& board, BoardCell& initial,
         additionIndex.SetFile(-1);
     }
 
-    for (BoardCellIndex index{ initial.GetIndex() + additionIndex }, 
-        endIndex = final.GetIndex(); 
-        additionIndex && index != endIndex; 
-        index += additionIndex)
+
+    WalkThrougher walker{ initial, final, { 8, 8 } };
+
+    for (BoardCellIndex index = walker.GetNext(); !walker.IsEndReached();
+        index = walker.GetNext())
     {
+        if (!walker.IsInBoundries())
+        {
+            return true;
+        }
         try
         {
-            const BoardCell& cell = board[index];
-
+            const BoardCell& cell  = board[index];
             if (!cell.IsFree())
             {
                 return true;
@@ -58,9 +64,16 @@ bool BasicMove::IsAnyObstacles(Board& board, BoardCell& initial,
         }
         catch(std::exception& exp)
         {
+            std::cerr << exp.what() << std::endl;
+
+            std::cout << "Index: " << 
+                static_cast<std::int32_t>(index.GetRank()) << ' '
+                << static_cast<std::int32_t>(index.GetFile()) << '\n';
+
             return true;
         }
     }
+
 
     return false;
 }
