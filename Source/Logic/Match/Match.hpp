@@ -19,6 +19,8 @@ public:
 
     ~Match() = default;
 
+    void NotifyAboutMove() noexcept;
+
     Board& GetBoard() noexcept;
     const Board& GetBoard() const noexcept;
 

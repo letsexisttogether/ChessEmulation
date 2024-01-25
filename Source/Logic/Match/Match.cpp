@@ -13,6 +13,13 @@ Match::Match(Board&& board)
     : m_Board{ std::move(board) }
 {}
  
+void Match::NotifyAboutMove() noexcept
+{
+    m_GameObserver.ClearCells();
+    m_TurnSide.FlipSide();
+    ++m_TurnCount;
+}
+
 Board& Match::GetBoard() noexcept
 {
     return m_Board;
