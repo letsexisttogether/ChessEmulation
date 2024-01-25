@@ -90,9 +90,8 @@ void TransferMove::CompleteMove(Match& match) noexcept
 
     m_PieceSave.reset();
 
-    // match.GetBoard().Notify()
 
-    // match.NotifyAboutMove();
+    match.NotifyAboutMove();
 }
 
 BasicMove* TransferMove::Clone() const noexcept 

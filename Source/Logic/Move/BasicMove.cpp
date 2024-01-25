@@ -58,11 +58,7 @@ bool BasicMove::IsAnyObstacles(Board& board, BoardCell& initial,
         }
         catch(std::exception& exp)
         {
-            std::cerr << '\n' << exp.what() << std::endl
-                << "The initial: " << static_cast<std::int32_t>(initial.GetIndex().GetRank()) << ' ' 
-                << static_cast<std::int32_t>(initial.GetIndex().GetFile()) << '\n'
-                << "The index: " << static_cast<std::int32_t>(index.GetRank()) << ' ' 
-                << static_cast<std::int32_t>(index.GetFile()) << '\n';
+            return true;
         }
     }
 
