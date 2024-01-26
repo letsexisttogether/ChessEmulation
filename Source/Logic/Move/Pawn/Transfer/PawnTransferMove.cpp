@@ -11,6 +11,11 @@ BasicMove* PawnTransferMove::Clone() const noexcept
     return new PawnTransferMove{ *this };
 }
 
+void PawnTransferMove::SpawnLegalMoves(Board& board, 
+    BoardCell& initial, MovePairContainer& moves) noexcept(false)
+{
+}
+
 bool PawnTransferMove::IsBasicAlright(const BoardCell& initial, 
     const BoardCell& final) const noexcept
 {

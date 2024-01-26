@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Logic/Move/Transfer/TransferMove.hpp"
+#include "Logic/Move/Knight/KnightMove.hpp"
 
-class PawnAttackMove : public TransferMove
+class PawnAttackMove : public KnightMove 
 {
 public:
 	PawnAttackMove() = delete;
@@ -14,6 +14,9 @@ public:
 	~PawnAttackMove() = default;
 
     BasicMove* Clone() const noexcept override;
+
+    void SpawnLegalMoves(Board& board, BoardCell& initial, 
+        MovePairContainer& moves) noexcept(false) override;
 
 private:
     bool IsBasicAlright(const BoardCell& initial, const BoardCell& final) 

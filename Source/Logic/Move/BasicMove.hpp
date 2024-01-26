@@ -1,9 +1,11 @@
 #pragma once
 
+#include <utility>
 #include <vector>
 #include <memory>
 
 #include "DefaultMove/DefaultMove.hpp"
+#include "Logic/Board/Cell/Index/BoardCellIndex.hpp"
 
 class Match;
 class Board; 
@@ -11,6 +13,12 @@ class BoardCell;
 
 class BasicMove
 {
+public:
+    using MovePair = std::pair<BasicMove*, 
+        BoardCellIndex>;
+
+    using MovePairContainer = std::vector<MovePair>;
+
 public:
 	BasicMove() = delete;
 	BasicMove(const BasicMove&) = default;
@@ -35,7 +43,7 @@ public:
 
     virtual void SpawnLegalMoves(Board& board, 
         BoardCell& initial, 
-        std::vector<std::unique_ptr<BasicMove>>& moves) 
+        MovePairContainer& moves) 
         noexcept(false) = 0;
 
 	BasicMove& operator = (const BasicMove&) = delete;

@@ -18,6 +18,9 @@ public:
     BasicMove* Clone() const noexcept override;
 
 private:
+    void SpawnLegalMoves(Board& board, BoardCell& initial, 
+        MovePairContainer& moves) noexcept(false) override;
+
     bool IsBasicAlright(const BoardCell& initial, 
         const BoardCell& final) const noexcept override;
     

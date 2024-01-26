@@ -1,7 +1,10 @@
 #include "TransferMove.hpp"
 
+#include <iostream>
+
 #include "Logic/Board/WalkThrougher/WalkThrougher.hpp"
 #include "Logic/Match/Match.hpp"
+
 
 TransferMove::TransferMove(const DefaultMove& move)
     : BasicMove{ move }
@@ -30,6 +33,10 @@ void TransferMove::DoMove(Board& board, BoardCell& initial,
     {
         m_PieceSave = final.GetPiecePointer();
 
+        std::cout << "Kill: " 
+            << static_cast<std::int32_t>(final.GetIndex().GetRank()) << ' '
+            << static_cast<std::int32_t>(final.GetIndex().GetFile()) << '\n';
+
         observer.DeleteCell(final.GetIndex(), 
             m_PieceSave->GetSide());
     }
@@ -55,6 +62,10 @@ void TransferMove::UndoMove(Board& board, BoardCell& initial,
     if (m_PieceSave)
     {
         final.SetPiece(m_PieceSave);
+
+        std::cout << "Restore: " 
+            << static_cast<std::int32_t>(final.GetIndex().GetRank()) << ' '
+            << static_cast<std::int32_t>(final.GetIndex().GetFile()) << '\n';
 
         observer.AddCell(final);    
 
@@ -87,37 +98,40 @@ BasicMove* TransferMove::Clone() const noexcept
 }
 
 void TransferMove::SpawnLegalMoves(Board& board, 
-    BoardCell& initial, 
-    std::vector<std::unique_ptr<BasicMove>>& moves) 
+    BoardCell& initial, MovePairContainer& moves) 
     noexcept(false)
 {
-    const BoardCellIndex final{ m_DefaultMove };
+    const BoardCellIndex temp{ m_DefaultMove };
+    const BoardCellIndex initialIndex{ initial.GetIndex() };
+    const BoardCellIndex finalIndex{ initialIndex + temp };
 
-    WalkThrougher walker{ initial.GetIndex(), final, { 8, 8 } };
+    WalkThrougher walker{ initial.GetIndex(), finalIndex, { 8, 8 } };
 
-    for (BoardCellIndex index = walker.GetNext(); !walker.IsEndReached();
+    for (BoardCellIndex index = walker.GetNext(); 
+        walker.IsInBoundries() && !walker.IsEndReached();
         index = walker.GetNext())
     {
-        if (!walker.IsInBoundries())
-        {
-            return;
-        }
+        BoardCell& cell = board[index];
 
-        BoardCell& cell  = board[index];
-        if (!cell.IsFree())
-        {
-            return;
-        }
+        const DefaultMove defaultMove{ cell - initial };
 
-        std::unique_ptr<BasicMove> move
+        BasicMove* move
         {
-            new TransferMove{ cell - initial } 
+            new TransferMove{ defaultMove } 
         };
 
-        if (move->IsBasicAlright(initial, cell) 
-                || TryAct(board, initial, cell, true))
+        if (move->IsConditionSatisfied(board, initial, cell, false))
         {
-            moves.push_back(std::move(move));
+            std::cout << "We put a new move" << std::endl
+                << static_cast<std::int32_t>(defaultMove.GetRank()) << ' ' 
+                << static_cast<std::int32_t>(defaultMove.GetFile()) << ' ' 
+                << "For " << static_cast<std::int32_t>(initial.GetPiece().GetType());
+            
+            moves.push_back({ move, index });
+        }
+        else
+        {
+            return;
         }
     }
 }

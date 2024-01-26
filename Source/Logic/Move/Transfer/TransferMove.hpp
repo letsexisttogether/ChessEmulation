@@ -31,7 +31,7 @@ public:
 
     void SpawnLegalMoves(Board& board, 
         BoardCell& initial, 
-        std::vector<std::unique_ptr<BasicMove>>& moves) 
+        std::vector<MovePair>& moves) 
         noexcept(false) override;
 
 	TransferMove& operator = (const TransferMove&) = delete;

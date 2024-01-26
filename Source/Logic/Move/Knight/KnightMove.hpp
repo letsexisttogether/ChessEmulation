@@ -15,7 +15,9 @@ public:
 
     BasicMove* Clone() const noexcept override;
 
-protected:
+    void SpawnLegalMoves(Board& board, BoardCell& initial, 
+        MovePairContainer& moves) noexcept(false) override;
+
     bool IsUnderDistance(const BoardCell& initial, 
         const BoardCell& final) const noexcept override;
 

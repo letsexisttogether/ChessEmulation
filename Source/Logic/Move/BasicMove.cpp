@@ -19,7 +19,7 @@ bool BasicMove::TryAct(Board& board, BoardCell& initial,
     
     bool success = true;
 
-    if (shouldCheckKing)
+    if (false)
     {
         success = board.IsKingSafe(initialSide);
     }
