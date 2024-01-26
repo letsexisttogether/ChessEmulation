@@ -36,7 +36,6 @@ private:
     struct MiniMaxData
     {
         BasicMove* Move;
-        PieceValue Value;
         BoardCell* Initial;
         BoardCell* Final;
     };
@@ -44,9 +43,9 @@ private:
 private:
     AI::PieceValue Evaluate(const PieceSide side) noexcept(false);
 
-    MiniMaxData Maxi(MiniMaxData data, Depth depth) 
+    PieceValue Maxi(MiniMaxData& data, const Depth depth) 
         noexcept(false);
-    MiniMaxData Mini(MiniMaxData data, Depth depth) 
+    PieceValue Mini(MiniMaxData& data, const Depth depth) 
         noexcept(false);
 
 private:

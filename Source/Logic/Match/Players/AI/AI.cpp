@@ -11,7 +11,9 @@ AI::AI(Match& match, const PieceSide side, ValueMap&& map)
 
 BasicMove* AI::GetMove() noexcept(false)
 {
-    MiniMaxData decidedData = Maxi({}, 3);
+    MiniMaxData decidedData{};
+
+    PieceValue value = Maxi(decidedData, 1);
 
     std::cout << "We got to return";
 
@@ -49,21 +51,16 @@ AI::PieceValue AI::Evaluate(const PieceSide side) noexcept(false)
     return value;
 }
 
-AI::MiniMaxData AI::Maxi(MiniMaxData data, Depth depth) 
+AI::PieceValue AI::Maxi(MiniMaxData& data, Depth depth) 
     noexcept(false) 
 {
     std::cout << "\n\nMAXI ENTERED\n\n" << std::endl;
     if (!depth)
     {
-        data.Value = Evaluate(m_Side.GetSide()); 
-
-        std::cout << "MAXI return\n";
-
-        return data;
+        return Evaluate(m_Side.GetSide());
     }
 
-    data.Value = -10000;
-    MiniMaxData max = data;
+    PieceValue max = -10000;
     
     Board& board = m_Match.GetBoard();
     BoardObserver& observer = board.GetObserver();
@@ -91,19 +88,17 @@ AI::MiniMaxData AI::Maxi(MiniMaxData data, Depth depth)
 
             std::cout << "MAXI: MADE A MOVE\n";
 
-            MiniMaxData miniData
-            {
-                move, 0, &initial, &final
-            };
-
-            MiniMaxData minReturn = Mini(miniData, depth - 1);
+            PieceValue minReturn = Mini(data, depth - 1);
 
             std::cout << "MAXI: TRY TO UNDO THE MOVE\n";
 
-            if (max.Value < minReturn.Value)
+            if (max < minReturn)
             {
-                max = miniData;
-                max.Value = minReturn.Value;
+                max = minReturn;
+
+                data.Move = move;
+                data.Initial = &initial;
+                data.Final = &final;
             }
 
             move->UndoMove(board, initial, final);
@@ -120,21 +115,18 @@ AI::MiniMaxData AI::Maxi(MiniMaxData data, Depth depth)
     return max;
 }
 
-AI::MiniMaxData AI::Mini(MiniMaxData data, Depth depth) 
+AI::PieceValue AI::Mini(MiniMaxData& data, const Depth depth) 
     noexcept(false)
 {
     std::cout << "\n\nMINI ENTERED\n\n" << std::endl;
     if (!depth)
     {
-        data.Value = -Evaluate(m_Side.GetOppositeSide()); 
-
         std::cout << "MINI: return\n";
 
-        return data;
+        return -Evaluate(m_Side.GetOppositeSide());;
     }
 
-    MiniMaxData min = data;
-    min.Value = 10000;
+    PieceValue min = 10000;
     
     Board& board = m_Match.GetBoard();
     BoardObserver& observer = board.GetObserver();
@@ -159,19 +151,10 @@ AI::MiniMaxData AI::Mini(MiniMaxData data, Depth depth)
 
             std::cout << "MINI: MADE A MOVE\n";
 
-            MiniMaxData maxiData
-            {
-                move, 0, &initial, &final
-            };
-
             std::cout << "We called maxi\n";
-            MiniMaxData maxReturn = Maxi(maxiData, depth - 1);
+            PieceValue maxReturn = Maxi(data, depth - 1);
 
-            if (min.Value > maxReturn.Value)
-            {
-                min = maxiData;
-                min.Value = maxReturn.Value;
-            }
+            min = std::min(min, maxReturn);
 
             std::cout << "MINI: TRY TO UNDO THE MOVE\n";
             move->UndoMove(board, initial, final);
