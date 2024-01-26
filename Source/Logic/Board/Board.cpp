@@ -2,6 +2,7 @@
 #include "Logic/Gameplay/SideHolder/PieceSideHolder.hpp"
 
 #include <algorithm>
+#include <ios>
 #include <stdexcept>
 #include <iostream>
 
@@ -50,7 +51,8 @@ BoardObserver& Board::GetObserver() noexcept
     return m_Observer;
 }
 
-bool Board::IsKingSafe(const PieceSide side) noexcept(false)
+bool Board::IsKingSafe(const PieceSide side,
+    const bool shouldCheckKingurther) noexcept(false)
 {
     const PieceSideHolder holder{ side };
 
@@ -61,13 +63,10 @@ bool Board::IsKingSafe(const PieceSide side) noexcept(false)
     {
         BoardCell& cell = operator[](index);
 
-        std::cout << "I check the moves of\n"
-            << static_cast<std::int32_t>(index.GetRank()) << ' '
-            << static_cast<std::int32_t>(index.GetFile()) << '\n';
         for (Piece::MovePointer& move : cell.GetPiece().GetMoves())
         {
             if (move->IsConditionSatisfied(*this, cell, 
-                kingCell, false))
+                kingCell, shouldCheckKingurther))
             {
                 return false;
             }
@@ -77,9 +76,23 @@ bool Board::IsKingSafe(const PieceSide side) noexcept(false)
     return true;
 }
 
+
+bool Board::IsIndexIn(const BoardCellIndex& index) const noexcept
+{
+    if (index.GetRank() <= 0 || index.GetFile() <= 0)
+    {
+        return false;
+    }
+
+    return index.GetRank() <= m_Boundries.GetRank()
+        && index.GetFile() <= m_Boundries.GetFile();
+}
+
 const BoardCell& Board::operator[] (const BoardCellIndex& index) 
     const noexcept(false)
 {
+    std::cout << "Board::operator[] start\n";
+
     auto findByIndexFunc = [&](const BoardCell& cell)
     {
         return cell.GetIndex() == index;
@@ -89,13 +102,20 @@ const BoardCell& Board::operator[] (const BoardCellIndex& index)
 
     if (it == m_Cells.end())
     {
+        std::cout << "THE FAIL IS ON INDEX "
+            << static_cast<std::int32_t>(index.GetRank()) << ' '
+            << static_cast<std::int32_t>(index.GetFile()) << '\n';
+
         throw std::runtime_error{ "There is not a cell with index like that" };
     }
+
+    std::cout << "Board::operator[] end\n";
 
     return *it;
 }
 
 BoardCell& Board::operator[](const BoardCellIndex& index)
 {
-    return const_cast<BoardCell&>(static_cast<const Board&>(*this)[index]);
+    return const_cast<BoardCell&>(static_cast<const Board&>
+        (*this)[index]);
 }
