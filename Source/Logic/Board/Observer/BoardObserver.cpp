@@ -2,9 +2,9 @@
 
 #include "Logic/Board/Board.hpp"
 
+#include <iostream>
 #include <algorithm>
 #include <stdexcept>
-#include <iostream>
 
 void BoardObserver::SetBoard(Board& board) noexcept(false)
 {
@@ -23,18 +23,25 @@ void BoardObserver::AddCell(const BoardCell& cell) noexcept(false)
 {
     cell.CheckPiece();
 
+    std::cout << "BoardObserver::AddCell()\n";
+
     const Piece& piece = cell.GetPiece();
     const PieceSide side = piece.GetSide();
     const PieceType type = piece.GetType();
 
+
     IndexContainer& container = GetIndices(side);
     container.emplace(type, cell.GetIndex());
+
+    std::cout << "BoardObserver::UpdateCell()\n";
 }
 
 void BoardObserver::UpdateCell(const BoardCellIndex& oldIndex,
-    const BoardCell& newCell)
+    const BoardCell& newCell) noexcept(false)
 {
     newCell.CheckPiece();
+
+    std::cout << "BoardObserver::UpdateCell()\n";
 
     const PieceSide side = newCell.GetPiece().GetSide();
     const PieceType type = newCell.GetPiece().GetType();
@@ -42,12 +49,14 @@ void BoardObserver::UpdateCell(const BoardCellIndex& oldIndex,
     auto iter = FindIndex(oldIndex, side);
 
     iter->second = newCell.GetIndex();
+
+    std::cout << "BoardObserver::UpdateCell() end\n";
 }
 
-void BoardObserver::DeleteCell(const PieceSide side, 
-        const PieceType type) noexcept(false)
+void BoardObserver::DeleteCell(const BoardCellIndex& index, 
+    const PieceSide side) noexcept(false)
 {
-    auto iter = FindIndex(side, type);
+    auto iter = FindIndex(index, side);
 
     IndexContainer& cells = GetIndices(side);
 
@@ -85,10 +94,17 @@ BoardObserver::IndexContainer::iterator
 
     IndexContainer& indices = GetIndices(side);
 
+    std::cout << "SEARCH STARTED\n";
+
     auto iter = indices.find(type);
+
+    std::cout << "SEARCH ENDED\n";
 
     if (iter == indices.end())
     {
+        std::cerr << static_cast<std::int32_t>(side) << ' ' 
+            << static_cast<std::int32_t>(type) << std::endl;
+
         throw std::runtime_error
         {
             "BoardObserver: Such a piece is dead by now"
@@ -104,6 +120,8 @@ BoardObserver::IndexContainer::iterator
 {
     IndexContainer& indices = GetIndices(side);
 
+    std::cout << "SEARCH STARTED\n";
+
     auto iter = std::find_if(indices.begin(), indices.end(), 
         [=] (const auto& element)
         {
@@ -112,11 +130,15 @@ BoardObserver::IndexContainer::iterator
 
     if (iter == indices.end())
     {
+        std::cerr << static_cast<std::int32_t>(side) << std::endl;
+
         throw std::runtime_error
         {
             "BoardObserver: Such a piece is dead by now"
         };
     }
+
+    std::cout << "SEARCH ENDED\n";
 
     return iter;
 }

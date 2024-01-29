@@ -1,0 +1,11 @@
+# Drawable::draw()
+
+GetSquaredPositions()
+
+std::vector<Vertex*> vertices
+{
+    GetPosition(UP_RIGHT),
+    GetPosition(UP_LEFT),
+    GetPosition(DOWN_RIGHT),
+    GetPosition(DOWN_LEFT)
+};

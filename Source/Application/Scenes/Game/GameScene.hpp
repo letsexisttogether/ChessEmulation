@@ -37,6 +37,9 @@ public:
     GameScene& operator = (GameScene&&) = delete;
 
 private:
+    void CheckGameState() noexcept(false);
+
+private:
     Match m_Match;
     ButtonsContainer m_Buttons{};
 };

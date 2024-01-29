@@ -1,7 +1,5 @@
 #include "Controller.hpp"
 
-#include <iostream>
-
 #include "Application/Application.hpp"
 #include "Application/Scenes/Scene.hpp"
 

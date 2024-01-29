@@ -15,6 +15,8 @@ class AI: public Player
 public:
     using PieceValue = std::int32_t;
     using ValueMap = std::unordered_map<PieceType, PieceValue>;
+    using PositionValueMap = std::unordered_multimap<PieceType, 
+        std::pair<BoardCellIndex, PieceValue>>;
 
 private:
     using Depth = std::int32_t;
@@ -43,11 +45,12 @@ private:
 private:
     AI::PieceValue Evaluate(const PieceSide side) noexcept(false);
 
-    PieceValue Maxi(MiniMaxData& data, const Depth depth) 
-        noexcept(false);
-    PieceValue Mini(MiniMaxData& data, const Depth depth) 
-        noexcept(false);
+    PieceValue Maxi(MiniMaxData& data, const Depth depth, 
+        PieceValue alpha, PieceValue beta)  noexcept(false);
+    PieceValue Mini(MiniMaxData& data, const Depth depth, 
+        PieceValue alpha, PieceValue beta)noexcept(false);
 
 private:
     ValueMap m_ValueMap;
+    PositionValueMap m_PositionValueMap;
 };

@@ -32,12 +32,12 @@ public:
         BoardCell& final, const bool shouldCheckKing) noexcept(false) = 0;
 
     virtual void DoMove(Board& board, BoardCell& initial, 
-        BoardCell& final) noexcept = 0;
+        BoardCell& final) noexcept(false) = 0;
 
     virtual void UndoMove(Board& board, BoardCell& initial, 
-        BoardCell& final) noexcept = 0;
+        BoardCell& final) noexcept(false) = 0;
 
-    virtual void CompleteMove(Match& match) noexcept = 0;
+    virtual void CompleteMove(Match& match) noexcept(false) = 0;
 
     virtual BasicMove* Clone() const noexcept = 0;
 
@@ -50,17 +50,18 @@ public:
 	BasicMove& operator = (BasicMove&&) = delete;
 
     bool TryAct(Board& board, BoardCell& initial,
-        BoardCell& final, const bool shouldCheckKing);
+        BoardCell& final, const bool shouldCheckKing)
+        noexcept(false);
 
     virtual bool IsBasicAlright(const BoardCell& initial, 
         const BoardCell& final) const noexcept = 0;
     
     virtual bool IsUnderDistance(const BoardCell& initial, 
-        const BoardCell& final) const noexcept(false);
+        const BoardCell& final) const noexcept;
 
     virtual bool IsAnyObstacles(const Board& board, 
         const BoardCell& initial, const BoardCell& final) 
-        const noexcept;
+        const noexcept(false);
 
 protected:
     const DefaultMove m_DefaultMove;

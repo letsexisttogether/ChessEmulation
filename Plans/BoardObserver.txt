@@ -1,0 +1,67 @@
+# BoardObserver::PutPiece(const BoardCell* cell)
+
+
+# BoardCell& cell BoardObserver::GetPiece(const PieceSide side, 
+    const PieceType& type)
+
+const auto& iter = m_Map.find({side, type});
+
+if (iter == m_Map.end())
+{
+    throw std::runtime_error{ "The piece is dead" };
+}
+
+return iter.second;
+
+
+# BoardObserver::IsKingSave(const PieceHolder holder)
+
+const BoardCell& kingCell = boardOberserver.GetPiece(holder.GetSide(), PieceType::King);
+
+for (const BoardCell& cell : GetAlivePieces(holder.GetOpposite()))
+{
+    const MoveEffect = cell.GetPiece().TryMove(cell, kingCell);
+
+    if (moveEffect == MoveEffect::ATTACK)
+    {
+        return true;
+    }
+}
+
+return false;
+
+
+# Handler::Handle(Match& match)
+
+Board& board = match.GetBoard();
+
+CellRefs cells{ gameObserver.GetCell() };
+
+BoardCell& initial = cell.first;
+BoardCell& final = cell.second;
+
+DoMove(board, initial, final);
+
+if (!match.GetBoard().GetBoardObserver().IsKingSafe())
+{
+    UndoMove(board, initial, final);
+}
+else
+{
+    FinishMove(Match& match);
+}
+
+
+# Transfer::DoMove(Board& board, GameObserver& gameObserver)
+m_InitialPiece = initial.GetPiece();
+
+initial.Transfer(final);
+
+
+# Transfer::UndoMove(Board& board, GameObserver& gameObserver)
+final.Transfer(initial);
+
+
+# FinishMove(Match& match)
+
+match.TellAboutNewTurn();

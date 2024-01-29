@@ -11,7 +11,8 @@ class Board;
 class BoardObserver
 {
 public:
-    using IndexContainer = std::unordered_multimap<PieceType, BoardCellIndex>;
+    using IndexContainer 
+        = std::unordered_multimap<PieceType, BoardCellIndex>;
 
 public:
     BoardObserver() = default;
@@ -27,7 +28,8 @@ public:
     void UpdateCell(const BoardCellIndex& oldIndex,
         const BoardCell& newCell) noexcept(false);
 
-    void DeleteCell(const PieceSide side, const PieceType type)
+    void DeleteCell(const BoardCellIndex& index, 
+        const PieceSide side)
         noexcept(false);
 
     BoardCell& GetCell(const PieceSide side, const PieceType type) 

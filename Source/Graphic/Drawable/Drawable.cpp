@@ -60,18 +60,18 @@ void Drawable::draw(sf::RenderTarget& target, sf::RenderStates states)
         GetVertex(PositionLocation::DOWN_RIGHT)
     };
 
-    const Placable::Position textureSize
+    const Position textureSize
     { 
-        static_cast<Placable::Position>(m_Texture->getSize()) 
+        static_cast<Position>(m_Texture->getSize()) 
     };
 
-    vertices[0].texCoords = Placable::Position{ 0.f, 0.f }; 
-    vertices[1].texCoords = Placable::Position{ 0.f, textureSize.y };
-    vertices[2].texCoords = Placable::Position{ textureSize.x, 0 };
-    vertices[3].texCoords = Placable::Position{ textureSize.x, textureSize.y };
+    vertices[0].texCoords = Position{ 0.f, 0.f }; 
+    vertices[1].texCoords = Position{ 0.f, textureSize.y };
+    vertices[2].texCoords = Position{ textureSize.x, 0 };
+    vertices[3].texCoords = Position{ textureSize.x, textureSize.y };
 
     target.draw(vertices.data(), vertices.size(), 
-            sf::PrimitiveType::TriangleStrip, states);
+        sf::PrimitiveType::TriangleStrip, states);
 }
 
 Drawable& Drawable::operator = (const Drawable& drawable) noexcept(false)

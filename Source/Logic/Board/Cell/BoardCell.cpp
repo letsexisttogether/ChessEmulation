@@ -52,6 +52,27 @@ BasicMove* BoardCell::TryMove(Board& board, BoardCell& final)
     return nullptr;
 }
 
+BasicMove::MovePairContainer BoardCell::GetLegalMoves(Board& board)
+    noexcept(false)
+{
+    CheckPiece();
+
+    std::cout << "I TRY TO GET ALL THE MOVES FOR "
+        << static_cast<std::int32_t>(m_Piece->GetType()) << ' '
+        << " of " << static_cast<std::int32_t>(m_Piece->GetSide()) << '\n';
+
+    BasicMove::MovePairContainer moves{};
+
+    for (Piece::MovePointer& move : m_Piece->GetMoves())
+    {
+        move->SpawnLegalMoves(board, *this, moves);
+    }
+
+    std::cout << "I STOPED GETTING ALL THE MOVES\n";
+
+    return moves;
+}
+
 const BoardCellIndex& BoardCell::GetIndex() const noexcept
 {
     return m_Index;

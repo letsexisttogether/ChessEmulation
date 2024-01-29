@@ -3,12 +3,19 @@
 #include "Logic/Board/Board.hpp"
 #include "Logic/Gameplay/GameObserver/GameObserver.hpp"
 #include "Logic/Gameplay/SideHolder/PieceSideHolder.hpp"
+#include "Logic/Match/Players/AI/AI.hpp"
+#include "Logic/Match/Players/Player.hpp"
+#include "Logic/Piece/Side/PieceSide.hpp"
+#include "Logic/Piece/Type/PieceType.hpp"
 
 // Representation of a default match
 class Match
 {
 public:
     using TurnCount = std::uint16_t;
+
+private:
+    using PlayerPointer = std::unique_ptr<Player>;
 
 public:
     Match() = delete;
@@ -27,13 +34,12 @@ public:
     GameObserver& GetGameObserver() noexcept;
     const GameObserver& GetGameObserver() const noexcept;
 
-    // I hope me from the future will get more experienced 
-    // and now can deal with returning const or non-const 
-    // if we return an easy-copyable field
     PieceSideHolder& GetTurnSide() noexcept;
     const PieceSideHolder& GetTurnSide() const noexcept;
 
     const TurnCount GetTurnCount() const noexcept;
+
+    Player& GetCurrentPlayer() noexcept;
 
 private:
     Board m_Board;
@@ -41,5 +47,25 @@ private:
 
     PieceSideHolder m_TurnSide{};   
     TurnCount m_TurnCount{};
-    
+   
+    PlayerPointer m_WhitePlayer
+    { 
+        new Player{ *this, PieceSide::WHITE } 
+    };
+
+    PlayerPointer m_BlackPlayer
+    { 
+        new AI
+        { 
+            *this, PieceSide::BLACK,
+            {
+                { PieceType::KING, 120 }, 
+                { PieceType::QUEEN, 80 }, 
+                { PieceType::ROOK, 30 }, 
+                { PieceType::BISHOP, 30 }, 
+                { PieceType::KNIGHT, 50 }, 
+                { PieceType::PAWN, 10 }
+            }
+        } 
+    };
 };

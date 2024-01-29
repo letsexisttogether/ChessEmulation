@@ -1,16 +1,18 @@
 #pragma once
 
 #include "Logic/Board/Cell/BoardCell.hpp"
+#include "Logic/Piece/Side/PieceSide.hpp"
+#include "Logic/Piece/Type/PieceType.hpp"
 #include <unordered_map>
 #include <vector>
+
+class Board;
 
 class BoardObserver
 {
 public:
-    using PieceKey = std::pair<PieceSide, PieceType>;
-    using PiecesMap = std::unordered_multimap<PieceKey, const BoardCell*>;
-
-    using CellsOutContainer = std::vector<const BoardCell*>;
+    using PiecesContainer = std::vector<const Piece*>;
+    using CellContainer = std::vector<const BoardCell*>;
 
 public:
     BoardObserver() = default;
@@ -20,19 +22,32 @@ public:
 
     ~BoardObserver() = default;
 
-    void AddPiece(const PieceSide side, const PieceType type, 
-        const BoardCell*) noexcept;
+    void AddPiece(BoardCell* cell) noexcept(false);
 
-    const BoardCell& GetPiece(const PieceSide side, 
+    void UpdatePiece(BoardCell* cell) noexcept(false);
+
+    void DeletePiece(const PieceSide side, const PieceType type)
+        noexcept(false);
+
+    const Piece& GetPiece(const PieceSide side, 
         const PieceType type) const noexcept(false);
     
-    CellsOutContainer GetAlivePieces(const PieceSide side)
+    PiecesContainer GetPieces(const PieceSide side) 
         const noexcept;
 
+    bool IsKingSave(const Board& board, const PieceSide side) 
+        const noexcept(false);
+    
 private:
-    PiecesMap& GetPiecesMap(const PieceSide side) const noexcept;
+    CellContainer& GetCells(const PieceSide side) noexcept;
+    const CellContainer& GetContainer(const PieceSide side) const noexcept;
+
+    std::size_t FindCell(const PieceSide side, 
+        const PieceType type) const noexcept(false);
+
+    void CheckCell(const BoardCell* cell) const noexcept(false);
 
 private:
-    PiecesMap m_White{};
-    PiecesMap m_Black{};
+    CellContainer m_White{};
+    CellContainer m_Black{};
 };

@@ -4,7 +4,6 @@
 #include <sstream>
 
 #include "Logic/Board/Board.hpp"
-#include "Logic/Board/Cell/BoardCell.hpp"
 
 class BoardFileReader
 {
@@ -14,7 +13,8 @@ public:
     BoardFileReader(BoardFileReader&&) = delete;
 
     BoardFileReader(const std::string& fileName, 
-            const Piece::InMovesContainer& moves);
+        const Piece::InMovesContainer& moves, 
+        Board::PositionSpawner* const positionSpawner);
 
     ~BoardFileReader() = default;
 
@@ -41,6 +41,7 @@ private:
     std::ifstream m_FileStream;
 
     Piece::InMovesContainer m_Moves;
+    Board::PositionSpawner* m_PositionSpawner;
 
     std::vector<sf::Texture*> m_Textures{};
     std::vector<Piece*> m_Pieces{};

@@ -5,6 +5,10 @@ BoardCellIndex::BoardCellIndex(const Rank rank, const File file)
     : m_Rank{ rank }, m_File{ file }
 {}
 
+BoardCellIndex::BoardCellIndex(const DefaultMove& move)
+    : m_Rank{ move.GetRank() }, m_File{ move.GetFile() }
+{}
+
 bool BoardCellIndex::operator == (const BoardCellIndex& index)
     const noexcept
 {
@@ -52,7 +56,6 @@ BoardCellIndex& BoardCellIndex::operator ++ () noexcept
 
     return *this;
 }
-
 
 BoardCellIndex BoardCellIndex::operator - (const BoardCellIndex& index) 
     const noexcept

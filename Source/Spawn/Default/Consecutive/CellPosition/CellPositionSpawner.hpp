@@ -3,11 +3,12 @@
 #include <SFML/System/Vector2.hpp>
 
 #include "Spawn/Default/Consecutive/ConsecutiveSpawner.hpp"
+#include "Graphic/Drawable/Drawable.hpp"
 
 class CellPositionSpawner : public ConsecutiveSpawner<sf::Vector2f>
 {
 public:
-    using Position = sf::Vector2f;
+    using Position = Drawable::Position; 
 
     using Super = ConsecutiveSpawner<Position>;
 

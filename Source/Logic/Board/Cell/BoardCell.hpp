@@ -27,6 +27,9 @@ public:
     BasicMove* TryMove(Board& board, BoardCell& final) 
         noexcept(false);
 
+    BasicMove::MovePairContainer 
+        GetLegalMoves(Board& board) noexcept(false);
+
     const BoardCellIndex& GetIndex() const noexcept;
 
     PiecePointer GetPiecePointer() noexcept;

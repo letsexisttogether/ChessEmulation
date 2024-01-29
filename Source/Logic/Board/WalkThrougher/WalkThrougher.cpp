@@ -1,17 +1,14 @@
 #include "WalkThrougher.hpp"
 
 #include "Logic/Board/Cell/BoardCell.hpp"
-#include <iostream>
-#include <string>
 
 
-WalkThrougher::WalkThrougher(const BoardCell& initial,
-    const BoardCell& final, const BoardCellIndex& boundries)
-    : m_Start{ initial.GetIndex() }, m_End{ final.GetIndex() },
+WalkThrougher::WalkThrougher(const BoardCellIndex& initial, 
+        const BoardCellIndex& final, const BoardCellIndex& boundries)
+    : m_Start{ initial }, m_End{ final },
     m_Boundries{ boundries }, m_Index{ m_Start }
 {
-        
-    const DefaultMove possibleMove = final - initial;
+    const BoardCellIndex possibleMove = final - initial;
 
     if (DefaultMove::Rank rank = possibleMove.GetRank();
         rank > 0)
@@ -31,6 +28,11 @@ WalkThrougher::WalkThrougher(const BoardCell& initial,
     {
         m_Step.SetFile(-1);
     }
+}
+
+const BoardCellIndex& WalkThrougher::GetIndex() noexcept
+{
+    return m_Index;
 }
 
 const BoardCellIndex& WalkThrougher::GetNext() noexcept

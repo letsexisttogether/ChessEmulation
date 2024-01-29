@@ -4,5 +4,6 @@ set(LOGIC_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Cell/BoardCell.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Cell/Index/BoardCellIndex.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Observer/BoardObserver.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/WalkThrougher/WalkThrougher.cpp
     PARENT_SCOPE
 )

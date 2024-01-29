@@ -35,7 +35,11 @@ public:
 
     BoardObserver& GetObserver() noexcept;
 
-    bool IsKingSafe(const PieceSide side) noexcept(false);
+    bool IsKingSafe(const PieceSide side, 
+        const bool shouldCheckKingFurther = false) 
+        noexcept(false);
+
+    bool IsIndexIn(const BoardCellIndex& index) const noexcept;
 
     Board& operator = (const Board&) = delete;
     Board& operator = (Board&&) = delete;
@@ -47,6 +51,7 @@ public:
 
 private:
 	CellSet m_Cells{};
+    const BoardCellIndex m_Boundries{ 8, 8 };
 
     BoardObserver m_Observer{};
 };

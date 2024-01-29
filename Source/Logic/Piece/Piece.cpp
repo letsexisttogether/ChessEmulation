@@ -49,7 +49,6 @@ const Piece::MovesContainer& Piece::GetMoves()
     return m_Moves;
 }
 
-
 bool Piece::WasMoved() const noexcept
 {
     return m_WasMoved;

@@ -6,6 +6,7 @@ set(LOGIC_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Knight/KnightMove.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Pawn/Transfer/PawnTransferMove.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Pawn/Attack/PawnAttackMove.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Pawn/DoubleTransfer/PawnDoubleTransferMove.cpp
     PARENT_SCOPE
 )
 

@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <thread>
+#include <chrono>
 
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "Spawn/Scene/Game/GameSceneSpawner.hpp"
@@ -33,6 +35,8 @@ void Application::CarryTheBoatsAndTheLogs() noexcept
         }
     }
 
+    std::this_thread::sleep_for(std::chrono::seconds(10));
+
     m_Window->close();
 
     std::cout << "Have a nice day" << std::endl;
@@ -44,6 +48,7 @@ Scene& Application::GetScene() noexcept(false)
 
     return *m_Scene;
 }
+
 const Scene& Application::GetScene() const noexcept(false)
 {
     CheckScene();

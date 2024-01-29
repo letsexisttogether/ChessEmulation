@@ -29,6 +29,8 @@ public:
     void SetCell(BoardCell* cell) noexcept;
     
     void ClearCells() noexcept;
+    void ClearInitial() noexcept;
+    void ClearFinal() noexcept;
 
     bool IsMoveBeingMade() const noexcept;
 

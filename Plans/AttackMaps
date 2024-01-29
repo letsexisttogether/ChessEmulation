@@ -1,0 +1,10 @@
+for (move : AttackingMoves)
+{
+    const DefaultMove defaultMove{ move.GetDefaultMove() % 8 };
+
+    BoardCellIndex currentCellIndex = cell.GetIndex();
+    
+    BoardIndexWalker walker{ currentCell.GetIndex(), currentCell + defaultMove };
+    
+    for (intert
+}

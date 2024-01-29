@@ -1,0 +1,25 @@
+# MiniMax::GetMove(Match& match)
+
+Board& board = match.GetBoard();
+
+BoardObserver& observer = board.GetObserver();
+
+# Evaluate
+
+Maxi
+
+if (!depth)
+{
+    return Evalaluate();
+}
+
+for (initial: pieceCellsBySide)
+{
+    for (move, final: cell.GetLegalMoves())
+    {
+        move.DoMove(final);
+
+         
+    }
+}
+

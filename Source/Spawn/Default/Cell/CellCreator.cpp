@@ -14,10 +14,10 @@ BoardCell CellCreator::GetInstance() noexcept(false)
 {
     BoardCell cell{ m_IndexCreator->GetInstance() };
 
-    cell.setTexture(*m_TextureLoader->GetInstance(m_SideHolder.GetSide()));
+    cell.SetTexture(m_TextureLoader->GetInstance(m_SideHolder.GetSide()));
     m_SideHolder.SetOppositeSide();
 
-    cell.setPosition(m_PositionCreator->GetInstance());
+    cell.SetPosition(m_PositionCreator->GetInstance());
 
     return cell; 
 }

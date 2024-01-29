@@ -10,23 +10,16 @@ public:
 	PawnTransferMove(const PawnTransferMove&) = default;
 	PawnTransferMove(PawnTransferMove&&) = default;
 
-	PawnTransferMove(const DefaultMove& defaultMove,
-        const DefaultMove& startMove);
+	PawnTransferMove(const DefaultMove& defaultMove);
 
 	~PawnTransferMove() = default;
 
     BasicMove* Clone() const noexcept override;
 
-private:
     void SpawnLegalMoves(Board& board, BoardCell& initial, 
-        MovePairContainer& moves) noexcept(false) override;
+        MovePairContainer& moves) noexcept(false) override; 
 
+private:
     bool IsBasicAlright(const BoardCell& initial, 
         const BoardCell& final) const noexcept override;
-    
-    bool IsUnderDistance(const BoardCell& initial, 
-        const BoardCell& final) const noexcept override;
-
-private:
-    const DefaultMove m_StartMove;
 };

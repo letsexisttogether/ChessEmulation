@@ -1,18 +1,18 @@
 #include "BoardFileReader.hpp"
 
 #include <SFML/Graphics.hpp>
-#include <exception>
+#include <stdexcept>
 
 BoardFileReader::BoardFileReader(const std::string& fileName, 
-        const Piece::InMovesContainer& moves):
-    m_FileStream{ fileName }, m_Moves{ moves }
+    const Piece::InMovesContainer& moves,
+    Board::PositionSpawner* const positionSpawner)
+    : m_FileStream{ fileName }, m_Moves{ moves },
+    m_PositionSpawner{ positionSpawner }
 {}
 
 Board BoardFileReader::GetBoard() noexcept(false)
 {
-    m_FileStream.seekg(std::streamsize(0), std::ios::beg);
-
-    Board board{};
+    Board board{ m_PositionSpawner };
 
     CheckSignature();
     
@@ -31,18 +31,21 @@ Board BoardFileReader::GetBoard() noexcept(false)
             case 't':
                 LoadTexture(lineSubstr);
                 break;
+
             case 'p':
                 CreatePiece(lineRef);
                 break;
+
             case 'c':
                 CreateCell(board, lineRef);
                 break;
+
             case 'b':
                 SetBoardTexture(board, lineRef);
                 break;
 
             default:
-                throw std::exception{ "Unknown letter was found in the file" };
+                throw std::runtime_error{ "Unknown letter was found in the file" };
         }
     }
 
@@ -78,12 +81,12 @@ void BoardFileReader::CreatePiece(std::istringstream& pieceArguments)
     }
 
     m_Pieces.push_back(new Piece
-            {
-                static_cast<PieceSide>(pieceSide),
-                static_cast<PieceType>(pieceType),
-                m_Textures[textureIndex],
-                moves
-            });
+    {
+        static_cast<PieceSide>(pieceSide),
+        static_cast<PieceType>(pieceType),
+        moves,
+        m_Textures[textureIndex]
+    });
 }
 
 void BoardFileReader::CreateCell(Board& board, std::istringstream& cellAruments) 
@@ -134,7 +137,7 @@ void BoardFileReader::CheckSignature() noexcept(false)
 
 void BoardFileReader::CleanUp() noexcept
 {
-    m_FileStream.close();
+    m_FileStream.seekg(std::streamsize(0), std::ios::beg);
 
     m_Textures.clear();
     m_Pieces.clear();

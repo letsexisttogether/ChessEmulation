@@ -10,7 +10,7 @@ void CellPositionSpawner::ChangeNextInstance() noexcept(false)
     m_NextInstance.x += m_Step.x;
 
     if (!CheckColumnBoundries())
-    {
+   {
         m_NextInstance.x = m_Start.x;
         m_NextInstance.y += m_Step.y;
     }

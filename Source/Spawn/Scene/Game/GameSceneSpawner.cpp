@@ -4,13 +4,55 @@
 #include <memory>
 
 #include "Control/Mouse/MouseController.hpp"
-#include "Logic/Move/Moves/DefaultMove/MoveDirection.hpp"
-#include "Logic/Move/Moves/MoveEffect/MoveEffect.hpp"
-#include "Logic/Move/Handlers/Transfer/TransferHandler.hpp"
+#include "Logic/Move//Knight/KnightMove.hpp"
+#include "Logic/Move/Pawn/Attack/PawnAttackMove.hpp"
+#include "Logic/Move/Pawn/DoubleTransfer/PawnDoubleTransferMove.hpp"
+#include "Logic/Move/Pawn/Transfer/PawnTransferMove.hpp"
+#include "Logic/Move/Transfer/TransferMove.hpp"
 
 GameSceneSpawner::GameSceneSpawner(Controller::Window& window)
-    : m_Window{ window }
-{}
+    : m_Window{ window }, 
+    m_ResourcesPath{ "D:/Important/Projects/ChessEmulation/Resourses/" }
+{
+    m_Moves.push_back(new TransferMove{ { 0, 7 } });
+    m_Moves.push_back(new TransferMove{ { 0, -7 } });
+    m_Moves.push_back(new TransferMove{ { 7, 0 } });
+    m_Moves.push_back(new TransferMove{ { -7, -0 } });
+
+    m_Moves.push_back(new TransferMove{ { 7, 7 } });
+    m_Moves.push_back(new TransferMove{ { 7, -7 } });
+    m_Moves.push_back(new TransferMove{ { -7, 7 } });
+    m_Moves.push_back(new TransferMove{ { -7, -7 } });
+
+    m_Moves.push_back(new KnightMove{ { 1, 2 } });
+    m_Moves.push_back(new KnightMove{ { 1, -2 } });
+    m_Moves.push_back(new KnightMove{ { -1, 2 } });
+    m_Moves.push_back(new KnightMove{ { -1, -2 } });
+    m_Moves.push_back(new KnightMove{ { 2, 1 } });
+    m_Moves.push_back(new KnightMove{ { 2, -1 } });
+    m_Moves.push_back(new KnightMove{ { -2, 1 } });
+    m_Moves.push_back(new KnightMove{ { -2, -1 } });
+
+    m_Moves.push_back(new PawnDoubleTransferMove{ { 0, 2 } });
+    m_Moves.push_back(new PawnTransferMove{ { 0, 1 } });
+    m_Moves.push_back(new PawnAttackMove{ { 1, 1 } });
+    m_Moves.push_back(new PawnAttackMove{ { -1, 1 } });
+
+    m_Moves.push_back(new PawnDoubleTransferMove{ { 0, -2 } });
+    m_Moves.push_back(new PawnTransferMove{ { 0, -1 } });
+    m_Moves.push_back(new PawnAttackMove{ { 1, -1 } });
+    m_Moves.push_back(new PawnAttackMove{ { -1, -1 } });
+
+    m_Moves.push_back(new TransferMove{ { 0, 1 } });
+    m_Moves.push_back(new TransferMove{ { 0, -1 } });
+    m_Moves.push_back(new TransferMove{ { 1, 0 } });
+    m_Moves.push_back(new TransferMove{ { -1, -0 } });
+
+    m_Moves.push_back(new TransferMove{ { 1, 1 } });
+    m_Moves.push_back(new TransferMove{ { 1, -1 } });
+    m_Moves.push_back(new TransferMove{ { -1, 1 } });
+    m_Moves.push_back(new TransferMove{ { -1, -1 } });
+}
 
 Scene* GameSceneSpawner::SpawnScene() noexcept(false)
 {
@@ -18,7 +60,6 @@ Scene* GameSceneSpawner::SpawnScene() noexcept(false)
     { 
         SpawnController(),
         SpawnMatch(),
-        SpawnHandlers(),
         SpawnButtons()
     };
 }
@@ -95,24 +136,40 @@ Board::CellSet GameSceneSpawner::SpawnCells() const noexcept
                 case 1:
                 case 8:
                     type = PieceType::ROOK;
-                    moves.push_back
-                    (
-                        new BasicMove{ { MoveDirection::UP, { 8, 8 }  } }
-                    );
+                    for (std::size_t i = 0; i <= 3; ++i)
+                    {
+                        moves.push_back(m_Moves[i]);
+                    }                    
                     break;
                 case 2:
                 case 7:
                     type = PieceType::KNIGHT;
+                    for (std::size_t i = 8; i <= 15; ++i)
+                    {
+                        moves.push_back(m_Moves[i]);
+                    }
                     break;
                 case 3:
                 case 6:
                     type = PieceType::BISHOP;
+                    for (std::size_t i = 4; i <= 7; ++i)
+                    {
+                        moves.push_back(m_Moves[i]);
+                    }
                     break;
                 case 4:
                     type = PieceType::QUEEN;
+                    for (std::size_t i = 0; i <= 7; ++i)
+                    {
+                        moves.push_back(m_Moves[i]);
+                    }
                     break;
                 case 5:
                     type = PieceType::KING;
+                    for (std::size_t i = 24; i <= 30; ++i)
+                    {
+                        moves.push_back(m_Moves[i]);
+                    }
                     break;
             } 
 
@@ -120,16 +177,22 @@ Board::CellSet GameSceneSpawner::SpawnCells() const noexcept
             {
                 case 2:
                     type = PieceType::PAWN;
-                    moves.push_back
-                    (
-                        new BasicMove{ { MoveDirection::UP, { 1, 1 }  } }
-                    );
+                    moves.clear();
+                    for (std::size_t i = 16; i <= 19; ++i)
+                    {
+                        moves.push_back(m_Moves[i]);
+                    }
                 case 1:
                     side = PieceSide::WHITE;
                     map = &whiteTextures;
                     break;
                 case 7:
                     type = PieceType::PAWN;
+                    moves.clear();
+                    for (std::size_t i = 20; i <= 23; ++i)
+                    {
+                        moves.push_back(m_Moves[i]);
+                    }
                 case 8:
                     side = PieceSide::BLACK;
                     map = &blackTextures;
@@ -153,17 +216,6 @@ Board::CellSet GameSceneSpawner::SpawnCells() const noexcept
     }
 
     return cells;
-}
-
-GameScene::MoveHandlers GameSceneSpawner::SpawnHandlers() 
-    const noexcept
-{
-    GameScene::MoveHandlers handlers{};
-
-    handlers[MoveEffect::TRANSFER] = std::make_unique<TransferHandler>();
-    handlers[MoveEffect::ATTACK] = std::make_unique<TransferHandler>();
-
-    return handlers;
 }
 
 GameSceneSpawner::TextureMap 

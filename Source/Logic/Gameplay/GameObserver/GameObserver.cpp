@@ -58,7 +58,10 @@ const BoardCell& GameObserver::GetFinal()
 
     if (!final)
     {
-        throw std::runtime_error{ "GameObserver: The final cell was not set" };
+        throw std::runtime_error
+        { 
+            "GameObserver: The final cell was not set" 
+        };
     }
 
     return *final;
@@ -66,9 +69,12 @@ const BoardCell& GameObserver::GetFinal()
 
 void GameObserver::SetCell(BoardCell* cell) noexcept
 {
-    if (!m_CellPair.first && !cell->IsFree())
+    if (!m_CellPair.first)
     {
-        m_CellPair.first = cell;
+        if (!cell->IsFree())
+        {
+            m_CellPair.first = cell;
+        }
     }
     else if (!m_CellPair.second)
     {
@@ -78,7 +84,17 @@ void GameObserver::SetCell(BoardCell* cell) noexcept
 
 void GameObserver::ClearCells() noexcept
 {
-    m_CellPair.first = m_CellPair.second = nullptr;
+    ClearInitial();
+    ClearFinal();
+}
+
+void GameObserver::ClearInitial() noexcept
+{
+    m_CellPair.first = nullptr;
+}
+void GameObserver::ClearFinal() noexcept
+{
+   m_CellPair.second = nullptr;
 }
     
 bool GameObserver::IsMoveBeingMade() const noexcept

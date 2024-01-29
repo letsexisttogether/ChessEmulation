@@ -11,7 +11,7 @@ BasicMove::BasicMove(const DefaultMove& defaultMove)
 {}
 
 bool BasicMove::TryAct(Board& board, BoardCell& initial,
-    BoardCell& final, const bool shouldCheckKing)
+    BoardCell& final, const bool shouldCheckKing) noexcept(false)
 {
     const PieceSide initialSide = initial.GetPiece().GetSide();
 
@@ -19,7 +19,7 @@ bool BasicMove::TryAct(Board& board, BoardCell& initial,
     
     bool success = true;
 
-    if (false)
+    if (shouldCheckKing)
     {
         success = board.IsKingSafe(initialSide);
     }
@@ -29,9 +29,8 @@ bool BasicMove::TryAct(Board& board, BoardCell& initial,
     return success;
 }
 
-
 bool BasicMove::IsUnderDistance(const BoardCell& initial, 
-    const BoardCell& final) const noexcept(false)
+    const BoardCell& final) const noexcept
 {
     const DefaultMove possibleMove = final - initial;
 
@@ -39,7 +38,7 @@ bool BasicMove::IsUnderDistance(const BoardCell& initial,
 }
 
 bool BasicMove::IsAnyObstacles(const Board& board, const BoardCell& initial, 
-        const BoardCell& final) const noexcept
+        const BoardCell& final) const noexcept(false)
 {
     const DefaultMove possibleMove = final - initial;
 

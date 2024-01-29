@@ -20,12 +20,12 @@ public:
         noexcept(false) override;
 
     void DoMove(Board& board, BoardCell& initial, BoardCell& final)
-        noexcept override;
+        noexcept(false) override;
 
     void UndoMove(Board& board, BoardCell& initial, BoardCell& final)
-        noexcept override;
+        noexcept(false) override;
 
-    void CompleteMove(Match& match) noexcept override;
+    void CompleteMove(Match& match) noexcept(false) override;
 
     BasicMove* Clone() const noexcept override;
 

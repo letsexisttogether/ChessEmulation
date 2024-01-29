@@ -1,8 +1,9 @@
 #include "GameScene.hpp"
-#include "Logic/Move/Moves/MoveEffect/MoveEffect.hpp"
-#include "Application/Application.hpp"
 
+#include <iostream>
 #include <utility>
+
+#include "Application/Application.hpp"
 
 GameScene::GameScene(Controller* controller, Match&& match,
         ButtonsContainer&& buttons)
@@ -14,29 +15,18 @@ void GameScene::UpdateLogic() noexcept(false)
 {
     m_Controller->Control();
 
-    GameObserver& gameObsever = m_Match.GetGameObserver();
-
-    if (!gameObsever.IsMoveBeingMade())
-    {
-        return;
-    }
-
-    GameObserver& constGameObserver = m_Match.GetGameObserver();
-
-    Board& board = m_Match.GetBoard();
-    BoardCell& initial = *constGameObserver.GetInitial();
-    BoardCell& final = *constGameObserver.GetFinal();
-    
-    BasicMove* move = initial.TryMove(board, final);
+    BasicMove* move = m_Match.GetCurrentPlayer().GetMove();
 
     if (move)
     {
+        std::cout << "I decide to move\n";
+
         move->CompleteMove(m_Match);
+
+        std::cout << "We moved successfuly";        
+
+        CheckGameState(); 
     }
-
-    gameObsever.ClearCells();
-
-    // CheckGameState(); 
 }
 
 Scene::IntersectablesContainer GameScene::GetIntersectables() 
@@ -98,3 +88,23 @@ const Match& GameScene::GetMatch() const noexcept
     return m_Match;
 }
 
+void GameScene::CheckGameState() noexcept(false)
+{
+    const PieceSide& side = m_Match.GetTurnSide().GetSide();
+
+    Board& board = m_Match.GetBoard();
+
+    const bool isKingSave = board.IsKingSafe(side);
+
+    if (!isKingSave)
+    {
+        if (true)
+        {
+            std::cout << "The game is over\n"
+                << "THE " << ((side == PieceSide::WHITE) ?
+                ("BLACK") : ("WHITE")) << " WINS" << std::endl;
+
+            SetWorking(false);
+        }
+    }
+}

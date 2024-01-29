@@ -11,5 +11,5 @@ enum class PieceType : std::uint8_t
 
     ROOK,
     BISHOP,
-    KNIGHT,
+    KNIGHT
 };

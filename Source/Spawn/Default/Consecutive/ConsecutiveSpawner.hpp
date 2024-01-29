@@ -4,6 +4,7 @@
 
 #include "Spawn/Default/DefaultSpawner.hpp"
 
+// Delete this interesting part of the code (bullshit)
 template <class _Instance>
 class ConsecutiveSpawner : public DefaultSpawner<_Instance>
 {

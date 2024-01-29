@@ -1,0 +1,141 @@
+The controller algo:
+1. Every tick I get all the current events
+2. I put the events to the controller's entity
+3. The controller checks the event
+    3.1. If the event is appropriate, the controller calls 
+        the relatable action and returns the action's consequences 
+        (command what to do and the controllable object) for the handler
+    3.2. Else returns nothing
+4. Put the consequences to the ControlHandlerFabric
+5. Get the ControlHandlerObject
+6. Call the handler's HandleControl() method
+7.
+
+
+
+1. Check the controller's position
+2. If intersects with an object, return the object and the  
+
+
+# MouseController::GetPossibleIntersection()
+
+for (const auto* intersectable : Application.GetScene()->GetIntersectables()
+{
+    if (placable->IsIntersected(intersectable))
+    {
+        return intersectable;
+    }
+}
+
+
+# GameScene::UpdateLogic()
+
+// Code before that code 
+
+const Intersectable* intersectable = m_Controller.GetPossibleIntersection();
+const ControllerEvent{ m_Controller.GetPossibleControllerEvent };
+
+m_ControllerHandler.Handle();
+
+// Other code
+
+ButtonActivateHandler::Handle(intersectable)
+{
+    Button* button = static_cast<Button*>(intersectable);
+
+    button.OnClick();
+}
+
+CellActivateHandler::Handle(intersectable)
+{
+    BoardCell* currentCell = static_cast<BoardCell*>(intersectable);
+
+    if (!m_ActiveCell)
+    {
+        if (currentCell->IsFree())
+        {
+            SetActiveCell(currentCell);
+        }
+    }
+    else
+    {
+        currentCell->OnMove(*m_ActiveCell);
+
+        SetActiveCell(nullptr);
+    }
+}
+
+# BoardCell::OnMove(BoardCell& cell)
+{
+    if (isFree())
+    {
+        return;
+    }
+
+    const MoveEffect effect
+    {
+        m_Piece->TryMove(*this, cell)
+    };
+
+    EffectHandler.GetHandler(effect)->Handle(*this, cell);
+}
+
+Handler
+
+# Handler::GetHandler(intersectable)
+
+if (const auto iter = find(m_Map.begin(), m_Map.end(); iter != m_Map.end())
+{
+    return iter->second;
+}
+
+return nullptr;
+
+
+# Controller::GetActiveEvent()
+
+
+
+
+
+///////////////////////////////// NEW PLANS ////////////////////////////////////////////
+
+# Controller::Control()
+
+const ControllerEvent event{ GetControllerEvent };
+
+const auto iter = std::find(m_EventHandlers.begin(), m_EventHandlers.end());
+
+if (iter == m_EventHandlers.end())
+{
+    return;
+}
+
+ControllerEventHandler* handler = iter.second;
+handler->Handle();
+
+
+// Example 
+
+# ClickHandler::Handle()
+
+Scene* scene = Application::GetApplication().GetScene;
+
+const Controller* controller = scene.GetController();
+
+Intersectable* intersectable = controller->GetPossibleIntersectable();
+
+if (!intersectable)
+{
+    return;
+}
+
+const auto iter = std::find(m_IntersectionHandlers.begin(), m_IntersectionHandlers.end());
+
+if (iter == m_IntersectionHandlers.end())
+{
+    return;
+}
+
+IntersectionHandler* handler = iter.second;
+handler->Handle();

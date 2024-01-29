@@ -1,5 +1,7 @@
 set(LOGIC_SOURCES
     ${LOGIC_SOURCES}
     ${CMAKE_CURRENT_SOURCE_DIR}/Match.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Players/Player.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Players/AI/AI.cpp
     PARENT_SCOPE
 )

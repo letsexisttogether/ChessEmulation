@@ -10,7 +10,7 @@ Match::Match(Match&& match)
 {}
 
 Match::Match(Board&& board)
-    : m_Board{ std::move(board) }
+    : m_Board{ std::move(board) } 
 {}
  
 void Match::NotifyAboutMove() noexcept
@@ -50,9 +50,18 @@ const PieceSideHolder& Match::GetTurnSide() const noexcept
     return m_TurnSide;
 }
 
-
 const Match::TurnCount Match::GetTurnCount() 
     const noexcept
 {
     return m_TurnCount;
+}
+
+Player& Match::GetCurrentPlayer() noexcept
+{
+    if (m_TurnSide.GetSide() == PieceSide::WHITE)
+    {
+        return *m_WhitePlayer;
+    }
+
+    return *m_BlackPlayer;
 }

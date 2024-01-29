@@ -29,15 +29,13 @@ private:
     Board::CellSet SpawnCells() const noexcept;
     TextureMap LoadPieceTextures(const std::string& path) const noexcept;
 
-    GameScene::MoveHandlers SpawnHandlers() const noexcept;
-    GameScene::ButtonsContainer SpawnButtons() const noexcept;
+    GameScene::ButtonsContainer SpawnButtons() const noexcept(false);
     Controller* SpawnController() const noexcept;
 
 private:
-    const std::string m_ResourcesPath
-    {
-       "D:/Important/Projects/ChessEmulation/Resourses/" 
-    };
-
     sf::RenderWindow& m_Window;
+
+    const std::string m_ResourcesPath;
+
+    std::vector<BasicMove*> m_Moves{};
 };

@@ -2,8 +2,6 @@
 
 #include "Logic/Board/Cell/Index/BoardCellIndex.hpp"
 
-class BoardCell;
-
 class WalkThrougher
 {
 public:
@@ -11,12 +9,14 @@ public:
     WalkThrougher(const WalkThrougher&) = default;
     WalkThrougher(WalkThrougher&&) = default;
     
-    WalkThrougher(const BoardCell& initial, const BoardCell& final,
-        const BoardCellIndex& boundries);
+    WalkThrougher(const BoardCellIndex& initial, 
+        const BoardCellIndex& final, const BoardCellIndex& boundries);
 
     ~WalkThrougher() = default;
 
     const BoardCellIndex& GetNext() noexcept;
+
+    const BoardCellIndex& GetIndex() noexcept;
 
     bool IsEndReached() const noexcept;
 

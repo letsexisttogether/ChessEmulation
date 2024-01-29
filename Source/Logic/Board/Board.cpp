@@ -102,7 +102,7 @@ const BoardCell& Board::operator[] (const BoardCellIndex& index)
 
     if (it == m_Cells.end())
     {
-        std::cout << "THE FAIL IS ON INDEX "
+        std::cerr << "THE FAIL IS ON INDEX "
             << static_cast<std::int32_t>(index.GetRank()) << ' '
             << static_cast<std::int32_t>(index.GetFile()) << '\n';
 

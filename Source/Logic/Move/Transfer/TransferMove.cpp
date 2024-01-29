@@ -25,7 +25,7 @@ bool TransferMove::IsConditionSatisfied(Board& board, BoardCell& initial,
 }
 
 void TransferMove::DoMove(Board& board, BoardCell& initial, 
-    BoardCell& final) noexcept
+    BoardCell& final) noexcept(false)
 {
     BoardObserver& observer = board.GetObserver();
 
@@ -49,9 +49,10 @@ void TransferMove::DoMove(Board& board, BoardCell& initial,
 }
 
 void TransferMove::UndoMove(Board& board, BoardCell& initial, 
-    BoardCell& final) noexcept
+    BoardCell& final) noexcept(false)
 {
     BoardObserver& observer = board.GetObserver();
+
 
     final.TransferPiece(initial);
 
@@ -73,7 +74,7 @@ void TransferMove::UndoMove(Board& board, BoardCell& initial,
     }
 }
 
-void TransferMove::CompleteMove(Match& match) noexcept
+void TransferMove::CompleteMove(Match& match) noexcept(false)
 {
     Board& board = match.GetBoard(); 
     BoardCell& initial = *match.GetGameObserver().GetInitial();
@@ -105,10 +106,11 @@ void TransferMove::SpawnLegalMoves(Board& board,
     const BoardCellIndex initialIndex{ initial.GetIndex() };
     const BoardCellIndex finalIndex{ initialIndex + temp };
 
-    WalkThrougher walker{ initial.GetIndex(), finalIndex, { 8, 8 } };
+    WalkThrougher walker{ initial.GetIndex(), finalIndex, 
+        { 8, 8 } };
 
     for (BoardCellIndex index = walker.GetNext(); 
-        walker.IsInBoundries() && !walker.IsEndReached();
+        walker.IsInBoundries();
         index = walker.GetNext())
     {
         BoardCell& cell = board[index];
@@ -120,7 +122,7 @@ void TransferMove::SpawnLegalMoves(Board& board,
             new TransferMove{ defaultMove } 
         };
 
-        if (move->IsConditionSatisfied(board, initial, cell, false))
+        if (move->IsConditionSatisfied(board, initial, cell, true))
         {
             std::cout << "We put a new move" << std::endl
                 << static_cast<std::int32_t>(defaultMove.GetRank()) << ' ' 
@@ -129,7 +131,12 @@ void TransferMove::SpawnLegalMoves(Board& board,
             
             moves.push_back({ move, index });
         }
-        else
+        else 
+        {
+            return;
+        }
+
+        if (walker.IsEndReached())
         {
             return;
         }

@@ -17,6 +17,7 @@ public:
     BoardCellIndex(BoardCellIndex&&) = default;
 
     BoardCellIndex(const Rank rank, const File file);
+    BoardCellIndex(const DefaultMove& move);
 
     ~BoardCellIndex() = default;
 
