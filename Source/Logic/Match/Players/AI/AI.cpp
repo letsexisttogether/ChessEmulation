@@ -59,7 +59,7 @@ BasicMove* AI::GetMove() noexcept(false)
 {
     MiniMaxData decidedData{};
 
-    PieceValue value = Maxi(decidedData, 1, -100000, 100000);
+    PieceValue value = Maxi(decidedData, 3, -100000, 100000);
 
     if (!decidedData.Move || !decidedData.Initial 
         || !decidedData.Final)
@@ -110,7 +110,8 @@ AI::PieceValue AI::Maxi(MiniMaxData& data, const Depth depth,
     Board& board = m_Match.GetBoard();
     BoardObserver& observer = board.GetObserver();
 
-    for (auto& [type, initialIndex]: observer.GetIndices(m_Side.GetSide()))
+    for (auto& [type, initialIndex]: observer
+        .GetIndices(m_Side.GetSide()))
     {
         BoardCell& initial = board[initialIndex];
 
@@ -158,7 +159,8 @@ AI::PieceValue AI::Mini(MiniMaxData& data, const Depth depth,
     Board& board = m_Match.GetBoard();
     BoardObserver& observer = board.GetObserver();
 
-    for (auto& [type, initialIndex]: observer.GetIndices(m_Side.GetOppositeSide()))
+    for (auto& [type, initialIndex]: observer
+        .GetIndices(m_Side.GetOppositeSide()))
     {
         BoardCell& initial = board[initialIndex];
 

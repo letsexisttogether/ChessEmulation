@@ -57,18 +57,12 @@ BasicMove::MovePairContainer BoardCell::GetLegalMoves(Board& board)
 {
     CheckPiece();
 
-    std::cout << "I TRY TO GET ALL THE MOVES FOR "
-        << static_cast<std::int32_t>(m_Piece->GetType()) << ' '
-        << " of " << static_cast<std::int32_t>(m_Piece->GetSide()) << '\n';
-
     BasicMove::MovePairContainer moves{};
 
     for (Piece::MovePointer& move : m_Piece->GetMoves())
     {
         move->SpawnLegalMoves(board, *this, moves);
     }
-
-    std::cout << "I STOPED GETTING ALL THE MOVES\n";
 
     return moves;
 }

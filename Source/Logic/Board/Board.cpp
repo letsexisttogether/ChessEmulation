@@ -2,18 +2,17 @@
 #include "Logic/Gameplay/SideHolder/PieceSideHolder.hpp"
 
 #include <algorithm>
-#include <ios>
 #include <stdexcept>
 #include <iostream>
 
 Board::Board(Board&& board)
-    : Sprite{ std::move(board) }, m_Cells{ std::move(board.m_Cells) }
+    : Drawable{ std::move(board) }, m_Cells{ std::move(board.m_Cells) }
 {
     m_Observer.SetBoard(*this);
 }
 
 Board::Board(const TexturePointer texture, const Position position)
-    : Sprite{ texture, position }
+    : Drawable{ texture, position }
 {}
 
 Board::Board(CellSet&& cells)
@@ -24,7 +23,7 @@ Board::Board(CellSet&& cells)
 
 Board::Board(CellSet&& cells, const TexturePointer texture,
     const Position position)
-    : Sprite{ texture, position }, m_Cells{ std::move(cells) }
+    : Drawable{ texture, position }, m_Cells{ std::move(cells) }
 {
     m_Observer.SetBoard(*this);
 }
@@ -91,8 +90,6 @@ bool Board::IsIndexIn(const BoardCellIndex& index) const noexcept
 const BoardCell& Board::operator[] (const BoardCellIndex& index) 
     const noexcept(false)
 {
-    std::cout << "Board::operator[] start\n";
-
     auto findByIndexFunc = [&](const BoardCell& cell)
     {
         return cell.GetIndex() == index;
@@ -108,8 +105,6 @@ const BoardCell& Board::operator[] (const BoardCellIndex& index)
 
         throw std::runtime_error{ "There is not a cell with index like that" };
     }
-
-    std::cout << "Board::operator[] end\n";
 
     return *it;
 }

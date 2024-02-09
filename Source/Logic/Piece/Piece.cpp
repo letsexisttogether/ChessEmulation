@@ -30,7 +30,7 @@ Piece::Piece(const PieceSide side, const PieceType type,
     const TexturePointer texture,
     const InMovesContainer& moves,
     const Drawable::Position position)
-    : Sprite{ texture, position }, m_Side{ side }, m_Type{ type }
+    : Drawable{ texture, position }, m_Side{ side }, m_Type{ type }
 {
     for (const BasicMove* move : moves)
     {

@@ -124,11 +124,6 @@ void TransferMove::SpawnLegalMoves(Board& board,
 
         if (move->IsConditionSatisfied(board, initial, cell, true))
         {
-            std::cout << "We put a new move" << std::endl
-                << static_cast<std::int32_t>(defaultMove.GetRank()) << ' ' 
-                << static_cast<std::int32_t>(defaultMove.GetFile()) << ' ' 
-                << "For " << static_cast<std::int32_t>(initial.GetPiece().GetType());
-            
             moves.push_back({ move, index });
         }
         else 

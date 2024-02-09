@@ -32,10 +32,6 @@ void KnightMove::SpawnLegalMoves(Board& board, BoardCell& initial,
 
     if(move->IsConditionSatisfied(board, initial, final, true))
     {
-        std::cout << "PUT A NEW MOVE" << std::endl
-            << static_cast<std::int32_t>(finalIndex.GetRank()) << ' ' 
-            << static_cast<std::int32_t>(finalIndex.GetFile()) << '\n';
-
         moves.push_back({ move, finalIndex });
     }
 }

@@ -2,11 +2,11 @@
 
 #include <unordered_set>
 
-#include "Graphic/Sprite/Sprite.hpp"
+#include "Graphic/Drawable/Drawable.hpp"
 #include "Logic/Board/Cell/BoardCell.hpp"
 #include "Observer/BoardObserver.hpp"
 
-class Board : public Sprite 
+class Board : public Drawable 
 {
 public: 
     using CellSet = std::unordered_set<BoardCell, 

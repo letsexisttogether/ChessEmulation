@@ -4,6 +4,7 @@
 
 #include "Index/BoardCellIndex.hpp"
 #include "Logic/Piece/Piece.hpp"
+#include "Graphic/Intersectable/Intersectable.hpp"
 
 class BoardCell : public Intersectable
 {

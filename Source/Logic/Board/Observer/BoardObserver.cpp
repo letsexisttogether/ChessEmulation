@@ -23,7 +23,7 @@ void BoardObserver::AddCell(const BoardCell& cell) noexcept(false)
 {
     cell.CheckPiece();
 
-    std::cout << "BoardObserver::AddCell()\n";
+    std::cout << "AddCell() start\n";
 
     const Piece& piece = cell.GetPiece();
     const PieceSide side = piece.GetSide();
@@ -33,7 +33,7 @@ void BoardObserver::AddCell(const BoardCell& cell) noexcept(false)
     IndexContainer& container = GetIndices(side);
     container.emplace(type, cell.GetIndex());
 
-    std::cout << "BoardObserver::UpdateCell()\n";
+    std::cout << "AddCell() end\n";
 }
 
 void BoardObserver::UpdateCell(const BoardCellIndex& oldIndex,
@@ -41,26 +41,26 @@ void BoardObserver::UpdateCell(const BoardCellIndex& oldIndex,
 {
     newCell.CheckPiece();
 
-    std::cout << "BoardObserver::UpdateCell()\n";
-
     const PieceSide side = newCell.GetPiece().GetSide();
     const PieceType type = newCell.GetPiece().GetType();
 
     auto iter = FindIndex(oldIndex, side);
 
     iter->second = newCell.GetIndex();
-
-    std::cout << "BoardObserver::UpdateCell() end\n";
 }
 
 void BoardObserver::DeleteCell(const BoardCellIndex& index, 
     const PieceSide side) noexcept(false)
 {
+    std::cout << "DeleteCell() start\n";
+
     auto iter = FindIndex(index, side);
 
     IndexContainer& cells = GetIndices(side);
 
     cells.erase(iter);
+
+    std::cout << "DeleteCell() end\n";
 }
 
 BoardCell& BoardObserver::GetCell(const PieceSide side, 

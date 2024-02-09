@@ -4,12 +4,12 @@
 #include <memory>
 #include <vector>
 
+#include "Graphic/Drawable/Drawable.hpp"
 #include "Logic/Move/BasicMove.hpp"
-#include "Graphic/Sprite/Sprite.hpp"
 #include "Type/PieceType.hpp"
 #include "Side/PieceSide.hpp"
 
-class Piece : public Sprite 
+class Piece : public Drawable
 {
 public:
     using MovePointer = std::unique_ptr<BasicMove>;
