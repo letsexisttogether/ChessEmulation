@@ -39,7 +39,9 @@ public:
         const bool shouldCheckKingFurther = false) 
         noexcept(false);
 
-    bool IsIndexIn(const BoardCellIndex& index) const noexcept;
+    bool IsInBoundries(const BoardCellIndex& index) const noexcept;
+    void SetBoundires(const BoardCellIndex& boundries,
+        const bool isMax = true) noexcept;
 
     Board& operator = (const Board&) = delete;
     Board& operator = (Board&&) = delete;
@@ -51,7 +53,9 @@ public:
 
 private:
 	CellSet m_Cells{};
-    const BoardCellIndex m_Boundries{ 8, 8 };
+
+    BoardCellIndex m_MinBoundries{ 1, 1 };
+    BoardCellIndex m_MaxBoundries{ 8, 8 };
 
     BoardObserver m_Observer{};
 };

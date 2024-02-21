@@ -23,17 +23,12 @@ void BoardObserver::AddCell(const BoardCell& cell) noexcept(false)
 {
     cell.CheckPiece();
 
-    std::cout << "AddCell() start\n";
-
     const Piece& piece = cell.GetPiece();
     const PieceSide side = piece.GetSide();
     const PieceType type = piece.GetType();
 
-
     IndexContainer& container = GetIndices(side);
     container.emplace(type, cell.GetIndex());
-
-    std::cout << "AddCell() end\n";
 }
 
 void BoardObserver::UpdateCell(const BoardCellIndex& oldIndex,

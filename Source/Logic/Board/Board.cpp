@@ -30,6 +30,8 @@ Board::Board(CellSet&& cells, const TexturePointer texture,
 
 void Board::AddCell(BoardCell&& cell) noexcept(false)
 {
+    SetBoundires(cell.GetIndex());
+
     m_Observer.AddCell(cell);
 
     m_Cells.insert(std::move(cell));
@@ -50,9 +52,13 @@ BoardObserver& Board::GetObserver() noexcept
     return m_Observer;
 }
 
+// TODO: Put it in BoardObserver (not sure about it),
+// make the method work by steps 
 bool Board::IsKingSafe(const PieceSide side,
     const bool shouldCheckKingurther) noexcept(false)
 {
+    bool isKingSafe = false;
+
     const PieceSideHolder holder{ side };
 
     BoardCell& kingCell = m_Observer.GetCell(side, PieceType::KING);
@@ -64,10 +70,9 @@ bool Board::IsKingSafe(const PieceSide side,
 
         for (Piece::MovePointer& move : cell.GetPiece().GetMoves())
         {
-            if (move->IsConditionSatisfied(*this, cell, 
-                kingCell, shouldCheckKingurther))
+            if (move->IsConditionSatisfied(*this, cell, kingCell, false))
             {
-                return false;
+                isKingSafe = false;
             }
         }
     }
@@ -76,15 +81,20 @@ bool Board::IsKingSafe(const PieceSide side,
 }
 
 
-bool Board::IsIndexIn(const BoardCellIndex& index) const noexcept
+bool Board::IsInBoundries(const BoardCellIndex& index) const noexcept
 {
-    if (index.GetRank() <= 0 || index.GetFile() <= 0)
-    {
-        return false;
-    }
+    const bool isMinRequired = (m_MinBoundries.GetRank() <= index.GetRank() 
+        && m_MinBoundries.GetFile() <= index.GetFile());
 
-    return index.GetRank() <= m_Boundries.GetRank()
-        && index.GetFile() <= m_Boundries.GetFile();
+    const bool isMaxRequired = (m_MaxBoundries.GetRank() <= index.GetRank()
+        && m_MaxBoundries.GetFile() <= index.GetFile());
+
+    return isMinRequired && isMaxRequired; 
+}
+void Board::SetBoundires(const BoardCellIndex& boundries, const bool isMax) 
+    noexcept
+{
+    ((isMax) ? (m_MaxBoundries) : (m_MinBoundries)) = boundries;
 }
 
 const BoardCell& Board::operator[] (const BoardCellIndex& index) 
@@ -99,11 +109,10 @@ const BoardCell& Board::operator[] (const BoardCellIndex& index)
 
     if (it == m_Cells.end())
     {
-        std::cerr << "THE FAIL IS ON INDEX "
-            << static_cast<std::int32_t>(index.GetRank()) << ' '
-            << static_cast<std::int32_t>(index.GetFile()) << '\n';
-
-        throw std::runtime_error{ "There is not a cell with index like that" };
+        throw std::runtime_error
+        { 
+            "There is not a cell with index like that" 
+        };
     }
 
     return *it;
