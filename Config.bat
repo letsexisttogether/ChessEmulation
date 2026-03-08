@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-set BUILD_DIR=build
+set BUILD_DIR=Build
 set GENERATOR=Ninja
 set CONFIG=%1
 
