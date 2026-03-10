@@ -20,6 +20,9 @@ class Scene;
 class Application final
 {
 public:
+    using Window = sf::RenderWindow;
+
+public:
     static Application& GetInstance() noexcept;
 
     void CarryTheBoatsAndTheLogs() noexcept;
@@ -31,14 +34,16 @@ public:
     const sf::RenderWindow& GetWindow() const noexcept(false);
 
 private:
-    Application();
-
+    Application() = default;
     ~Application() = default; 
+
+    void InitializeMain() noexcept(false);
+    void InitializeAdditional() noexcept(false);
 
     void CheckScene() const noexcept(false);
     void CheckWindow() const noexcept(false);
 
 private:
     std::unique_ptr<Scene> m_Scene{};
-    std::unique_ptr<sf::RenderWindow> m_Window{};
+    std::unique_ptr<Window> m_Window{};
 };

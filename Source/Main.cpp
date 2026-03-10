@@ -2,7 +2,7 @@
 
 int main()
 {
-    Application& application = Application::GetInstance();
+    auto& application = Application::GetInstance();
 
     application.CarryTheBoatsAndTheLogs();
 

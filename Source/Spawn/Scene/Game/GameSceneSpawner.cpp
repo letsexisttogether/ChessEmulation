@@ -3,16 +3,15 @@
 #include <iostream>
 #include <memory>
 
-#include "Control/Mouse/MouseController.hpp"
+#include "Control/Controller.hpp"
 #include "Logic/Move//Knight/KnightMove.hpp"
 #include "Logic/Move/Pawn/Attack/PawnAttackMove.hpp"
 #include "Logic/Move/Pawn/DoubleTransfer/PawnDoubleTransferMove.hpp"
 #include "Logic/Move/Pawn/Transfer/PawnTransferMove.hpp"
 #include "Logic/Move/Transfer/TransferMove.hpp"
 
-GameSceneSpawner::GameSceneSpawner(Controller::Window& window)
-    : m_Window{ window }, 
-    m_ResourcesPath{ "D:/Important/Projects/ChessEmulation/Resourses/" }
+GameSceneSpawner::GameSceneSpawner(Application::Window& window)
+    : m_Window{ window }, m_ResourcesPath{ "Resourses/" }
 {
     m_Moves.push_back(new TransferMove{ { 0, 7 } });
     m_Moves.push_back(new TransferMove{ { 0, -7 } });
@@ -78,7 +77,7 @@ Board GameSceneSpawner::SpawnBoard() const noexcept(false)
 }
 
 GameScene::ButtonsContainer GameSceneSpawner::SpawnButtons() 
-    const noexcept
+    const noexcept(false)
 {
     GameScene::ButtonsContainer buttons{};
 
@@ -262,5 +261,5 @@ Controller* GameSceneSpawner::SpawnController() const noexcept
     TexturePointer controllerTexture{ new sf::Texture{} };
     controllerTexture->loadFromFile(m_ResourcesPath + "Controllers/Cursor.png");
 
-    return new MouseController{ m_Window, controllerTexture };
+    return new MouseController{ controllerTexture };
 }

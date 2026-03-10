@@ -5,7 +5,8 @@
 #include <thread>
 #include <chrono>
 
-#include "SFML/Graphics/RenderWindow.hpp"
+#include <SFML/Graphics/RenderWindow.hpp> 
+
 #include "Spawn/Scene/Game/GameSceneSpawner.hpp"
 
 Application& Application::GetInstance() noexcept
@@ -17,9 +18,12 @@ Application& Application::GetInstance() noexcept
 
 void Application::CarryTheBoatsAndTheLogs() noexcept
 {
-    while(m_Window->isOpen() && m_Scene->IsWorking())
+    try
     {
-        try
+        InitializeMain();
+        InitializeAdditional();
+
+        while(m_Window->isOpen() && m_Scene->IsWorking())
         {
             m_Scene->UpdateLogic(); 
 
@@ -27,12 +31,12 @@ void Application::CarryTheBoatsAndTheLogs() noexcept
             m_Scene->UpdateGraphic();
             m_Window->display();
         }
-        catch (std::exception& exp)
-        {
-            std::cerr << exp.what() << std::endl;
+    }
+    catch(std::exception& exp)
+    {
+        std::cerr << exp.what() << std::endl;
 
-            m_Scene->SetWorking(false);
-        }
+        m_Scene->SetWorking(false);
     }
 
     std::this_thread::sleep_for(std::chrono::seconds(10));
@@ -70,18 +74,18 @@ const sf::RenderWindow& Application::GetWindow() const noexcept(false)
 }
 
 // Change it when the time comes
-Application::Application()
+void Application::InitializeMain() noexcept(false)
 {
     m_Window.reset(new sf::RenderWindow
         { 
             sf::VideoMode{ 1920, 1080 },
             "The new window",
         });
+}
 
-    m_Window->setMouseCursorVisible(false);
-
-    std::unique_ptr<SceneSpawner> spawner{ new GameSceneSpawner{ *m_Window } };
-
+void Application::InitializeAdditional() noexcept(false)
+{
+    auto spawner = std::make_unique<GameSceneSpawner>(*m_Window);
     m_Scene.reset(spawner->SpawnScene());
 }
 
@@ -95,7 +99,7 @@ void Application::CheckScene() const noexcept(false)
 
 void Application::CheckWindow() const noexcept(false)
 {
-    if (!m_Scene)
+    if (!m_Window)
     {
         throw std::runtime_error{ "The window is not initialized" };
     }

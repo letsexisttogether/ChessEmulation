@@ -18,7 +18,7 @@ public:
 public:
     GameSceneSpawner() = delete;
 
-    GameSceneSpawner(Controller::Window& window);
+    GameSceneSpawner(Application::Window& window);
 
     Scene* SpawnScene() noexcept(false) override;
 
@@ -33,7 +33,7 @@ private:
     Controller* SpawnController() const noexcept;
 
 private:
-    sf::RenderWindow& m_Window;
+    Application::Window& m_Window;
 
     const std::string m_ResourcesPath;
 

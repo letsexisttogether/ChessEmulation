@@ -73,7 +73,11 @@ Scene::DrawablesContainer GameScene::GetDrawables()
         drawables.push_back(&button);
     }
 
-    drawables.push_back(m_Controller.get());
+    if (const auto drawableController = dynamic_cast
+        <Drawable*>(m_Controller.get()))
+    {
+        drawables.push_back(drawableController);
+    }
 
     return drawables;
 }
