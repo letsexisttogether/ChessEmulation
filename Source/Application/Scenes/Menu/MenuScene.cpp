@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "Application/Application.hpp"
-#include "Control/Mouse/MouseController.hpp"
+#include "Control/Controller.hpp"
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
 #include "UI/Buttons/Button.hpp"
@@ -11,7 +11,7 @@
 MenuScene::MenuScene()
 {
     Drawable::TexturePointer texture{ new sf::Texture{} };
-    texture->loadFromFile("D:\\Important\\Projects\\ChessEmulation\\Resourses\\button.png");
+    texture->loadFromFile("Resourses\\button.png");
 
     Button* printButton = new Button
     { 
@@ -29,7 +29,7 @@ MenuScene::MenuScene()
     };
 
     Drawable::TexturePointer mouseTexture{ new sf::Texture{} };
-    mouseTexture->loadFromFile("D:\\Important\\Projects\\ChessEmulation\\Resourses\\cursor.png");
+    mouseTexture->loadFromFile("Resourses\\cursor.png");
 
     m_Controller.reset(new MouseController{ mouseTexture });
 

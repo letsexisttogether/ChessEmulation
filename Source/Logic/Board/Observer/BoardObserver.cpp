@@ -23,8 +23,6 @@ void BoardObserver::AddCell(const BoardCell& cell) noexcept(false)
 {
     cell.CheckPiece();
 
-    std::cout << "BoardObserver::AddCell()\n";
-
     const Piece& piece = cell.GetPiece();
     const PieceSide side = piece.GetSide();
     const PieceType type = piece.GetType();
@@ -32,8 +30,6 @@ void BoardObserver::AddCell(const BoardCell& cell) noexcept(false)
 
     IndexContainer& container = GetIndices(side);
     container.emplace(type, cell.GetIndex());
-
-    std::cout << "BoardObserver::UpdateCell()\n";
 }
 
 void BoardObserver::UpdateCell(const BoardCellIndex& oldIndex,
@@ -41,16 +37,12 @@ void BoardObserver::UpdateCell(const BoardCellIndex& oldIndex,
 {
     newCell.CheckPiece();
 
-    std::cout << "BoardObserver::UpdateCell()\n";
-
     const PieceSide side = newCell.GetPiece().GetSide();
     const PieceType type = newCell.GetPiece().GetType();
 
     auto iter = FindIndex(oldIndex, side);
 
     iter->second = newCell.GetIndex();
-
-    std::cout << "BoardObserver::UpdateCell() end\n";
 }
 
 void BoardObserver::DeleteCell(const BoardCellIndex& index, 
@@ -94,11 +86,7 @@ BoardObserver::IndexContainer::iterator
 
     IndexContainer& indices = GetIndices(side);
 
-    std::cout << "SEARCH STARTED\n";
-
     auto iter = indices.find(type);
-
-    std::cout << "SEARCH ENDED\n";
 
     if (iter == indices.end())
     {
@@ -120,8 +108,6 @@ BoardObserver::IndexContainer::iterator
 {
     IndexContainer& indices = GetIndices(side);
 
-    std::cout << "SEARCH STARTED\n";
-
     auto iter = std::find_if(indices.begin(), indices.end(), 
         [=] (const auto& element)
         {
@@ -137,8 +123,6 @@ BoardObserver::IndexContainer::iterator
             "BoardObserver: Such a piece is dead by now"
         };
     }
-
-    std::cout << "SEARCH ENDED\n";
 
     return iter;
 }

@@ -91,8 +91,6 @@ bool Board::IsIndexIn(const BoardCellIndex& index) const noexcept
 const BoardCell& Board::operator[] (const BoardCellIndex& index) 
     const noexcept(false)
 {
-    std::cout << "Board::operator[] start\n";
-
     auto findByIndexFunc = [&](const BoardCell& cell)
     {
         return cell.GetIndex() == index;
@@ -102,14 +100,11 @@ const BoardCell& Board::operator[] (const BoardCellIndex& index)
 
     if (it == m_Cells.end())
     {
-        std::cerr << "THE FAIL IS ON INDEX "
-            << static_cast<std::int32_t>(index.GetRank()) << ' '
-            << static_cast<std::int32_t>(index.GetFile()) << '\n';
-
-        throw std::runtime_error{ "There is not a cell with index like that" };
+        throw std::runtime_error
+        { 
+            "There is not a cell with index like that"
+        };
     }
-
-    std::cout << "Board::operator[] end\n";
 
     return *it;
 }

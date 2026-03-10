@@ -33,10 +33,6 @@ void TransferMove::DoMove(Board& board, BoardCell& initial,
     {
         m_PieceSave = final.GetPiecePointer();
 
-        std::cout << "Kill: " 
-            << static_cast<std::int32_t>(final.GetIndex().GetRank()) << ' '
-            << static_cast<std::int32_t>(final.GetIndex().GetFile()) << '\n';
-
         observer.DeleteCell(final.GetIndex(), 
             m_PieceSave->GetSide());
     }
@@ -53,7 +49,6 @@ void TransferMove::UndoMove(Board& board, BoardCell& initial,
 {
     BoardObserver& observer = board.GetObserver();
 
-
     final.TransferPiece(initial);
 
     initial.GetPiece().SetWasMoved(false);
@@ -63,10 +58,6 @@ void TransferMove::UndoMove(Board& board, BoardCell& initial,
     if (m_PieceSave)
     {
         final.SetPiece(m_PieceSave);
-
-        std::cout << "Restore: " 
-            << static_cast<std::int32_t>(final.GetIndex().GetRank()) << ' '
-            << static_cast<std::int32_t>(final.GetIndex().GetFile()) << '\n';
 
         observer.AddCell(final);    
 
@@ -124,11 +115,6 @@ void TransferMove::SpawnLegalMoves(Board& board,
 
         if (move->IsConditionSatisfied(board, initial, cell, true))
         {
-            std::cout << "We put a new move" << std::endl
-                << static_cast<std::int32_t>(defaultMove.GetRank()) << ' ' 
-                << static_cast<std::int32_t>(defaultMove.GetFile()) << ' ' 
-                << "For " << static_cast<std::int32_t>(initial.GetPiece().GetType());
-            
             moves.push_back({ move, index });
         }
         else 

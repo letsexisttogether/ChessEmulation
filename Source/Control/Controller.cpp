@@ -22,7 +22,7 @@ void MouseController::Control() noexcept(false)
     if (event.type == sf::Event::MouseButtonReleased
         && event.mouseButton.button == sf::Mouse::Left)
     {
-        if (Intersectable* intersectable = GetPossibleIntersectable())
+        if (auto intersectable = GetPossibleIntersectable())
         {
             intersectable->OnInteract();
         }
@@ -70,10 +70,8 @@ Intersectable* MouseController::GetPossibleIntersectable()
 
 void MouseController::UpdatePosition() noexcept
 {
-    const Position mousePosition
-    {
-        static_cast<Position>(sf::Mouse::getPosition(m_Window))
-    };
+    const auto mousePosition = static_cast<Position>
+        (sf::Mouse::getPosition(m_Window));
 
     SetOrigin(mousePosition);
 }

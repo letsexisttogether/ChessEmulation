@@ -19,11 +19,7 @@ void GameScene::UpdateLogic() noexcept(false)
 
     if (move)
     {
-        std::cout << "I decide to move\n";
-
         move->CompleteMove(m_Match);
-
-        std::cout << "We moved successfuly";        
 
         CheckGameState(); 
     }
@@ -102,13 +98,6 @@ void GameScene::CheckGameState() noexcept(false)
 
     if (!isKingSave)
     {
-        if (true)
-        {
-            std::cout << "The game is over\n"
-                << "THE " << ((side == PieceSide::WHITE) ?
-                ("BLACK") : ("WHITE")) << " WINS" << std::endl;
-
-            SetWorking(false);
-        }
+        SetWorking(false);
     }
 }

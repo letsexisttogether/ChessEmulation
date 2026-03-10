@@ -57,18 +57,12 @@ BasicMove::MovePairContainer BoardCell::GetLegalMoves(Board& board)
 {
     CheckPiece();
 
-    std::cout << "I TRY TO GET ALL THE MOVES FOR "
-        << static_cast<std::int32_t>(m_Piece->GetType()) << ' '
-        << " of " << static_cast<std::int32_t>(m_Piece->GetSide()) << '\n';
-
     BasicMove::MovePairContainer moves{};
 
     for (Piece::MovePointer& move : m_Piece->GetMoves())
     {
         move->SpawnLegalMoves(board, *this, moves);
     }
-
-    std::cout << "I STOPED GETTING ALL THE MOVES\n";
 
     return moves;
 }
@@ -125,9 +119,6 @@ void BoardCell::CheckPiece() const noexcept(false)
 {
 	if (!m_Piece)
 	{
-        std::cout << "Missing\nRank (x): " << static_cast<std::int32_t>(m_Index.GetRank()) << ' '
-            << "The file (y): " << static_cast<std::int32_t>(m_Index.GetFile()) << '\n';
-
 		throw std::runtime_error
         { 
             "BoardCell: Missing piece on the cell" 
@@ -149,9 +140,6 @@ void BoardCell::OnInteract() noexcept(false)
     Match& match = gameScene.GetMatch();
 
     match.GetGameObserver().SetCell(this);
-    
-    std::cout << "Rank (x): " << static_cast<std::int32_t>(m_Index.GetRank()) << ' '
-        << "The file (y): " << static_cast<std::int32_t>(m_Index.GetFile()) << '\n';
 }
 
 DefaultMove BoardCell::operator - (const BoardCell& cell) 

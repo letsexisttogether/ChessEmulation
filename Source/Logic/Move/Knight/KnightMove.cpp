@@ -16,10 +16,10 @@ void KnightMove::SpawnLegalMoves(Board& board, BoardCell& initial,
     MovePairContainer& moves) noexcept(false)
 {
     const BoardCellIndex temp{ m_DefaultMove };
-    const BoardCellIndex initialIndex = initial.GetIndex();
-    const BoardCellIndex finalIndex = initialIndex + temp;
+    const BoardCellIndex initialIndex{ initial.GetIndex() };
+    const BoardCellIndex finalIndex{ initialIndex + temp };
 
-    BasicMove* move = Clone();
+    auto move = Clone();
 
     WalkThrougher walk{ finalIndex, finalIndex, { 8, 8 } };
 
@@ -32,10 +32,6 @@ void KnightMove::SpawnLegalMoves(Board& board, BoardCell& initial,
 
     if(move->IsConditionSatisfied(board, initial, final, true))
     {
-        std::cout << "PUT A NEW MOVE" << std::endl
-            << static_cast<std::int32_t>(finalIndex.GetRank()) << ' ' 
-            << static_cast<std::int32_t>(finalIndex.GetFile()) << '\n';
-
         moves.push_back({ move, finalIndex });
     }
 }
@@ -43,7 +39,7 @@ void KnightMove::SpawnLegalMoves(Board& board, BoardCell& initial,
 bool KnightMove::IsUnderDistance(const BoardCell& initial, 
     const BoardCell& final) const noexcept 
 {
-    const DefaultMove possibleMove = final - initial;
+    const auto possibleMove = final - initial;
 
     return m_DefaultMove == possibleMove; 
 }

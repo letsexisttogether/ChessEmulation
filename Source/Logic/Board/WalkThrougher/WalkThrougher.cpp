@@ -8,10 +8,9 @@ WalkThrougher::WalkThrougher(const BoardCellIndex& initial,
     : m_Start{ initial }, m_End{ final },
     m_Boundries{ boundries }, m_Index{ m_Start }
 {
-    const BoardCellIndex possibleMove = final - initial;
+    const auto possibleMove = m_End - m_Start;
 
-    if (DefaultMove::Rank rank = possibleMove.GetRank();
-        rank > 0)
+    if (auto rank = possibleMove.GetRank(); rank > 0)
     {
         m_Step.SetRank(1);
     }
@@ -19,8 +18,8 @@ WalkThrougher::WalkThrougher(const BoardCellIndex& initial,
     {
         m_Step.SetRank(-1);
     }
-    if (DefaultMove::File file = possibleMove.GetFile();
-        file > 0)
+
+    if (const auto file = possibleMove.GetFile(); file > 0)
     {
         m_Step.SetFile(1);
     }
@@ -49,10 +48,10 @@ bool WalkThrougher::IsEndReached() const noexcept
 
 bool WalkThrougher::IsInBoundries() const noexcept
 {
-    const bool isRankInBoundries = (m_Index.GetRank() > 0)
+    const auto isRankInBoundries = (m_Index.GetRank() > 0)
         && m_Index.GetRank() <= m_Boundries.GetRank();
 
-    const bool isFileInBoundries = (m_Index.GetFile() > 0)
+    const auto isFileInBoundries = (m_Index.GetFile() > 0)
         && m_Index.GetFile() <= m_Boundries.GetFile();
 
     return isRankInBoundries && isFileInBoundries;
