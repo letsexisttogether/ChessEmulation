@@ -38,8 +38,7 @@ Scene::IntersectablesContainer GameScene::GetIntersectables()
 
     for (const Button& button : m_Buttons)
     {
-        Button& buttonRef = const_cast<Button&>(button);
-        intersectables.push_back(&buttonRef); 
+        intersectables.push_back(&const_cast<Button&>(button)); 
     }
 
     return intersectables;

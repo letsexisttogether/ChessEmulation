@@ -16,11 +16,14 @@ public:
     using TextureMap = std::unordered_map<PieceType, Sprite::TexturePointer>;
 
 public:
-    GameSceneSpawner() = delete;
+    GameSceneSpawner() noexcept(false);
+    GameSceneSpawner(const GameSceneSpawner&) = delete;
+    GameSceneSpawner(GameSceneSpawner&&) = delete;
 
-    GameSceneSpawner(Application::Window& window);
+    std::unique_ptr<Scene> SpawnScene() noexcept(false) override;
 
-    Scene* SpawnScene() noexcept(false) override;
+    GameSceneSpawner& operator = (const GameSceneSpawner&) = delete;
+    GameSceneSpawner& operator = (GameSceneSpawner&&) = delete;
 
 private:
     Match SpawnMatch() const noexcept(false);
@@ -33,9 +36,7 @@ private:
     Controller* SpawnController() const noexcept;
 
 private:
-    Application::Window& m_Window;
-
-    const std::string m_ResourcesPath;
+    const std::string m_ResourcesPath{};
 
     std::vector<BasicMove*> m_Moves{};
 };

@@ -85,8 +85,8 @@ void Application::InitializeMain() noexcept(false)
 
 void Application::InitializeAdditional() noexcept(false)
 {
-    auto spawner = std::make_unique<GameSceneSpawner>(*m_Window);
-    m_Scene.reset(spawner->SpawnScene());
+    auto spawner = std::make_unique<GameSceneSpawner>();
+    m_Scene = spawner->SpawnScene();
 }
 
 void Application::CheckScene() const noexcept(false)

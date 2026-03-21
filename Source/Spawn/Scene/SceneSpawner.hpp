@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "Application/Application.hpp"
 
 class SceneSpawner
@@ -9,6 +11,6 @@ public:
     
     virtual ~SceneSpawner() = default;
 
-    virtual Scene* SpawnScene() noexcept(false) = 0;
+    virtual std::unique_ptr<Scene> SpawnScene() noexcept(false) = 0;
 };
 

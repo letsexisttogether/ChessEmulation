@@ -100,13 +100,12 @@ void TransferMove::SpawnLegalMoves(Board& board,
     WalkThrougher walker{ initial.GetIndex(), finalIndex, 
         { 8, 8 } };
 
-    for (BoardCellIndex index = walker.GetNext(); 
-        walker.IsInBoundries();
-        index = walker.GetNext())
+    for (auto index = walker.GetNext(); walker.IsInBoundries()
+            && !walker.IsEndReached(); index = walker.GetNext())
     {
-        BoardCell& cell = board[index];
+        auto & cell = board[index];
 
-        const DefaultMove defaultMove{ cell - initial };
+        const auto defaultMove = cell - initial;
 
         BasicMove* move
         {
@@ -118,11 +117,6 @@ void TransferMove::SpawnLegalMoves(Board& board,
             moves.push_back({ move, index });
         }
         else 
-        {
-            return;
-        }
-
-        if (walker.IsEndReached())
         {
             return;
         }

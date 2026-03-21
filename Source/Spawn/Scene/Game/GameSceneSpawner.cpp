@@ -10,8 +10,8 @@
 #include "Logic/Move/Pawn/Transfer/PawnTransferMove.hpp"
 #include "Logic/Move/Transfer/TransferMove.hpp"
 
-GameSceneSpawner::GameSceneSpawner(Application::Window& window)
-    : m_Window{ window }, m_ResourcesPath{ "Resourses/" }
+GameSceneSpawner::GameSceneSpawner() noexcept(false)
+    : m_ResourcesPath{ "Resourses/" }
 {
     m_Moves.push_back(new TransferMove{ { 0, 7 } });
     m_Moves.push_back(new TransferMove{ { 0, -7 } });
@@ -53,14 +53,10 @@ GameSceneSpawner::GameSceneSpawner(Application::Window& window)
     m_Moves.push_back(new TransferMove{ { -1, -1 } });
 }
 
-Scene* GameSceneSpawner::SpawnScene() noexcept(false)
+std::unique_ptr<Scene> GameSceneSpawner::SpawnScene() noexcept(false)
 {
-    return new GameScene
-    { 
-        SpawnController(),
-        SpawnMatch(),
-        SpawnButtons()
-    };
+    return std::make_unique<GameScene>(SpawnController(),
+        SpawnMatch(), SpawnButtons());
 }
 
 Match GameSceneSpawner::SpawnMatch() const noexcept(false)
@@ -84,13 +80,15 @@ GameScene::ButtonsContainer GameSceneSpawner::SpawnButtons()
     TexturePointer exitButtonTexture{ new sf::Texture{} };
     exitButtonTexture->loadFromFile(m_ResourcesPath + "Buttons/ExitButton.png");
 
+    auto* window = &Application::GetInstance().GetWindow();
+
     buttons.push_back(
         {
             exitButtonTexture,
             { 1830, 140 },
-            [this] ()
+            [=] ()
             {
-                m_Window.close();
+                window->close();
             }
         });
 
