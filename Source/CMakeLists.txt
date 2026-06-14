@@ -1,26 +1,18 @@
 add_subdirectory(Application)
-add_subdirectory(Spawn)
-add_subdirectory(UI)
-add_subdirectory(Graphic)
-add_subdirectory(Control)
-add_subdirectory(Logic)
-
-message("Application: ${APPLICATION_SOURCES}")
-message("Spawn: ${SPAWN_SOURCES}")
-message("UI: ${UI_SOURCES}")
-message("Graphic: ${GRAPHIC_SOURCES}")
-message("Control: ${CONTROL_SOURCES}")
-message("Logic: ${LOGIC_SOURCES}")
+add_subdirectory(NewGraphics)
+add_subdirectory(NewScene)
+add_subdirectory(Math)
 
 add_executable(${PROJECT_NAME} 
     Main.cpp
     ${APPLICATION_SOURCES}
-    ${SPAWN_SOURCES}
-    ${UI_SOURCES}
-    ${GRAPHIC_SOURCES}
-    ${CONTROL_SOURCES}
-    ${LOGIC_SOURCES}
+    ${NEW_GRAPHIC_SOURCES}
+    ${NEW_SCENE_SOURCES}
+    ${MATH_SOURCES}
 )
+
+target_include_directories(${PROJECT_NAME} 
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(ChessEmulation 
     PRIVATE sfml-graphics sfml-window sfml-system)
@@ -36,6 +28,3 @@ if(WIN32)
 else()
     message("Not WIN32")
 endif()
-
-target_include_directories(${PROJECT_NAME} 
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

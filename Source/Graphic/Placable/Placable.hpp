@@ -29,10 +29,10 @@ public:
     const Size& GetSize() const noexcept;
     void SetSize(const Size size) noexcept;
 
-    const Position GetPosition(const PositionLocation location) 
+    Position GetPosition(const PositionLocation location)
         const noexcept(false);
 
-    const Vertex GetVertex(const PositionLocation location)
+    Vertex GetVertex(const PositionLocation location)
         const noexcept(false);
 
     Placable& operator = (const Placable& placable);

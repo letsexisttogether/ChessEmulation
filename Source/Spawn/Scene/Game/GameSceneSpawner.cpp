@@ -66,7 +66,7 @@ Match GameSceneSpawner::SpawnMatch() const noexcept(false)
 
 Board GameSceneSpawner::SpawnBoard() const noexcept(false)
 {
-    TexturePointer boardTexture{ new sf::Texture{} };
+    auto boardTexture = std::make_shared<sf::Texture>();
     boardTexture->loadFromFile(m_ResourcesPath + "Boards/Board.png");
 
     return { SpawnCells(), boardTexture, { 540.f, 540.f } };
@@ -80,15 +80,14 @@ GameScene::ButtonsContainer GameSceneSpawner::SpawnButtons()
     TexturePointer exitButtonTexture{ new sf::Texture{} };
     exitButtonTexture->loadFromFile(m_ResourcesPath + "Buttons/ExitButton.png");
 
-    auto* window = &Application::GetInstance().GetWindow();
-
     buttons.push_back(
         {
             exitButtonTexture,
             { 1830, 140 },
-            [=] ()
+            [] ()
             {
-                window->close();
+                auto& scene = Application::GetInstance().GetScene();
+                scene.SetWorking(false);
             }
         });
 

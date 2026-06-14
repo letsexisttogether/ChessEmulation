@@ -9,6 +9,7 @@ Placable::Placable(const Placable& placable)
     SetOrigin(placable.m_Origin);
     SetSize(placable.m_Size);
 }
+
 Placable::Placable(Placable&& placable)
     : Placable{ placable }
 {}
@@ -39,8 +40,7 @@ void Placable::SetSize(const Size size) noexcept
     m_Size = size;
 }
 
-const Placable::Position 
-    Placable::GetPosition(const PositionLocation location) 
+Placable::Position Placable::GetPosition(const PositionLocation location) 
     const noexcept(false)
 {
     const Size halfSize{ m_Size / 2.f };
@@ -65,14 +65,13 @@ const Placable::Position
 
     throw std::runtime_error{ "This enum value was not supposed to be here" };
 
-    return Position{};
+    return {};
 }
 
-const Placable::Vertex 
-Placable::GetVertex(const PositionLocation location)
+Placable::Vertex Placable::GetVertex(const PositionLocation location)
     const noexcept(false)
 {
-    Position position{ GetPosition(location) };
+    const auto position = GetPosition(location);
 
     return { position, position };
 }

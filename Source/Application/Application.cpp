@@ -7,7 +7,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp> 
 
-#include "Spawn/Scene/Game/GameSceneSpawner.hpp"
+#include "../NewScene/Scene.hpp"
 
 Application& Application::GetInstance() noexcept
 {
@@ -28,7 +28,7 @@ void Application::CarryTheBoatsAndTheLogs() noexcept
             m_Scene->UpdateLogic(); 
 
             m_Window->clear();
-            m_Scene->UpdateGraphic();
+            m_Scene->UpdateGraphics();
             m_Window->display();
         }
     }
@@ -36,10 +36,10 @@ void Application::CarryTheBoatsAndTheLogs() noexcept
     {
         std::cerr << exp.what() << std::endl;
 
-        m_Scene->SetWorking(false);
+        m_Scene->SetIsWorking(false);
     }
 
-    std::this_thread::sleep_for(std::chrono::seconds(10));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 
     m_Window->close();
 
@@ -85,8 +85,7 @@ void Application::InitializeMain() noexcept(false)
 
 void Application::InitializeAdditional() noexcept(false)
 {
-    auto spawner = std::make_unique<GameSceneSpawner>();
-    m_Scene = spawner->SpawnScene();
+    m_Scene = Scene::LoadMenuScene();
 }
 
 void Application::CheckScene() const noexcept(false)
