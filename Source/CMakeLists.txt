@@ -1,14 +1,10 @@
 add_subdirectory(Application)
-add_subdirectory(NewGraphics)
-add_subdirectory(NewScene)
-add_subdirectory(Math)
+add_subdirectory(Logic)
 
 add_executable(${PROJECT_NAME} 
     Main.cpp
     ${APPLICATION_SOURCES}
-    ${NEW_GRAPHIC_SOURCES}
-    ${NEW_SCENE_SOURCES}
-    ${MATH_SOURCES}
+    ${LOGIC_SOURCES}
 )
 
 target_include_directories(${PROJECT_NAME} 
