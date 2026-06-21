@@ -2,25 +2,29 @@
 
 #include <stdexcept>
 
-Board::Board(const RawBoard& board) noexcept
-    : m_Board{ board }
-{}
-
-auto Board::GetCellContent(const Rank rank, const File file)
-    const -> Piece
+BoardCell::BoardCell(const RankType rank, const FileType file)
+    : Rank{ rank }, File{ file }
 {
-    if (rank < MinRank || rank > MaxRank)
+    if (Rank < MinRank || Rank > MaxRank)
     {
-        throw std::logic_error{ "Rank is out of the scope " };
+        throw std::logic_error{ "[BoardCell] Rank is out of the scope " };
     }
-    if (file < MinFile || file > MaxFile)
-    {
-        throw std::logic_error{ "File is out of scope " };
-    }
-    
-    const auto row = m_Board[file - MinFile];
 
-    const auto shift = (rank - MinRank) * BytesPerCell;
+    if (File < MinFile || File > MaxFile)
+    {
+        throw std::logic_error{ "[BoardCell] File is out of scope " };
+    }
+}
+
+Board::Board(const RawBoard& board) noexcept : m_Board{ board } {}
+
+auto Board::GetCellContent(const BoardCell cell) const -> Piece
+{ 
+    const auto& [rank, file] = cell;
+
+    const auto row = m_Board[file - BoardCell::MinFile];
+
+    const auto shift = (rank - BoardCell::MinRank) * BytesPerCell;
     const auto rawPiece = (row >> shift) & 0xF;
 
     return static_cast<Piece>(rawPiece);

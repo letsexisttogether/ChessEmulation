@@ -11,7 +11,7 @@ inline auto PrintPiece(const Piece& piece, const bool isLastInRow)
 {
     constexpr auto pieces = std::array<char, 7>
     {
-        '0', 'p', 'r', 'n', 'b', 'q', 'k'
+        '-', 'p', 'r', 'n', 'b', 'q', 'k'
     };
 
     const auto pieceSymbol = pieces.at(piece.GetPieceType());
@@ -24,18 +24,18 @@ inline auto PrintPiece(const Piece& piece, const bool isLastInRow)
 
 inline auto PrintBoard(const Board& board) -> void
 {
-    for (auto file = Board::MinFile; file <= Board::MaxFile; ++file)
+    for (auto file = BoardCell::MinFile; file <= BoardCell::MaxFile; ++file)
     {
-        std::cout << (Board::MaxFile - file + Board::MinFile) << "  ";
+        std::cout << (BoardCell::MaxFile - file + BoardCell::MinFile) << "  ";
 
-        for (auto rank = Board::MinRank; rank <= Board::MaxRank; ++rank)
+        for (auto rank = BoardCell::MinRank; rank <= BoardCell::MaxRank; ++rank)
         {
-            const auto piece = board.GetCellContent(rank, file);
+            const auto piece = board.GetCellContent({ rank, file });
 
-            PrintPiece(piece, rank == Board::MaxRank);
+            PrintPiece(piece, rank == BoardCell::MaxRank);
         }
     }
 
-    std::cout << "\n   a b c d e f g h" << std::endl;
+    std::cout << "\n   a b c d e f g h\n" << std::endl;
 }
 
