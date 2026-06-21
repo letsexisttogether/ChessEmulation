@@ -28,20 +28,12 @@ auto Application::CarryTheBoatsAndTheLogs() noexcept -> std::int32_t
             std::cout << "The application is working" << std::endl;
         }
 
-        auto board = Board
-        {
-            Board::RawBoard
-            {
-                0x23456432, // Rank 1: R, N, B, Q, K, B, N, R (White)
-                0x11111111, // Rank 2: Pawns (White)
-                0x00000000, // Rank 3: Empty
-                0x00000000, // Rank 4: Empty
-                0x00000000, // Rank 5: Empty
-                0x00000000, // Rank 6: Empty
-                0x99999999, // Rank 7: Pawns (Black)
-                0xABCDECBA  // Rank 8: R, N, B, Q, K, B, N, R (Black)
-            }
-        };
+        auto board = Board::CreateDefaultBoard();
+
+        PrintBoard(board);
+
+        board.Move({ 'e', 2 }, { 'e', 3 });
+        board.Move({ 'd', 8 }, { 'b', 6 });
 
         PrintBoard(board);
     }

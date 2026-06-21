@@ -16,6 +16,24 @@ BoardCell::BoardCell(const RankType rank, const FileType file)
     }
 }
 
+
+auto Board::CreateDefaultBoard() -> Board
+{
+    return Board
+    {
+        {
+            0xABCDECBA,
+            0x99999999, 
+            0x00000000, 
+            0x00000000, 
+            0x00000000, 
+            0x00000000, 
+            0x11111111,
+            0x23456432
+        }
+    };
+}
+
 Board::Board(const RawBoard& board) noexcept : m_Board{ board } {}
 
 auto Board::GetCellContent(const BoardCell cell) const -> Piece

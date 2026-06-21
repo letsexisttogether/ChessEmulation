@@ -24,9 +24,9 @@ inline auto PrintPiece(const Piece& piece, const bool isLastInRow)
 
 inline auto PrintBoard(const Board& board) -> void
 {
-    for (auto file = BoardCell::MinFile; file <= BoardCell::MaxFile; ++file)
+    for (auto file = BoardCell::MaxFile; file >= BoardCell::MinFile; --file)
     {
-        std::cout << (BoardCell::MaxFile - file + BoardCell::MinFile) << "  ";
+        std::cout << static_cast<std::uint16_t>(file) << "  ";
 
         for (auto rank = BoardCell::MinRank; rank <= BoardCell::MaxRank; ++rank)
         {

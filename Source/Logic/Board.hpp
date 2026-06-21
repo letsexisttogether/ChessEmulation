@@ -35,6 +35,9 @@ class Board final
 {
 public:
     using RawBoard = std::array<std::uint32_t, 8>;
+
+public:
+    static auto CreateDefaultBoard() -> Board;
     
 public:
     explicit Board(const RawBoard& board) noexcept;
