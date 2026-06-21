@@ -25,7 +25,25 @@ auto Board::GetCellContent(const BoardCell cell) const -> Piece
     const auto row = m_Board[file - BoardCell::MinFile];
 
     const auto shift = (rank - BoardCell::MinRank) * BytesPerCell;
-    const auto rawPiece = (row >> shift) & 0xF;
+    const auto rawPiece = (row >> shift) & PieceMask;
 
     return static_cast<Piece>(rawPiece);
+}
+
+auto Board::Move(const BoardCell fromCell, const BoardCell toCell) -> void
+{
+    const auto& [fromRank, fromFile] = fromCell;
+    const auto& [toRank, toFile] = toCell;
+
+    auto& fromRow = m_Board[fromFile - BoardCell::MinFile];
+    const auto fromShift = (fromRank - BoardCell::MinRank) * BytesPerCell;
+    const auto fromRawPiece = (fromRow >> fromShift) & PieceMask;
+
+    auto& toRow = m_Board[toFile - BoardCell::MinFile];
+    const auto toShift = (toRank - BoardCell::MinRank) * BytesPerCell;
+
+    toRow &= ~(PieceMask << toShift);
+    toRow |= fromRawPiece << toShift;
+
+    fromRow &= ~(PieceMask << fromShift);
 }

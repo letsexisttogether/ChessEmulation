@@ -45,7 +45,7 @@ public:
 
 private:
     static constexpr auto BytesPerCell = 4u;
-    static constexpr auto PieceByes = ((1u << (BytesPerCell * 4)) - 1) / 15;
+    static constexpr auto PieceMask = (1u << BytesPerCell) - 1u;
 
 private:
     RawBoard m_Board{};
