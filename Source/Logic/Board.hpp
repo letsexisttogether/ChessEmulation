@@ -15,16 +15,30 @@ struct BoardCell
     using FileType = std::uint8_t;
 
     BoardCell(const RankType rank, const FileType file);
+
+    auto operator == (const BoardCell& otherCell) const noexcept -> bool;
+    auto operator != (const BoardCell& otherCell) const noexcept -> bool;
     
     static constexpr auto MinRank = RankType{ 'a' };
     static constexpr auto MaxRank = RankType{ 'h' };
     static constexpr auto MinFile = FileType{ 1 };
     static constexpr auto MaxFile = FileType{ 8 };
 
+    struct Hash
+    {
+        auto operator () (const BoardCell& cell) const noexcept -> std::size_t;
+    };
+
+    struct Equal 
+    {
+        auto operator () (const BoardCell& left, const BoardCell& right)
+            const noexcept -> bool;
+    };
+
     RankType Rank{};
     FileType File{};
 };
-    
+ 
 
 /**
 * @brief Representation of the board

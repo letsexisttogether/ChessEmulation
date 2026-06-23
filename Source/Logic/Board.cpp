@@ -16,6 +16,28 @@ BoardCell::BoardCell(const RankType rank, const FileType file)
     }
 }
 
+auto BoardCell::operator == (const BoardCell& otherCell) const noexcept -> bool
+{
+    return Rank == otherCell.Rank && File == otherCell.File;
+}
+
+auto BoardCell::operator != (const BoardCell& otherCell) const noexcept -> bool
+{
+    return Rank != otherCell.Rank || File != otherCell.File;
+}
+
+auto BoardCell::Hash::operator () (const BoardCell& cell)
+    const noexcept -> std::size_t
+{
+    return 1 << (cell.Rank * cell.File);
+}
+
+auto BoardCell::Equal::operator () (const BoardCell& left,
+    const BoardCell& right) const noexcept -> bool
+{
+    return left == right;
+}
+
 
 auto Board::CreateDefaultBoard() -> Board
 {

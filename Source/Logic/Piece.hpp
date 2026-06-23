@@ -4,7 +4,8 @@
 
 enum PieceType : std::uint8_t
 {
-    Pawn = 0x1,         // 0b001 
+    None = 0x0,
+    Pawn,               // 0b001 
     Rook,               // 0b010
     Knight,             // 0b011
     Bishop,             // 0b100
