@@ -26,5 +26,8 @@ public:
     auto IsWhite() const noexcept -> bool;
 
 private:
+    Piece() = default;
+
+private:
     RawPiece m_RawPiece{};
 };

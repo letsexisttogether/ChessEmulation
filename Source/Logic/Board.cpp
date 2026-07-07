@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-BoardCell::BoardCell(const RankType rank, const FileType file)
+BoardCell::BoardCell(const CNST::Rank rank, const CNST::File file)
     : Rank{ rank }, File{ file }
 {
     if (Rank < MinRank || Rank > MaxRank)

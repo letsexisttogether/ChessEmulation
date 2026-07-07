@@ -2,8 +2,8 @@
 
 #include <array>
 
+#include "Constants.hpp"
 #include "Piece.hpp"
-
 
 /**
 * Auxillary class for representing board cell
@@ -11,18 +11,15 @@
 */ 
 struct BoardCell
 {
-    using RankType = unsigned char;
-    using FileType = std::uint8_t;
-
-    BoardCell(const RankType rank, const FileType file);
+    BoardCell(const CNST::Rank rank, const CNST::File file);
 
     auto operator == (const BoardCell& otherCell) const noexcept -> bool;
     auto operator != (const BoardCell& otherCell) const noexcept -> bool;
     
-    static constexpr auto MinRank = RankType{ 'a' };
-    static constexpr auto MaxRank = RankType{ 'h' };
-    static constexpr auto MinFile = FileType{ 1 };
-    static constexpr auto MaxFile = FileType{ 8 };
+    static constexpr auto MinRank = CNST::Rank{ 'a' };
+    static constexpr auto MaxRank = CNST::Rank{ 'h' };
+    static constexpr auto MinFile = CNST::File{ 1 };
+    static constexpr auto MaxFile = CNST::File{ 8 };
 
     struct Hash
     {
@@ -35,8 +32,8 @@ struct BoardCell
             const noexcept -> bool;
     };
 
-    RankType Rank{};
-    FileType File{};
+    CNST::Rank Rank{};
+    CNST::File File{};
 };
  
 
