@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 project(ChessEmulation LANGUAGES CXX)
 
 add_subdirectory(Source)
-add_subdirectory(Dependencies)
+# add_subdirectory(Dependencies)
