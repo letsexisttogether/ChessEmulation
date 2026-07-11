@@ -14,7 +14,7 @@ inline auto PrintPiece(const Piece& piece, const bool isLastInRow)
         '-', 'p', 'r', 'n', 'b', 'q', 'k'
     };
 
-    const auto pieceSymbol = pieces.at(piece.GetPieceType());
+    const auto pieceSymbol = pieces[piece.GetPieceType()];
 
     const auto finalPieceSymbol = static_cast<char>(((!piece.IsWhite()) ? 
         (std::toupper(pieceSymbol)) : (pieceSymbol)));

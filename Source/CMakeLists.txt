@@ -13,7 +13,7 @@ target_include_directories(${PROJECT_NAME}
 #target_link_libraries(ChessEmulation 
 #    PRIVATE sfml-graphics sfml-window sfml-system)
 
-if(WIN32)
+if(WIN32 AND OFF)
     add_custom_command(TARGET ChessEmulation POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             $<TARGET_FILE:sfml-graphics>

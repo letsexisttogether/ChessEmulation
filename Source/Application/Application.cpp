@@ -23,7 +23,7 @@ auto Application::CarryTheBoatsAndTheLogs() noexcept -> std::int32_t
     {
         // Initialize
 
-        while(false)
+        while (false)
         {
             std::cout << "The application is working" << std::endl;
         }
