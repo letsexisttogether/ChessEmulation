@@ -3,8 +3,9 @@
 #include <stdexcept>
 
 BoardCell::BoardCell(const CNST::Rank rank, const CNST::File file)
-    : Rank{ rank }, File{ file }
+    noexcept : Rank{ rank }, File{ file }
 {
+    /*
     if (Rank < MinRank || Rank > MaxRank)
     {
         throw std::logic_error{ "[BoardCell] Rank is out of the scope " };
@@ -14,6 +15,7 @@ BoardCell::BoardCell(const CNST::Rank rank, const CNST::File file)
     {
         throw std::logic_error{ "[BoardCell] File is out of scope " };
     }
+    */
 }
 
 auto BoardCell::operator == (const BoardCell& otherCell) const noexcept -> bool

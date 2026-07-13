@@ -1,12 +1,27 @@
 #include "Move.hpp"
 
-Move::Move(const Rank rank, const File file) noexcept
-    : m_Rank{ rank }, m_File{ file }, m_Type{ DetermineType() } {}
+#include <utility>
 
-Move::Move(const BoardCell& fromCell, const BoardCell& toCell)
-    noexcept : Move(static_cast<Rank>(fromCell.Rank) - toCell.Rank,
-        static_cast<File>(fromCell.File) - toCell.File) {}
+Move::Move(const Board& board, const BoardCell& fromCell,
+    const BoardCell& toCell) noexcept
+     : m_Rank(fromCell.Rank - toCell.Rank),
+     m_File(fromCell.File - toCell.File)
+{
+    const auto piece = board.GetCellContent(fromCell);
+    const auto enemy = board.GetCellContent(toCell);
 
+    m_IsAttacking = static_cast<bool>(enemy);
+ 
+    if (m_Rank && !m_File || !m_Rank && m_File) 
+    {
+        m_Type = MoveType::Side;
+    }
+    else if (m_Rank && m_File)
+    {
+        m_Type = ((m_Rank == m_File) ? 
+            (MoveType::Diagonal) : (MoveType::Wierd));
+    }
+}
 
 auto Move::GetRank() const noexcept -> Rank
 {
@@ -20,12 +35,20 @@ auto Move::GetFile() const noexcept -> File
 
 auto Move::GetType() const noexcept -> MoveType
 {
-    return m_Type;
+    return MoveType(std::to_underlying(m_Type) & 0x7);
 }
 
-auto Move::DetermineType() const noexcept -> MoveType
+auto Move::IsAttacking() const noexcept -> bool 
 {
-    // Possible throw
+    return m_IsAttacking;
+}
 
-    return MoveType::None;
+auto Move::AsPack() const noexcept -> std::tuple<Rank, File, MoveType, bool>
+{
+    return { GetRank(), GetFile(), GetType(), IsAttacking() };
+}
+
+Move::operator bool () const noexcept
+{
+    return m_Type != MoveType::None;
 }

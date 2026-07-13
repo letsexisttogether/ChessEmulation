@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <tuple>
 
 enum PieceType : std::uint8_t
 {
@@ -22,8 +23,12 @@ public:
     explicit Piece(const RawPiece rawPiece) noexcept;
     Piece(const PieceType type, const bool isWhite) noexcept;
 
-    auto GetPieceType() const noexcept -> PieceType;
+    auto GetType() const noexcept -> PieceType;
     auto IsWhite() const noexcept -> bool;
+
+    auto AsPack() const noexcept -> std::tuple<PieceType, bool>;
+
+    explicit operator bool () const noexcept;
 
 private:
     Piece() = default;

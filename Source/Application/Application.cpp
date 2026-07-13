@@ -36,6 +36,20 @@ auto Application::CarryTheBoatsAndTheLogs() noexcept -> std::int32_t
         board.Move({ 'd', 8 }, { 'b', 6 });
 
         PrintBoard(board);
+
+
+        /*
+        Black box:
+         1. The system receives two cells: fromCell, toCell.
+         2. The system outputs whether the move is possible.
+        
+        Detailed:
+         1. The system receives two cells.
+         The system ...
+         2. Checks what piece is on fromCell.
+         3. Fetches the rules for the piece.
+         4. Checks the rules
+        */
     }
     catch(std::exception& exp)
     {

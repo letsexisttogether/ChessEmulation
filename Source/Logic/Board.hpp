@@ -11,7 +11,7 @@
 */ 
 struct BoardCell
 {
-    BoardCell(const CNST::Rank rank, const CNST::File file);
+    BoardCell(const CNST::Rank rank, const CNST::File file) noexcept;
 
     auto operator == (const BoardCell& otherCell) const noexcept -> bool;
     auto operator != (const BoardCell& otherCell) const noexcept -> bool;
