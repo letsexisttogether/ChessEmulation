@@ -8,10 +8,25 @@ Move::Move(const Board& board, const BoardCell& fromCell,
      m_File(fromCell.File - toCell.File)
 {
     const auto piece = board.GetCellContent(fromCell);
-    const auto enemy = board.GetCellContent(toCell);
+    const auto pieceType = piece.GetType();
 
-    m_IsAttacking = static_cast<bool>(enemy);
- 
+    const auto enemy = board.GetCellContent(toCell);
+    const auto enemyType = enemy.GetType();
+
+    const auto isSameColor = piece.IsSameColor(enemy);
+
+    if (enemy && isSameColor && (pieceType == PieceType::Rook
+        enemyType == PieceType::King)
+    {
+        m_Type = MoveType::None;
+
+        return;
+    }
+
+    m_IsAttacking = static_cast<bool>(enemy) &&
+        (piece.IsWhite() && !enemy.IsWhite()
+         || !piece.IsWhite() && enemy.IsWhite());
+
     if (m_Rank && !m_File || !m_Rank && m_File) 
     {
         m_Type = MoveType::Side;

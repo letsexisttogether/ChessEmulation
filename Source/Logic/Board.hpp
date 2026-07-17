@@ -53,7 +53,7 @@ public:
 public:
     explicit Board(const RawBoard& board) noexcept;
 
-    auto GetCellContent(const BoardCell cell) const -> Piece;
+    auto GetCellContent(const BoardCell& cell) const -> Piece;
 
     auto Move(const BoardCell fromCell, const BoardCell toCell) -> void;
 

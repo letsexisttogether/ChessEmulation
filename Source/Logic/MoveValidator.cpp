@@ -1,7 +1,9 @@
 #include "MoveValidator.hpp"
 
-#include <cstdlib>
+#include <algorithm>
 #include <stdexcept>
+
+#include "Logic/Move.hpp"
 
 /*
 Piece types and moves: 
@@ -40,8 +42,8 @@ General:
 MoveValidator::MoveValidator(const Board& board) noexcept
     : m_Board{ board } {}
 
-auto MoveValidator::IsMoveValid(const BoardCell fromCell,
-    const BoardCell toCell) -> bool
+auto MoveValidator::IsMoveValid(const BoardCell& fromCell,
+    const BoardCell& toCell) -> bool
 {
     // Assuming fromCell contains Pawn
 
@@ -53,11 +55,34 @@ auto MoveValidator::IsMoveValid(const BoardCell fromCell,
     return true;
 }
 
-PawnMoveValidator::PawnMoveValidator(const Board& board) noexcept
-    : MoveValidator{ board } {}
+auto MoveValidator::IsPathEmpty(BoardCell fromCell, const BoardCell& toCell)
+    const -> bool
+{
+    if (fromCell == toCell)
+    {
+        return true;
+    }
 
-auto PawnMoveValidator::IsMoveValid(const BoardCell fromCell,
-    const BoardCell toCell) -> bool
+    const auto rankDiff = std::clamp(toCell.Rank - fromCell.Rank, -1, 1);
+    const auto fileDiff = std::clamp(toCell.File - fromCell.File, -1, 1);
+
+    fromCell.Rank += rankDiff;
+    fromCell.File += fileDiff;
+
+    for ( ; fromCell != toCell; fromCell.Rank += rankDiff,
+        fromCell.File += fileDiff)
+    {
+        if (const auto piece = m_Board.GetCellContent(fromCell); piece)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+auto PawnMoveValidator::IsMoveValid(const BoardCell& fromCell,
+    const BoardCell& toCell) -> bool
 {
     const auto pawn = m_Board.GetCellContent(fromCell);
     const auto& [pawnType, pawnColor] = pawn.AsPack();
@@ -66,7 +91,7 @@ auto PawnMoveValidator::IsMoveValid(const BoardCell fromCell,
     const auto& [enemyType, enemyColor] = enemy.AsPack();
 
     const auto move = Move{ m_Board, fromCell, toCell };
-    const auto& [moveRank, moveFile, moveType, isMoveAttacking]
+    const auto& [moveRank, moveFile, moveType, isAttack]
         = move.AsPack();
 
     if (!move)
@@ -74,19 +99,39 @@ auto PawnMoveValidator::IsMoveValid(const BoardCell fromCell,
         throw std::runtime_error{ "[PawnMoveValidator] Move to the same cell" };
     }
 
-    const auto moveRankAbs = std::abs(moveRank);
-    const auto moveFileAbs = std::abs(moveFile);
+    const auto isWhiteSuitable = pawnColor && (isAttack && moveFile == 1
+        && (moveRank == -1 || moveRank == 1) || (moveFile == 2 && moveRank == 0
+        && fromCell.File == m_WhiteStartFile));
 
-    const auto isAtStart = (pawnColor && fromCell.File == m_WhiteStartFile)
-        || (!pawnColor && fromCell.File == m_BlackStartFile);
+    const auto isBlackSuitable = !pawnColor && (isAttack && moveFile == -1
+        && (moveRank == -1 || moveRank == 1) || (moveFile == -2 && moveRank == 0
+        && fromCell.File == m_BlackStartFile));
 
-    if (isAtStart && moveRankAbs > 2) 
-    {
-        return false;
-    }
+    return isWhiteSuitable || isBlackSuitable;
+}
 
-    // Invalid conditions:
-    // 1. Not at starting point and abs(file) > 1
-    // 2. At starting point and rank != 0
-    // 3. At starting point by there's a piece on the way;
+auto RookMoveValidator::IsMoveValid(const BoardCell& fromCell,
+    const BoardCell& toCell) -> bool 
+{
+    const auto move = Move{ m_Board, fromCell, toCell };
+
+    return move.GetType() == MoveType::Side && IsPathEmpty(fromCell, toCell);
+}
+
+auto KnightMoveValidator::IsMoveValid(const BoardCell& fromCell,
+    const BoardCell& toCell) -> bool
+{
+    const auto move = Move{ m_Board, fromCell, toCell };
+    const auto& [moveRank, moveFile, moveType, isAttack]
+        = move.AsPack();
+
+    return (moveRank == 1 && moveFile == 2) || (moveRank == 2 && moveFile == 1);
+}
+
+auto BishipMoveValidator::IsMoveValid(const BoardCell& fromCell,
+    const BoardCell& toCell) -> bool
+{
+    const auto move = Move{ m_Board, fromCell, toCell };
+
+    return move.GetType() == MoveType::Diagonal && IsPathEmpty(fromCell, toCell);
 }

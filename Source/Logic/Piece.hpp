@@ -23,6 +23,11 @@ public:
     explicit Piece(const RawPiece rawPiece) noexcept;
     Piece(const PieceType type, const bool isWhite) noexcept;
 
+    /**
+    * @details Does not check for piece being empty
+    */
+    auto IsSameColor(const Piece& piece) const noexcept -> bool;
+
     auto GetType() const noexcept -> PieceType;
     auto IsWhite() const noexcept -> bool;
 

@@ -60,7 +60,7 @@ auto Board::CreateDefaultBoard() -> Board
 
 Board::Board(const RawBoard& board) noexcept : m_Board{ board } {}
 
-auto Board::GetCellContent(const BoardCell cell) const -> Piece
+auto Board::GetCellContent(const BoardCell& cell) const -> Piece
 { 
     const auto& [rank, file] = cell;
 
